@@ -1,0 +1,28 @@
+{
+    "titleText":"Sort the organs correctly.",
+    "instructionText": "Tap an organ, and than tap the correct box.",
+    "feedback": { "correct": "Great!", "incorrect": "Incorrect! Try again.", "removed": "Organ removed."},
+    "backgroundImage": {
+      "imageSrc": "assets/background.jpg",
+      "altText": "Background"
+    },
+    "containers": [
+      { "id": "external", "label": "External Organs", "width":"400px", "height":"200px" },
+      { "id": "internal", "label": "Internal Organs", "width":"400px", "height":"200px" }
+    ],
+    "collection": [
+      { "label": "brain", "width":"60px", "height":"60px", "src": "assets/images/internalparts/brain.png", "target": ["internal"] },
+      { "label": "lungs", "width":"60px", "height":"60px",  "src": "assets/images/internalparts/lungs.png", "target": ["internal"]},
+      { "label": "intestines", "width":"60px", "height":"60px",  "src": "assets/images/internalparts/intestines.png",  "target": ["internal"]},
+      { "label": "heart", "width":"60px", "height":"60px",  "src": "assets/images/internalparts/heart.png", "target": ["internal"] },
+      { "label": "kidneys", "width":"60px", "height":"60px",  "src": "assets/images/internalparts/kidneys.png", "target": ["internal"] },
+      { "label": "stomach", "width":"60px", "height":"60px",  "src": "assets/images/internalparts/stomach.png", "target": ["internal"] },
+      { "label": "leg",  "width":"60px", "height":"60px", "src": "assets/images/externalparts/leg.png", "target": ["external"] },
+      { "label": "palm", "width":"60px", "height":"60px",  "src": "assets/images/externalparts/palm.png", "target": ["external"] },
+      { "label": "hand", "width":"60px", "height":"60px",  "src": "assets/images/externalparts/hand.png", "target": ["external"] },
+      { "label": "nose", "width":"60px", "height":"60px",  "src": "assets/images/externalparts/nose.png", "target": ["external"] },
+      { "label": "ear",  "width":"60px", "height":"60px", "src": "assets/images/externalparts/ear.png", "target": ["external"] },
+      { "label": "feet",  "width":"60px", "height":"60px", "src": "assets/images/externalparts/feet.png", "target": ["external"] }
+    ]
+  }
+  

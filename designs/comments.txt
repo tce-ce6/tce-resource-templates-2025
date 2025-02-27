@@ -1,0 +1,18 @@
+Thanks, Satyajit, for taking us through the templates. We are all excited to work on this template. 
+
+I am sharing the points discussed in our meeting:
+
+1) Background and container colour - We plan to change the background and the container design to increase the appeal. We will share a mock screen as discussed.
+
+2) In the Internal and External Organs template, the label text should appear in the answer box (container, but not in the collection)
+
+3) We need the option to resize the image in the container and collection
+
+4) We need the option to rezise the height and width of the container and collection to accomodate images of different sizes
+
+5) The position of the  collection needs to be shown at the bottom for teacher's convenience
+
+6) We need the option to change the line colour and thickness in the 2nd template (labelling)
+
+Thanks,
+Srijith
