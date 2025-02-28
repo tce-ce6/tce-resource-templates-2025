@@ -1,7 +1,20 @@
+@font-face {
+  font-family: 'Aller_Std_Bd';
+  src: url('./assets/fonts/Aller_Std_Bd.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Aller_Std_Rg';
+  src: url('./assets/fonts/Aller_Std_Rg.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 body {
-    font-family: Arial, sans-serif;
+  font-family: 'Aller_Std_Rg', sans-serif;
     margin: 0;
     padding: 0;
+    overflow: hidden;
     /* box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -34,6 +47,7 @@ body {
         align-items: center;
         width: 993px;
         justify-content: center;
+        gap: 14px;
   }
   
   .draggable-item {
@@ -48,7 +62,7 @@ body {
     line-height: 60px;
     background-color: white;
     border: 2px solid #ba9d80;
-    margin: 3px;
+    
   }
   
   .draggable-item:hover {
@@ -172,6 +186,7 @@ body {
     color: white;
     box-shadow: -2px 4px 5px 0px rgba(0, 0, 0, 0.2);
     padding: 6px;
+    font-family: 'Aller_Std_Rg', sans-serif;
     /* right: 20px; */
   }
   .toggleBtn{
@@ -189,6 +204,7 @@ body {
     box-shadow: -2px 4px 5px 0px rgba(0, 0, 0, 0.2);
     padding: 6px;
     /* right: 100px; */
+    font-family: 'Aller_Std_Rg', sans-serif;
   }
 
   .root-container {
@@ -254,12 +270,12 @@ body {
     background: white;
     padding: 10px;
     border-radius: 0px 20px 20px 0px;
-    color: #887667;
+    color: #795e44;
     -webkit-box-shadow: 10px 10px 5px -3px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 10px 10px 5px -3px rgba(0, 0, 0, 0.3);
     box-shadow: 4px 7px 5px -3px rgba(0, 0, 0, 0.2);
     left: 0;
-    font-family: sans-serif;
+    
   }
 
   .instructionText{

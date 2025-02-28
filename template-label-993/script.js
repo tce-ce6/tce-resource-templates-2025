@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (isValidMatch) {
                 rect.setAttribute("fill", "#c8e6c9");
                 textId.textContent = textId.getAttribute("value");
-                textId.setAttribute("style", "fill:black; cursor:pointer;");
+                textId.setAttribute("style", "fill:black; cursor:pointer;font-family:Aller_Std_Rg;");
   
                 rect.classList.add("correct-animate");
                 textId.classList.add("correct-animate");
@@ -239,10 +239,10 @@ document.addEventListener("DOMContentLoaded", function () {
   
           if (isCorrect) {
               text.textContent = text.getAttribute("value"); // Keep correct answers visible
-              text.setAttribute("style", "fill: black;");
+              text.setAttribute("style", "fill: black;font-family:Aller_Std_Rg;");
           } else {
               text.textContent = showAnswer ? text.getAttribute("value") : "";
-              text.setAttribute("style", `fill: ${showAnswer ? "black" : "transparent"};`);
+              text.setAttribute("style", `font-family:Aller_Std_Rg;fill: ${showAnswer ? "black" : "transparent"};`);
           }
       });
   }
