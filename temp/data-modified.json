@@ -1,0 +1,68 @@
+{
+    "titleText":"Label Pasha’s body parts.",
+    "instructionText": "Tap an organ, and than tap the correct box.",
+    "debug": false,
+
+    "backgroundImage": {
+      "imageSrc": "assets/background.jpg",
+      "altText": "Background"
+    },
+    "targetImage": {
+      "imageSrc": "assets/humanbody.png",
+      "altText": "Pasha",
+      "top":"70px",
+      "width": "150px",
+      "height": "400px"
+    },
+    "feedback": {
+      "correct": "Correct!",
+      "incorrect": "Incorrect! Try again.",
+      "duplicate": "This image is already placed in the container.",
+      "removed": "Image removed from the container."
+    },
+    
+    "containers": [
+      {
+       "id": "container1",
+        "label": "Hair",
+        "width": 100,
+        "height": 30,
+        "borderColor": "#887667",
+        "backgroundColor": "#d2d2d2",
+        "boxPosition": { "left": 300, "top": 100 },
+        "lineEndPosition": { "x": 500, "y": 100 },
+        "lineDirection": "right"
+      },
+      {
+        "id": "container1",
+         "label": "Head",
+         "width": 100,
+         "height": 30,
+         "borderColor": "#887667",
+         "backgroundColor": "#d2d2d2",
+         "boxPosition": { "left": 700, "top": 100 },
+         "lineEndPosition": { "x": 530, "y": 100 },
+         "lineDirection": "left"
+       }
+    ],
+    "collection": [
+        { "label": "Head", "width":"40px", "validContainers": ["container2"] },
+        { "label": "Hair", "width":"70px", "validContainers": ["container1"] },
+        { "label": "Nose", "width":"70px", "validContainers": ["container3"] },
+        { "label": "Arm", "width":"70px", "validContainers": ["container4"] },
+        { "label": "Fingers", "width":"70px", "validContainers": ["container5"] },
+        { "label": "Waist", "width":"70px",  "validContainers": ["container6"] },
+        { "label": "Legs", "width":"70px",  "validContainers": ["container7"] },
+        { "label": "Feet", "width":"70px",  "validContainers": ["container8"] },
+        { "label": "Eyes", "width":"70px",  "validContainers": ["container9"] },
+        { "label": "Ear", "width":"70px",  "validContainers": ["container10"] },
+        { "label": "Face", "width":"70px",  "validContainers": ["container11"] },
+        { "label": "Shoulder", "width":"70px",  "validContainers": ["container12"] },
+        { "label": "Hand", "width":"70px",  "validContainers": ["container13"] },
+        { "label": "Stomach", "width":"70px",  "validContainers": ["container14"] },
+        { "label": "Thigh", "width":"70px",  "validContainers": ["container15"] },
+        { "label": "Knee", "width":"70px",  "validContainers": ["container16"] }
+      
+    ]
+  }
+  

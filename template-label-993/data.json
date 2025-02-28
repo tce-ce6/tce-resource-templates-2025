@@ -1,206 +1,221 @@
 {
-    "titleText":"Label Pasha’s body parts.",
-    "instructionText": "Tap an organ, and than tap the correct box.",
-    "debug": false,
+  "titleText":"Label Pasha’s body parts.",
+  "instructionText": "Tap an organ, and than tap the correct box.",
+  "debug": false,
 
-    "backgroundImage": {
-      "imageSrc": "assets/background.jpg",
-      "altText": "Background"
-    },
-    "targetImage": {
-      "imageSrc": "assets/humanbody.png",
-      "altText": "Pasha",
-      "top":"70px",
-      "width": "150px",
-      "height": "400px"
-    },
-    "feedback": {
-      "correct": "Correct!",
-      "incorrect": "Incorrect! Try again.",
-      "duplicate": "This image is already placed in the container.",
-      "removed": "Image removed from the container."
-    },
-    
-    "containers": [
-      {
-        "id": "container1",
-        "label": "Hair",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": { "top": -50, "left": 10 },
-        "lineEndPosition": { "x": 90, "y": 20 }
-      },
-      {
-        "id": "container2",
-        "label": "Head",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 20, "left": -200},
-        "lineEndPosition": { "x": 10, "y": 40 }
-      },
-      {
-        "id": "container3",
-        "label": "Nose",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 60, "left": -200},
-        "lineEndPosition": { "x": 65, "y": 105 }
-      },
-      {
-        "id": "container4",
-        "label": "Arm",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 150, "left": -180},
-        "lineEndPosition": { "x": 35, "y": 170 }
-      },
-      {
-        "id": "container5",
-        "label": "Fingers",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 200, "left": -180},
-        "lineEndPosition": { "x": 5, "y": 260 }
-      },
-      {
-        "id": "container6",
-        "label": "Waist",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 260, "left": -190},
-        "lineEndPosition": { "x": 40, "y": 240 }
-      },
-      {
-        "id": "container7",
-        "label": "Legs",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 320, "left": -190},
-        "lineEndPosition": { "x": 45, "y": 340 }
-      },
-      {
-        "id": "container8",
-        "label": "Feet",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 380, "left": -210},
-        "lineEndPosition": { "x": 45, "y": 378 }
-      },
-      {
-        "id": "container9",
-        "label": "Eyes",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 40, "left": 220},
-        "lineEndPosition": { "x": 95, "y": 90 }
-      },
-      {
-        "id": "container10",
-        "label": "Ears",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 90, "left": 220},
-        "lineEndPosition": { "x": 125, "y": 100 }
-      },
-      {
-        "id": "container11",
-        "label": "Face",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 140, "left": 220},
-        "lineEndPosition": { "x": 105, "y": 120 }
-      },
-      {
-        "id": "container12",
-        "label": "Shoulder",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-       "boxPosition": {"top": 180, "left": 220},
-        "lineEndPosition": { "x": 105, "y": 160 }
-      },
-      {
-        "id": "container13",
-        "label": "Hand",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 230, "left": 240},
-        "lineEndPosition": { "x": 140, "y":240 }
-      },
-      {
-        "id": "container14",
-        "label": "Stomach",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 270, "left": 240},
-        "lineEndPosition": { "x": 80, "y":230 }
-      },
-      {
-        "id": "container15",
-        "label": "Thigh",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 320, "left": 220},
-        "lineEndPosition": { "x": 100, "y":290 }
-      },
-      {
-        "id": "container16",
-        "label": "Knee",
-        "width": 100,
-        "height": 30,
-        "borderColor":"#887667",
-        "backgroundColor":"#d2d2d2",
-        "boxPosition": {"top": 360, "left": 230},
-        "lineEndPosition": { "x": 100, "y":310 }
-      }
-    ],
-    "collection": [
-        { "label": "Head", "width":"40px", "validContainers": ["container2"] },
-        { "label": "Hair", "width":"70px", "validContainers": ["container1"] },
-        { "label": "Nose", "width":"70px", "validContainers": ["container3"] },
-        { "label": "Arm", "width":"70px", "validContainers": ["container4"] },
-        { "label": "Fingers", "width":"70px", "validContainers": ["container5"] },
-        { "label": "Waist", "width":"70px",  "validContainers": ["container6"] },
-        { "label": "Legs", "width":"70px",  "validContainers": ["container7"] },
-        { "label": "Feet", "width":"70px",  "validContainers": ["container8"] },
-        { "label": "Eyes", "width":"70px",  "validContainers": ["container9"] },
-        { "label": "Ear", "width":"70px",  "validContainers": ["container10"] },
-        { "label": "Face", "width":"70px",  "validContainers": ["container11"] },
-        { "label": "Shoulder", "width":"70px",  "validContainers": ["container12"] },
-        { "label": "Hand", "width":"70px",  "validContainers": ["container13"] },
-        { "label": "Stomach", "width":"70px",  "validContainers": ["container14"] },
-        { "label": "Thigh", "width":"70px",  "validContainers": ["container15"] },
-        { "label": "Knee", "width":"70px",  "validContainers": ["container16"] }
-      
-    ]
-  }
+  "backgroundImage": {
+    "imageSrc": "assets/background.jpg",
+    "altText": "Background"
+  },
+  "targetImage": {
+    "imageSrc": "assets/humanbody.png",
+    "altText": "Pasha",
+    "top":"70px",
+    "width": "150px",
+    "height": "400px"
+  },
+  "feedback": {
+    "correct": "Correct!",
+    "incorrect": "Incorrect! Try again.",
+    "duplicate": "This image is already placed in the container.",
+    "removed": "Image removed from the container."
+  },
   
+  "containers": [
+    {
+     "id": "container1",
+      "label": "Hair",
+      "width": 100,
+      "height": 30,
+      "borderColor": "#887667",
+      "backgroundColor": "#d2d2d2",
+      "boxPosition": { "left": 200, "top": 100 },
+      "lineEndPosition": { "x": 440, "y": 120 },
+      "lineDirection": "right"
+    },
+    {
+      "id": "container2",
+       "label": "Head",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 700, "top": 100 },
+       "lineEndPosition": { "x": 530, "y": 100 },
+       "lineDirection": "left"
+     },
+     {
+      "id": "container3",
+       "label": "Nose",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 180, "top": 140 },
+       "lineEndPosition": { "x": 490, "y": 175 },
+       "lineDirection": "right"
+     },
+     {
+      "id": "container4",
+       "label": "Arm",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 180, "top": 190 },
+       "lineEndPosition": { "x": 455, "y": 235 },
+       "lineDirection": "right"
+     },
+     {
+      "id": "container5",
+       "label": "Fingers",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 180, "top": 240 },
+       "lineEndPosition": { "x": 425, "y": 325 },
+       "lineDirection": "right"
+     },
+     {
+      "id": "container6",
+       "label": "Waist",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 180, "top": 370 },
+       "lineEndPosition": { "x": 465, "y": 310 },
+       "lineDirection": "right"
+     },
+     {
+      "id": "container7",
+       "label": "legs",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 180, "top": 410 },
+       "lineEndPosition": { "x": 470, "y": 410 },
+       "lineDirection": "right"
+     },
+     {
+      "id": "container8",
+       "label": "Feet",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 180, "top": 450 },
+       "lineEndPosition": { "x": 470, "y": 450 },
+       "lineDirection": "right"
+     },
+     {
+      "id": "container9",
+       "label": "Eyes",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 620, "top": 140 },
+       "lineEndPosition": { "x": 520, "y": 160 },
+       "lineDirection": "left"
+     },
+     {
+      "id": "container10",
+       "label": "Ear",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 640, "top": 180 },
+       "lineEndPosition": { "x": 545, "y": 170 },
+       "lineDirection": "left"
+     },
+     {
+      "id": "container11",
+       "label": "Face",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 640, "top": 220 },
+       "lineEndPosition": { "x": 530, "y": 190 },
+       "lineDirection": "left"
+     },
+     {
+      "id": "container12",
+       "label": "Shoulder",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 750, "top": 250 },
+       "lineEndPosition": { "x": 530, "y": 230 },
+       "lineDirection": "left"
+     },
+     {
+      "id": "container13",
+       "label": "Hand",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 630, "top": 275 },
+       "lineEndPosition": { "x": 560, "y": 310 },
+       "lineDirection": "left"
+     },
+     {
+      "id": "container14",
+       "label": "Stomach",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 670, "top": 315 },
+       "lineEndPosition": { "x": 500, "y": 300 },
+       "lineDirection": "left"
+     },
+     {
+      "id": "container15",
+       "label": "Thigh",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 670, "top": 355 },
+       "lineEndPosition": { "x": 520, "y": 350 },
+       "lineDirection": "left"
+     },
+     {
+      "id": "container15",
+       "label": "Knee",
+       "width": 100,
+       "height": 30,
+       "borderColor": "#887667",
+       "backgroundColor": "#d2d2d2",
+       "boxPosition": { "left": 670, "top": 400 },
+       "lineEndPosition": { "x": 520, "y": 380 },
+       "lineDirection": "left"
+     }
+  ],
+  "collection": [
+    { "label": "Hair", "width":"70px", "validContainers": ["container1"] },
+      { "label": "Head", "width":"40px", "validContainers": ["container2"] },
+      { "label": "Nose", "width":"70px", "validContainers": ["container3"] },
+      { "label": "Arm", "width":"70px", "validContainers": ["container4"] },
+      { "label": "Fingers", "width":"70px", "validContainers": ["container5"] },
+      { "label": "Waist", "width":"70px",  "validContainers": ["container6"] },
+      { "label": "Legs", "width":"70px",  "validContainers": ["container7"] },
+      { "label": "Feet", "width":"70px",  "validContainers": ["container8"] },
+      { "label": "Eyes", "width":"70px",  "validContainers": ["container9"] },
+      { "label": "Ear", "width":"70px",  "validContainers": ["container10"] },
+      { "label": "Face", "width":"70px",  "validContainers": ["container11"] },
+      { "label": "Shoulder", "width":"70px",  "validContainers": ["container12"] },
+      { "label": "Hand", "width":"70px",  "validContainers": ["container13"] },
+      { "label": "Stomach", "width":"70px",  "validContainers": ["container14"] },
+      { "label": "Thigh", "width":"70px",  "validContainers": ["container15"] },
+      { "label": "Knee", "width":"70px",  "validContainers": ["container16"] }
+    
+  ]
+}

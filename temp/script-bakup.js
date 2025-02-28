@@ -46,76 +46,75 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     function adjustLayout(data, targetImgElement, svg) {
-      svg.clear();
+        svg.clear();
+        const imgRect = targetImgElement.getBoundingClientRect();
+        const imgWidth = imgRect.width;
+        const imgHeight = imgRect.height;
+        const imgLeft = imgRect.left;
+        const imgTop = imgRect.top;
+        const targetImageWidth = parseInt(data.targetImage.width);
+        const targetImageHeight = parseInt(data.targetImage.height);
   
-      const SCREEN_WIDTH = 993;
-      const SCREEN_HEIGHT = 610;
+        data.containers.forEach((containerData) => {
+            boxWidth = containerData.width;
+            boxHeight = containerData.height;
+            boxTop = containerData.boxPosition.top;
+            boxLeft = containerData.boxPosition.left;
+            boxBorderColor = containerData.borderColor;
+            boxBackgroundColor = containerData.backgroundColor;
   
-      data.containers.forEach((containerData) => {
-          boxWidth = containerData.width;
-          boxHeight = containerData.height;
+            const lineEndX = containerData.lineEndPosition.x;
+            const lineEndY = containerData.lineEndPosition.y;
   
-          // Ensure box positions are within screen bounds
-          boxLeft = Math.max(0, Math.min(containerData.boxPosition.left, SCREEN_WIDTH - boxWidth));
-          boxTop = Math.max(0, Math.min(containerData.boxPosition.top, SCREEN_HEIGHT - boxHeight));
+            const scaledBoxLeft = imgLeft + (boxLeft / targetImageWidth) * imgWidth;
+            const scaledBoxTop = imgTop + (boxTop / targetImageHeight) * imgHeight;
+            const scaledBoxWidth = (boxWidth / targetImageWidth) * imgWidth;
+            const scaledBoxHeight = (boxHeight / targetImageHeight) * imgHeight;
+            const scaledLineEndX = imgLeft + (lineEndX / targetImageWidth) * imgWidth;
+            const scaledLineEndY = imgTop + (lineEndY / targetImageHeight) * imgHeight;
   
-          boxBorderColor = containerData.borderColor;
-          boxBackgroundColor = containerData.backgroundColor;
+            const startX = scaledBoxLeft + scaledBoxWidth / 2;
+            const startY = scaledBoxTop + scaledBoxHeight / 2;
   
-          // Ensure line end positions are within screen bounds
-          let lineEndX = Math.max(0, Math.min(containerData.lineEndPosition.x, SCREEN_WIDTH));
-          let lineEndY = Math.max(0, Math.min(containerData.lineEndPosition.y, SCREEN_HEIGHT));
+            const path = svg.path(
+                `M${startX},${startY} Q${(startX + scaledLineEndX) / 2},${startY} ${scaledLineEndX},${scaledLineEndY}`
+            );
+            path.stroke({
+                color: boxBorderColor,
+                width: 1.5,
+                opacity: 1,
+                linecap: "round",
+                linejoin: "round",
+            }).fill("none");
   
-          // Determine line start direction (left or right of box)
-          let startX = boxLeft;
-          if (containerData.lineDirection === "right") {
-              startX = boxLeft + boxWidth;
-          }
-          let startY = boxTop + boxHeight / 2;
+            const group = svg.group();
+            const rect = group.rect(scaledBoxWidth, scaledBoxHeight)
+                .attr({ x: scaledBoxLeft, y: scaledBoxTop, rx: 5, ry: 5 })
+                .fill(boxBackgroundColor)
+                .stroke({ color: boxBorderColor, width: 2 })
+                .id(containerData.id);
   
-          // Draw curved line
-          const path = svg.path(
-              `M${startX},${startY} Q${(startX + lineEndX) / 2},${startY} ${lineEndX},${lineEndY}`
-          );
-          path.stroke({
-              color: boxBorderColor,
-              width: 1.5,
-              opacity: 1,
-              linecap: "round",
-              linejoin: "round",
-          }).fill("none");
+           let debugTextFill = 'transparent'
+           console.log(jsonData)
+           if(jsonData.debug){
+              debugTextFill = 'black'
+           }
+            const text = group.text(containerData.label)
+                .font({ size: 14, anchor: "middle", fill: debugTextFill, family: "Arial" })
+                .center(scaledBoxLeft + scaledBoxWidth / 2, scaledBoxTop + scaledBoxHeight / 2)
+                .attr("value", containerData.label)
+                .id("text_" + containerData.id)
+                .attr("style", "cursor:pointer");
   
-          const group = svg.group();
-          const rect = group.rect(boxWidth, boxHeight)
-              .attr({ x: boxLeft, y: boxTop, rx: 5, ry: 5 })
-              .fill(boxBackgroundColor)
-              .stroke({ color: boxBorderColor, width: 2 })
-              .id(containerData.id);
+            group.click(() => handleRectClick(containerData));
   
-          let debugTextFill = 'transparent';
-          if (jsonData.debug) {
-              debugTextFill = 'black';
-          }
-  
-          const text = group.text(containerData.label)
-              .font({ size: 14, anchor: "middle", fill: debugTextFill, family: "Arial" })
-              .center(boxLeft + boxWidth / 2, boxTop + boxHeight / 2)
-              .attr("value", containerData.label)
-              .id("text_" + containerData.id)
-              .attr("style", "cursor:pointer");
-  
-          group.click(() => handleRectClick(containerData));
-  
-          // Touch event support
-          rect.on("touchstart", (event) => {
-              event.preventDefault();
-              handleRectClick(containerData);
-          });
-      });
-  }
-  
-  
-  
+            // Touch event support
+            rect.on("touchstart", (event) => {
+                event.preventDefault();
+                handleRectClick(containerData);
+            });
+        });
+    }
   
     function createItemCollection(data) {
         const itemContainer = document.getElementById("item-collection");
@@ -182,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (isValidMatch) {
                 rect.setAttribute("fill", "#c8e6c9");
                 textId.textContent = textId.getAttribute("value");
-                textId.setAttribute("style", "fill:black; cursor:pointer;");
+                textId.setAttribute("style", "fill:black;");
   
                 rect.classList.add("correct-animate");
                 textId.classList.add("correct-animate");
@@ -197,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         button.setAttribute("data-used", "true");
                         button.style.opacity = "0.5";
                         button.style.pointerEvents = "none";
-                        button.style.display = "none";
                     }
                 });
             } else {
