@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     
                     const collectionItem = document.querySelector(`#collection img[data-label='${itemLabel}']`);
                     if (collectionItem) {
-                        collectionItem.classList.remove("grayed-out"); // Remove grayed-out class
+                        collectionItem.classList.remove("grayed-out"); 
                     }
                 });
     
@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
         Object.keys(state).forEach(containerId => {
             const containerDiv = document.getElementById(containerId);
             
-            // Retain already dropped correct items
+            
             const existingItems = Array.from(containerDiv.children).map(child => child.querySelector(".dropped-item-label")?.textContent);
             
             if (showAnswer) {
@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 });
             } else {
-                // Only remove answer hints, retain user-placed items
+                
                 Array.from(containerDiv.children).forEach(child => {
                     const labelText = child.querySelector(".dropped-item-label")?.textContent;
                     if (!state[containerId].includes(labelText)) {

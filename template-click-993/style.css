@@ -34,7 +34,7 @@ body {
     height: 610px;
     background-repeat: no-repeat;
     background-size: cover;
-    opacity: 0.3;
+    
     
   }
   #collection {
@@ -53,20 +53,22 @@ body {
   .draggable-item {
    
     cursor: pointer;
-    transition: transform 0.3sease;
+    transition: all 0.3s linear;
     /* padding: 5px; */
     border-radius: 5px;
     object-fit: cover;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 5px 7px rgba(0, 0, 0, 0.3);
     text-align: center;
     line-height: 60px;
     background-color: white;
-    border: 2px solid #ba9d80;
+    border: 2px solid #fff;
     
   }
   
   .draggable-item:hover {
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
+    filter: brightness(1.1) contrast(1.1);
+    
   }
   
   /* Drop zones (containers) */
@@ -111,7 +113,6 @@ body {
   
   .selected {
     border: 2px solid #1683ac;
-    
   }
   
   /* Styles for feedback message */
@@ -305,16 +306,18 @@ body {
 }
 
 .dropped-item-label {
-  margin-top: 0px;
-    font-size: 14px;
+  margin-top: 4px;
+    font-size: 13px;
     color: #333;
     /* font-weight: bold; */
     text-align: center;
     background: #70865e;
-    width: 90%;
+    width: 92%;
     color: white;
     padding: 2px;
     text-transform: capitalize;
+    
+    border-radius: 3px;
 }
 
 .used {

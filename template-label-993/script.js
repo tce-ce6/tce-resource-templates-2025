@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     let jsonData;
-    let selectedItem = null; // Track the selected item
-    let showAnswer = false; // Track the state of the answer visibility
+    let selectedItem = null; 
+    let showAnswer = false; 
     let boxWidth, boxHeight, boxTop, boxLeft, boxBorderColor, boxBackgroundColor;
     let lineEndX, lineEndY;
   
@@ -62,18 +62,18 @@ document.addEventListener("DOMContentLoaded", function () {
           boxBorderColor = containerData.borderColor;
           boxBackgroundColor = containerData.backgroundColor;
   
-          // Ensure line end positions are within screen bounds
+          
           let lineEndX = Math.max(0, Math.min(containerData.lineEndPosition.x, SCREEN_WIDTH));
           let lineEndY = Math.max(0, Math.min(containerData.lineEndPosition.y, SCREEN_HEIGHT));
   
-          // Determine line start direction (left or right of box)
+          
           let startX = boxLeft;
           if (containerData.lineDirection === "right") {
               startX = boxLeft + boxWidth;
           }
           let startY = boxTop + boxHeight / 2;
   
-          // Draw curved line
+          
           const path = svg.path(
               `M${startX},${startY} Q${(startX + lineEndX) / 2},${startY} ${lineEndX},${lineEndY}`
           );
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
           group.click(() => handleRectClick(containerData));
   
-          // Touch event support
+          
           rect.on("touchstart", (event) => {
               event.preventDefault();
               handleRectClick(containerData);
@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const isCorrect = rect.getAttribute("fill") === "#c8e6c9";
   
           if (isCorrect) {
-              text.textContent = text.getAttribute("value"); // Keep correct answers visible
+              text.textContent = text.getAttribute("value"); 
               text.setAttribute("style", "fill: black;font-family:Aller_Std_Rg;");
           } else {
               text.textContent = showAnswer ? text.getAttribute("value") : "";
