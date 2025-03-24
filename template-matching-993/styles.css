@@ -1,0 +1,16 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'sans-serif';
+    background-color: black;
+  }
+  #container {
+    position: relative;
+    width: 993px;
+    height: 610px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }

@@ -1,0 +1,10 @@
+{
+    "titleText":"Label Pasha’s body parts.",
+    "instructionText": "Tap an organ, and than tap the correct box.",
+    "debug": false,
+  
+    "backgroundImage": {
+      "imageSrc": "assets/background.jpg",
+      "altText": "Background"
+    }
+}
