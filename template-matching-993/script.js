@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Fetch the game data
+    
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let connections = [];
     const svg = document.getElementById('svg-container');
 
-    // Add event listeners to buttons
+    
+    
     document.querySelector('.show-answer-btn').addEventListener('click', showAnswer);
     document.querySelector('.reset-btn').addEventListener('click', resetGame);
 
@@ -42,14 +43,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initializeGame() {
+        let titleText = document.getElementById('titleTxt');
+        titleText.textContent = gameData.titleText;
         const columnA = document.getElementById('column-a');
         const columnB = document.getElementById('column-b');
 
-        // Clear existing items
+        
         while (columnA.children.length > 1) columnA.removeChild(columnA.lastChild);
         while (columnB.children.length > 1) columnB.removeChild(columnB.lastChild);
 
-        // Create shuffled arrays
+        
         const shuffledA = [...gameData.columnA.items].sort(() => Math.random() - 0.5);
         const shuffledB = [...gameData.columnB.items].sort(() => Math.random() - 0.5);
 
@@ -86,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const dot1 = item1.querySelector('.connection-dot');
         const dot2 = item2.querySelector('.connection-dot');
 
-        // Remove existing connections for these items
+        
         removeConnectionsForItem(item1);
         removeConnectionsForItem(item2);
 
@@ -155,24 +158,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showAnswer() {
-        // Clear existing connections
+        
         connections.forEach(conn => {
             conn.line.remove();
         });
         connections = [];
 
-        // Remove any selected state
+        
         document.querySelectorAll('.item').forEach(item => {
             item.classList.remove('selected', 'correct', 'incorrect');
         });
 
-        // Get all items from both columns
+        
         const columnA = document.getElementById('column-a');
         const columnB = document.getElementById('column-b');
         const itemsA = Array.from(columnA.querySelectorAll('.item'));
         const itemsB = Array.from(columnB.querySelectorAll('.item'));
 
-        // For each item in column A, find its match in column B and connect them
+        
         gameData.columnA.items.forEach(itemData => {
             const itemA = itemsA.find(el => el.dataset.id === itemData.id);
             const itemB = itemsB.find(el => el.dataset.id === itemData.id);
@@ -196,31 +199,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Show correct feedback
+        
         const feedback = document.getElementById('feedback');
         feedback.textContent = "Here are the correct answers!";
         feedback.className = 'feedback correct';
         setTimeout(() => {
             feedback.className = 'feedback';
-        }, 2000);
+        }, 220000);
     }
 
     function resetGame() {
-        // Clear existing connections
+        
         connections.forEach(conn => {
             conn.line.remove();
         });
         connections = [];
 
-        // Remove any selected state
+        
         document.querySelectorAll('.item').forEach(item => {
             item.classList.remove('selected', 'correct', 'incorrect');
         });
 
-        // Reinitialize the game with shuffled items
+        
         initializeGame();
 
-        // Show feedback
+        
         const feedback = document.getElementById('feedback');
         feedback.textContent = "Game Reset!";
         feedback.className = 'feedback';
@@ -229,7 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1500);
     }
 
-    // Update line positions when window is resized
     window.addEventListener('resize', () => {
         connections.forEach(conn => {
             updateLinePosition(

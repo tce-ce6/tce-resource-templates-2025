@@ -51,9 +51,9 @@ body, html {
     
     text-align: center;
     background: #5c8dad;
-    height: 30px;
-    line-height: 30px;
-
+    height: 40px;
+    line-height: 40px;
+    font-size: 24px;
 }
 .column-title.left {
     border-top-left-radius: 10px;
@@ -119,13 +119,17 @@ body, html {
 }
 
 .feedback {
-    position: fixed;
-    top: 20px;
-    right: 20px;
+    position: relative;
+    border: 20px;
+    /* right: 20px; */
     padding: 10px 20px;
-    border-radius: 4px;
+    
     color: white;
     display: none;
+    top: 140px;
+    
+    margin: 0 auto;
+    text-align: center;
 }
 
 .feedback.correct {
@@ -176,4 +180,10 @@ svg line {
     bottom: 0;
     width: 100%;
 
+}
+
+#titleTxt{
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 500;
 }
