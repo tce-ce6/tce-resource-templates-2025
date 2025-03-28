@@ -1,10 +1,26 @@
 {
-    "titleText":"Label Pasha’s body parts.",
-    "instructionText": "Tap an organ, and than tap the correct box.",
-    "debug": false,
-  
-    "backgroundImage": {
-      "imageSrc": "assets/background.jpg",
-      "altText": "Background"
-    }
+    "columnA": [
+        "chant",
+        "tended",
+        "over the years",
+        "vessel",
+        "sprinkled",
+        "muttered"
+    ],
+    "columnB": [
+        "scattered drops of liquid",
+        "spoke in a low voice",
+        "container",
+        "to repeat or sing a word or phrase",
+        "looked after, cared for",
+        "as time passed"
+    ],
+    "correctAnswers": [
+        {"from": {"column": "A", "index": 0}, "to": {"column": "B", "index": 3}},
+        {"from": {"column": "A", "index": 1}, "to": {"column": "B", "index": 4}},
+        {"from": {"column": "A", "index": 2}, "to": {"column": "B", "index": 5}},
+        {"from": {"column": "A", "index": 3}, "to": {"column": "B", "index": 2}},
+        {"from": {"column": "A", "index": 4}, "to": {"column": "B", "index": 0}},
+        {"from": {"column": "A", "index": 5}, "to": {"column": "B", "index": 1}}
+    ]
 }

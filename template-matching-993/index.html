@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template Matching</title>
+    <title>Match the Columns</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="container">
-        <div id="titleText" class="titleText"></div>
-        <div id="instructionText" class="instructionText"></div>
-        <button id="reset-button" class="resetBtn">Reset</button> 
-        <button id="toggle-answer" class="toggleBtn">Show Answer</button> 
-        <img id="target-image" src="" alt="Background">
-    
-        <div id="svg-container"></div>
-        <div id="item-collection" class="collection"></div>
-        
-      </div>
+    <div class="container">
+        <h1>Match the words to their meanings.</h1>
+        <div class="matching-game">
+            <div class="columns">
+                <div class="column column-a" id="columnA"></div>
+                <div class="column column-b" id="columnB"></div>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

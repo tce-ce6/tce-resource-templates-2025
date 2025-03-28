@@ -1,16 +1,101 @@
-body, html {
+* {
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    font-family: 'sans-serif';
-    background-color: black;
-  }
-  #container {
-    position: relative;
-    width: 993px;
-    height: 610px;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #ffffff;
+}
+
+h1 {
+    text-align: left;
+    color: #ffffff;
+    margin: 0;
+    padding: 15px 20px;
+    background-color: #5c9bd1;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+
+.matching-game {
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.columns {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.column {
+    flex: 1;
+    padding: 0;
+    background: none;
+}
+
+.column-a {
+    text-align: right;
+}
+
+.column-b {
+    text-align: left;
+}
+
+.item {
+    background: none;
+    padding: 10px;
+    margin: 15px 0;
+    border: none;
+    display: flex;
     align-items: center;
-    background-color: white;
-  }
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.column-a .item {
+    justify-content: flex-end;
+}
+
+.column-b .item {
+    justify-content: flex-start;
+}
+
+.connection-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #5c9bd1;
+    margin: 0 10px;
+    background-color: #ffffff;
+}
+
+.item.selected .connection-dot {
+    background-color: #5c9bd1;
+}
+
+.item.correct .connection-dot {
+    border-color: #4caf50;
+    background-color: #4caf50;
+}
+
+.item.incorrect .connection-dot {
+    border-color: #f44336;
+    background-color: #f44336;
+}
+
+.btn {
+    display: none;
+}
