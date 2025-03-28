@@ -11,16 +11,28 @@
         "title": "Column A",
         "items": [
             {
-                "id": "item1",
-                "text": "Apple"
+                "id": "1",
+                "text": "chant"
             },
             {
-                "id": "item2",
-                "text": "Banana"
+                "id": "2",
+                "text": "tended"
             },
             {
-                "id": "item3",
-                "text": "Coconut"
+                "id": "3",
+                "text": "over the years"
+            },
+            {
+                "id": "4",
+                "text": "vessel"
+            },
+            {
+                "id": "5",
+                "text": "sprinkled"
+            },
+            {
+                "id": "6",
+                "text": "muttered"
             }
         ]
     },
@@ -28,16 +40,28 @@
         "title": "Column B",
         "items": [
             {
-                "id": "item1",
-                "text": "Red"
+                "id": "1",
+                "text": "to repeat or sing a word or phrase"
             },
             {
-                "id": "item2",
-                "text": "Yellow"
+                "id": "2",
+                "text": "looked after, cared for"
             },
             {
-                "id": "item3",
-                "text": "Brown"
+                "id": "3",
+                "text": "as time passed"
+            },
+            {
+                "id": "4",
+                "text": "container"
+            },
+            {
+                "id": "5",
+                "text": "scattered drops of liquid"
+            },
+            {
+                "id": "6",
+                "text": "spoke in a low voice"
             }
         ]
     }

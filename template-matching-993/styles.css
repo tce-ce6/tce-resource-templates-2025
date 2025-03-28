@@ -1,38 +1,37 @@
-* {
+body, html {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
+    overflow: hidden;
+    font-family: 'Aller_Std_Rg', sans-serif;
+  }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
-    min-height: 100vh;
-}
 
-.header {
-    background-color: #5c9bd1;
-    color: white;
-    padding: 15px 20px;
-    font-size: 16px;
-    font-weight: normal;
-}
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
     position: relative;
+    width: 993px;
+    height: 610px;
+    
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
 }
 
 .columns {
-    display: flex;
-    justify-content: space-between;
+    display: flex
+;
+    justify-content: center;
     margin-top: 20px;
     position: relative;
     border: 1px solid #5c9bd1;
     border-radius: 4px;
     overflow: visible;
+    
+    width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    top: 50px;
 }
 
 .column {
@@ -40,6 +39,7 @@ body {
     position: relative;
     background-color: #ffffff;
     z-index: 1;
+    border-radius: 10px;
 }
 
 .column-title {
@@ -52,12 +52,13 @@ body {
 .item {
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 10px;
     background-color: #ffffff;
     cursor: pointer;
-    min-height: 50px;
+    
     position: relative;
     transition: background-color 0.3s ease;
+    border-radius: 10px;
 }
 
 .item.selected {
@@ -70,12 +71,12 @@ body {
 
 .column.left .item {
     justify-content: flex-start;
-    padding-right: 40px;
+    padding-right: 80px;
 }
 
 .column.right .item {
     justify-content: flex-start;
-    padding-left: 40px;
+    padding-left: 80px;
 }
 
 .connection-dot {
@@ -95,11 +96,11 @@ body {
 }
 
 .column.left .connection-dot {
-    right: 15px;
+    right: 35px;
 }
 
 .column.right .connection-dot {
-    left: 15px;
+    left: 35px;
 }
 
 .feedback {
@@ -156,4 +157,8 @@ svg line {
 
 .button-container {
     text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
 }

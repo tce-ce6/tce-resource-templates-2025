@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function createItem(text, column, index, side) {
         const div = document.createElement('div');
         div.className = 'item';
-        div.dataset.id = `item${index + 1}`;
+        div.dataset.id = `${index + 1}`;
         
         const textSpan = document.createElement('span');
         textSpan.textContent = text;
