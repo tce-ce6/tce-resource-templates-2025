@@ -2,7 +2,9 @@ body, html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    font-family: 'Aller_Std_Rg', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    background-color: black;
   }
 
 
@@ -14,7 +16,7 @@ body, html {
     
     justify-content: center;
     align-items: center;
-    background-color: lightgray;
+    background-color: #ffffff;
 }
 
 .columns {
@@ -23,19 +25,20 @@ body, html {
     justify-content: center;
     margin-top: 20px;
     position: relative;
-    border: 1px solid #5c9bd1;
+    /* border: 1px solid #5c9bd1; */
     border-radius: 4px;
     overflow: visible;
     
-    width: 800px;
+    width: 980px;
     margin: 0 auto;
     background-color: white;
     border-radius: 10px;
     top: 50px;
+    overflow: hidden;
 }
 
 .column {
-    flex: 1;
+    
     position: relative;
     background-color: #ffffff;
     z-index: 1;
@@ -43,10 +46,22 @@ body, html {
 }
 
 .column-title {
-    color: #5c9bd1;
+    color: white;
     font-weight: bold;
-    margin-bottom: 20px;
+    
     text-align: center;
+    background: #5c8dad;
+    height: 30px;
+    line-height: 30px;
+
+}
+.column-title.left {
+    border-top-left-radius: 10px;
+    border-right: 1px solid #3d5e73;
+}
+.column-title.right {
+    border-top-right-radius: 10px;
+    
 }
 
 .item {
@@ -58,7 +73,7 @@ body, html {
     
     position: relative;
     transition: background-color 0.3s ease;
-    border-radius: 10px;
+    border: 1px solid #6095b8;
 }
 
 .item.selected {
@@ -66,7 +81,7 @@ body, html {
 }
 
 .item:nth-child(even) {
-    background-color: #f0f7fc;
+    background-color: #d4edfd ;
 }
 
 .column.left .item {
@@ -80,10 +95,10 @@ body, html {
 }
 
 .connection-dot {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    border: 2px solid #5c9bd1;
+    border: 2px solid #5c8dad;
     background-color: #ffffff;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -142,12 +157,12 @@ svg line {
     display: inline-block;
     margin: 20px 10px;
     padding: 10px 20px;
-    background-color: #5c9bd1;
+    background-color: #5c8dad;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
     transition: background-color 0.3s ease;
 }
 
