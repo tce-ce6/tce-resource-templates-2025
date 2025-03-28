@@ -6,71 +6,76 @@
 
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
     background-color: #ffffff;
+    min-height: 100vh;
 }
 
-h1 {
-    text-align: left;
-    color: #ffffff;
-    margin: 0;
-    padding: 15px 20px;
+.header {
     background-color: #5c9bd1;
+    color: white;
+    padding: 15px 20px;
     font-size: 16px;
     font-weight: normal;
 }
 
 .container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-}
-
-.matching-game {
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    background-color: #ffffff;
+    position: relative;
 }
 
 .columns {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
-    margin: 20px auto;
-    max-width: 800px;
+    margin-top: 20px;
+    position: relative;
+    border: 1px solid #5c9bd1;
+    border-radius: 4px;
+    overflow: visible;
 }
 
 .column {
     flex: 1;
-    padding: 0;
-    background: none;
+    position: relative;
+    background-color: #ffffff;
+    z-index: 1;
 }
 
-.column-a {
-    text-align: right;
-}
-
-.column-b {
-    text-align: left;
+.column-title {
+    color: #5c9bd1;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .item {
-    background: none;
-    padding: 10px;
-    margin: 15px 0;
-    border: none;
     display: flex;
     align-items: center;
+    padding: 15px;
+    background-color: #ffffff;
     cursor: pointer;
-    font-size: 14px;
-    color: #333;
+    min-height: 50px;
+    position: relative;
+    transition: background-color 0.3s ease;
 }
 
-.column-a .item {
-    justify-content: flex-end;
+.item.selected {
+    background-color: #e3f2fd !important;
 }
 
-.column-b .item {
+.item:nth-child(even) {
+    background-color: #f0f7fc;
+}
+
+.column.left .item {
     justify-content: flex-start;
+    padding-right: 40px;
+}
+
+.column.right .item {
+    justify-content: flex-start;
+    padding-left: 40px;
 }
 
 .connection-dot {
@@ -78,24 +83,77 @@ h1 {
     height: 16px;
     border-radius: 50%;
     border: 2px solid #5c9bd1;
-    margin: 0 10px;
     background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: absolute;
 }
 
 .item.selected .connection-dot {
     background-color: #5c9bd1;
+    border-color: #4a8ac0;
 }
 
-.item.correct .connection-dot {
-    border-color: #4caf50;
-    background-color: #4caf50;
+.column.left .connection-dot {
+    right: 15px;
 }
 
-.item.incorrect .connection-dot {
-    border-color: #f44336;
-    background-color: #f44336;
+.column.right .connection-dot {
+    left: 15px;
 }
 
-.btn {
+.feedback {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
     display: none;
+}
+
+.feedback.correct {
+    background-color: #4caf50;
+    display: block;
+}
+
+.feedback.incorrect {
+    background-color: #f44336;
+    display: block;
+}
+
+#svg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+svg line {
+    transition: all 0.3s ease;
+    stroke-width: 2;
+}
+
+.show-answer-btn, .reset-btn {
+    display: inline-block;
+    margin: 20px 10px;
+    padding: 10px 20px;
+    background-color: #5c9bd1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.show-answer-btn:hover, .reset-btn:hover {
+    background-color: #4a8ac0;
+}
+
+.button-container {
+    text-align: center;
 }

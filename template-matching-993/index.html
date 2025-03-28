@@ -3,19 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match the Columns</title>
+    <title>Match the Column</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="header">Match the words to their meanings.</div>
     <div class="container">
-        <h1>Match the words to their meanings.</h1>
-        <div class="matching-game">
-            <div class="columns">
-                <div class="column column-a" id="columnA"></div>
-                <div class="column column-b" id="columnB"></div>
+        <div class="columns">
+            <svg id="svg-container"></svg>
+            <div class="column left" id="column-a">
+                <div class="column-title">Column A</div>
+            </div>
+            <div class="column right" id="column-b">
+                <div class="column-title">Column B</div>
             </div>
         </div>
+        <div class="button-container">
+            <button class="show-answer-btn">Show Answer</button>
+            <button class="reset-btn">Reset</button>
+        </div>
     </div>
+    <div id="feedback" class="feedback"></div>
     <script src="script.js"></script>
 </body>
 </html>
