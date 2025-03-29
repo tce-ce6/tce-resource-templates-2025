@@ -104,7 +104,17 @@ body, html {
     transition: all 0.2s ease;
     position: absolute;
 }
-
+.connection-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #5c8dad;
+}
 .item.selected .connection-dot {
     background-color: #5c9bd1;
     border-color: #4a8ac0;
