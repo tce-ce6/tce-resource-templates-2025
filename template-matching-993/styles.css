@@ -118,11 +118,15 @@ body, html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background-color: #5c8dad;
     transition: background-color 0.3s ease;
+}
+
+.selected .connection-dot::after {
+    background-color: #333333;
 }
 
 .correct .connection-dot::after,

@@ -91,10 +91,21 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (selectedItem !== item) {
             const selectedDot = selectedItem.querySelector('.connection-dot');
             if (selectedDot.dataset.column !== dot.dataset.column) {
-                createConnection(selectedItem, item);
+                // Add selected state to second item before checking answer
+                item.classList.add('selected');
+                
+                // Small delay to show selected state before showing result
+                setTimeout(() => {
+                    createConnection(selectedItem, item);
+                    // Remove selected state after connection is made
+                    selectedItem.classList.remove('selected');
+                    item.classList.remove('selected');
+                    selectedItem = null;
+                }, 200);
+            } else {
+                selectedItem.classList.remove('selected');
+                selectedItem = null;
             }
-            selectedItem.classList.remove('selected');
-            selectedItem = null;
         } else {
             selectedItem.classList.remove('selected');
             selectedItem = null;
