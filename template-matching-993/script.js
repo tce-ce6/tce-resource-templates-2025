@@ -132,24 +132,22 @@ document.addEventListener('DOMContentLoaded', function() {
         line.setAttribute('stroke-width', '2');
         line.style.pointerEvents = 'none';
 
-        // Calculate line length for animation
-        const rect1 = dot1.getBoundingClientRect();
-        const rect2 = dot2.getBoundingClientRect();
-        const dx = rect2.left - rect1.left;
-        const dy = rect2.top - rect1.top;
-        const length = Math.sqrt(dx * dx + dy * dy);
-        
-        // Set initial dasharray and offset based on actual line length
-        line.style.strokeDasharray = length;
-        line.style.strokeDashoffset = length;
+        // First position the line at dot1
+        line.setAttribute('x1', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
+        line.setAttribute('y1', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
+        line.setAttribute('x2', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
+        line.setAttribute('y2', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
 
         svg.appendChild(line);
-        updateLinePosition(line, dot1, dot2);
 
-        // Trigger animation
-        setTimeout(() => {
-            line.style.strokeDashoffset = '0';
-        }, 0);
+        // Force a reflow to ensure the initial position is rendered
+        line.getBoundingClientRect();
+
+        // Now animate to the final position
+        requestAnimationFrame(() => {
+            line.style.transition = 'all 0.3s ease-in-out';
+            updateLinePosition(line, dot1, dot2);
+        });
 
         const connection = {
             line: line,
