@@ -83,6 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleItemClick(event) {
         const item = event.currentTarget;
+        
+        // Ignore click if item is already correctly matched
+        if (item.classList.contains('correct')) {
+            return;
+        }
+
         const dot = item.querySelector('.connection-dot');
 
         if (!selectedItem) {
@@ -90,7 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
             item.classList.add('selected');
         } else if (selectedItem !== item) {
             const selectedDot = selectedItem.querySelector('.connection-dot');
-            if (selectedDot.dataset.column !== dot.dataset.column) {
+            
+            // Check if the other item is already correctly matched
+            if (selectedDot.dataset.column !== dot.dataset.column && !selectedItem.classList.contains('correct')) {
                 // Add selected state to second item before checking answer
                 item.classList.add('selected');
                 
