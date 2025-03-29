@@ -42,6 +42,19 @@ document.addEventListener('DOMContentLoaded', function() {
         return div;
     }
 
+    function adjustRowHeights() {
+        const leftItems = Array.from(document.querySelectorAll('#column-a .item'));
+        const rightItems = Array.from(document.querySelectorAll('#column-b .item'));
+        
+        leftItems.forEach((item, index) => {
+            if (rightItems[index]) {
+                const height = Math.max(item.offsetHeight, rightItems[index].offsetHeight);
+                item.style.height = `${height}px`;
+                rightItems[index].style.height = `${height}px`;
+            }
+        });
+    }
+
     function initializeGame() {
         let titleText = document.getElementById('titleTxt');
         titleText.textContent = gameData.titleText;
@@ -63,6 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
         shuffledB.forEach((item, index) => {
             columnB.appendChild(createItem(item.text, 'B', item.id.replace('item', '') - 1, 'right'));
         });
+
+        // Adjust row heights after items are created
+        setTimeout(adjustRowHeights, 0);
     }
 
     function handleItemClick(event) {

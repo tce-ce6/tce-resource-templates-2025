@@ -70,10 +70,17 @@ body, html {
     padding: 10px;
     background-color: #ffffff;
     cursor: pointer;
-    
     position: relative;
     transition: background-color 0.3s ease;
     border: 1px solid #6095b8;
+    min-height: 20px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+.item span {
+    flex: 1;
+    line-height: 1.4;
 }
 
 .item.selected {
