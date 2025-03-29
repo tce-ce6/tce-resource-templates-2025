@@ -162,6 +162,12 @@ document.addEventListener('DOMContentLoaded', function() {
         feedback.textContent = isCorrect ? gameData.feedback.correct : gameData.feedback.incorrect;
         feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
 
+        // Add correct/incorrect classes to the items
+        connection.item1.classList.remove('correct', 'incorrect');
+        connection.item2.classList.remove('correct', 'incorrect');
+        connection.item1.classList.add(isCorrect ? 'correct' : 'incorrect');
+        connection.item2.classList.add(isCorrect ? 'correct' : 'incorrect');
+
         connection.line.setAttribute('stroke', isCorrect ? '#4caf50' : '#f44336');
 
         if (!isCorrect) {
@@ -169,6 +175,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 connection.line.remove();
                 connections = connections.filter(conn => conn !== connection);
                 feedback.className = 'feedback';
+                // Remove the incorrect class after timeout
+                connection.item1.classList.remove('incorrect');
+                connection.item2.classList.remove('incorrect');
             }, 1500);
         }
     }
@@ -186,17 +195,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         
-        const columnA = document.getElementById('column-a');
-        const columnB = document.getElementById('column-b');
-        const itemsA = Array.from(columnA.querySelectorAll('.item'));
-        const itemsB = Array.from(columnB.querySelectorAll('.item'));
+        const itemsA = Array.from(document.getElementById('column-a').querySelectorAll('.item'));
+        const itemsB = Array.from(document.getElementById('column-b').querySelectorAll('.item'));
 
-        
         gameData.columnA.items.forEach(itemData => {
             const itemA = itemsA.find(el => el.dataset.id === itemData.id);
             const itemB = itemsB.find(el => el.dataset.id === itemData.id);
             
             if (itemA && itemB) {
+                // Add correct class to both items
+                itemA.classList.add('correct');
+                itemB.classList.add('correct');
+
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('stroke', '#4caf50');
                 line.setAttribute('stroke-width', '2');
@@ -215,7 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        
         const feedback = document.getElementById('feedback');
         feedback.textContent = "Here are the correct answers!";
         feedback.className = 'feedback correct';

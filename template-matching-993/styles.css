@@ -111,6 +111,7 @@ body, html {
     transition: all 0.2s ease;
     position: absolute;
 }
+
 .connection-dot::after {
     content: '';
     position: absolute;
@@ -121,10 +122,15 @@ body, html {
     height: 10px;
     border-radius: 50%;
     background-color: #5c8dad;
+    transition: background-color 0.3s ease;
 }
-.item.selected .connection-dot {
-    background-color: #5c9bd1;
-    border-color: #4a8ac0;
+
+.correct .connection-dot::after {
+    background-color: #4caf50;
+}
+
+.incorrect .connection-dot::after {
+    background-color: #f44336;
 }
 
 .column.left .connection-dot {
