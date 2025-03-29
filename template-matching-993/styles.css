@@ -33,7 +33,7 @@ body, html {
     margin: 0 auto;
     background-color: white;
     border-radius: 10px;
-    top: 50px;
+    top: 20px;
     overflow: hidden;
 }
 
@@ -72,7 +72,7 @@ body, html {
     cursor: pointer;
     position: relative;
     transition: background-color 0.3s ease;
-    border: 1px solid #6095b8;
+    border: 1px solid #6095b83d;
     min-height: 20px;
     box-sizing: border-box;
     word-wrap: break-word;
@@ -153,21 +153,23 @@ body, html {
     /* right: 20px; */
     padding: 10px 20px;
     
-    color: white;
+    color: black;
     display: none;
-    top: 140px;
+    top: 60px;
     
     margin: 0 auto;
     text-align: center;
 }
 
 .feedback.correct {
-    background-color: #4caf50;
+    /* background-color: #4caf50; */
+    color: #4caf50;
     display: block;
 }
 
 .feedback.incorrect {
-    background-color: #f44336;
+    /* background-color: #f44336; */
+    color: #f44336;
     display: block;
 }
 
@@ -184,7 +186,7 @@ body, html {
 #svg-container line {
     stroke-dasharray: 2000;
     stroke-dashoffset: 2000;
-    animation: drawLine 2.5s ease-out forwards;
+    animation: drawLine 3.5s linear forwards;
 }
 
 @keyframes drawLine {

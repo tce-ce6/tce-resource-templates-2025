@@ -224,30 +224,32 @@ document.addEventListener('DOMContentLoaded', function() {
         const itemsA = Array.from(document.getElementById('column-a').querySelectorAll('.item'));
         const itemsB = Array.from(document.getElementById('column-b').querySelectorAll('.item'));
 
-        gameData.columnA.items.forEach(itemData => {
+        // Draw lines with slight delay between each
+        gameData.columnA.items.forEach((itemData, index) => {
             const itemA = itemsA.find(el => el.dataset.id === itemData.id);
             const itemB = itemsB.find(el => el.dataset.id === itemData.id);
             
             if (itemA && itemB) {
-                // Add correct class to both items
-                itemA.classList.add('correct');
-                itemB.classList.add('correct');
+                setTimeout(() => {
+                    itemA.classList.add('correct');
+                    itemB.classList.add('correct');
 
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('stroke', '#4caf50');
-                line.setAttribute('stroke-width', '2');
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('stroke', '#4caf50');
+                    line.setAttribute('stroke-width', '2');
 
-                svg.appendChild(line);
-                updateLinePosition(line, 
-                    itemA.querySelector('.connection-dot'), 
-                    itemB.querySelector('.connection-dot')
-                );
+                    svg.appendChild(line);
+                    updateLinePosition(line, 
+                        itemA.querySelector('.connection-dot'), 
+                        itemB.querySelector('.connection-dot')
+                    );
 
-                connections.push({
-                    line: line,
-                    item1: itemA,
-                    item2: itemB
-                });
+                    connections.push({
+                        line: line,
+                        item1: itemA,
+                        item2: itemB
+                    });
+                }, index * 100); // Change 100 to adjust delay between each line appearing
             }
         });
 
