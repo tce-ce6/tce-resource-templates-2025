@@ -116,17 +116,32 @@ document.addEventListener('DOMContentLoaded', function() {
         const dot1 = item1.querySelector('.connection-dot');
         const dot2 = item2.querySelector('.connection-dot');
 
-        
         removeConnectionsForItem(item1);
         removeConnectionsForItem(item2);
 
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('stroke', '#5c9bd1');
+        line.setAttribute('stroke', '#5c8dad');
         line.setAttribute('stroke-width', '2');
         line.style.pointerEvents = 'none';
 
+        // Calculate line length for animation
+        const rect1 = dot1.getBoundingClientRect();
+        const rect2 = dot2.getBoundingClientRect();
+        const dx = rect2.left - rect1.left;
+        const dy = rect2.top - rect1.top;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        
+        // Set initial dasharray and offset based on actual line length
+        line.style.strokeDasharray = length;
+        line.style.strokeDashoffset = length;
+
         svg.appendChild(line);
         updateLinePosition(line, dot1, dot2);
+
+        // Trigger animation
+        setTimeout(() => {
+            line.style.strokeDashoffset = '0';
+        }, 0);
 
         const connection = {
             line: line,
