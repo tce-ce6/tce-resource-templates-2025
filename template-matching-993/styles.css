@@ -125,11 +125,13 @@ body, html {
     transition: background-color 0.3s ease;
 }
 
-.correct .connection-dot::after {
+.correct .connection-dot::after,
+.correct .connection-dot:hover::after {
     background-color: #4caf50;
 }
 
-.incorrect .connection-dot::after {
+.incorrect .connection-dot::after,
+.incorrect .connection-dot:hover::after {
     background-color: #f44336;
 }
 
