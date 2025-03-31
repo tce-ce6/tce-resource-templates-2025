@@ -3,43 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Dictionary</title>
+    <title>Dictionary</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Selection Screen -->
     <div id="selectionScreen" class="screen active">
-        <h1>Select Words</h1>
+        <h1>Screen 1</h1>
         <div class="instruction">
-            Select words you want to discuss and click 'Next'
+            Choose one or more words and click '<span class="highlight">Next</span>'
         </div>
         <div class="word-list"></div>
         <div class="action-buttons">
             <button id="selectAllBtn">Select All</button>
-            <button id="nextBtn" disabled>Next</button>
+            <button id="nextBtn" class="icon-btn" disabled>
+                <img src="images/arrow-right.svg" alt="Next">
+            </button>
         </div>
     </div>
 
     <!-- Display Screen -->
     <div id="displayScreen" class="screen">
-        <div class="word-display">
+        <h1>Screen 2</h1>
+        <div class="content">
             <div class="word-box">
                 <div class="word-text"></div>
                 <div class="word-meaning"></div>
             </div>
             <div class="example-box"></div>
             <button id="playAudio" class="audio-btn">
-                <img src="speaker.svg" alt="Play">
+                <img src="images/speaker.svg" alt="Play">
             </button>
         </div>
         <div class="navigation">
-            <button id="prevBtn">Previous</button>
+            <button id="prevBtn" class="nav-btn">Previous</button>
             <div class="progress">
                 <span id="currentIndex">1</span> / <span id="totalWords">1</span>
             </div>
-            <button id="nextWordBtn">Next</button>
-            <button id="homeBtn">Home</button>
+            <button id="nextWordBtn" class="nav-btn">Next</button>
         </div>
+        <button id="homeBtn" class="icon-btn">
+            <img src="images/home.svg" alt="Home">
+        </button>
     </div>
 
     <script src="script.js"></script>
