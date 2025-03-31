@@ -215,48 +215,75 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showAnswer() {
-        
+        // Clear existing connections
         connections.forEach(conn => {
             conn.line.remove();
         });
         connections = [];
 
-        
         document.querySelectorAll('.item').forEach(item => {
             item.classList.remove('selected', 'correct', 'incorrect');
         });
 
-        
         const itemsA = Array.from(document.getElementById('column-a').querySelectorAll('.item'));
         const itemsB = Array.from(document.getElementById('column-b').querySelectorAll('.item'));
 
-        // Draw lines with slight delay between each
-        gameData.columnA.items.forEach((itemData, index) => {
+        // Create array of pairs with their vertical positions
+        const pairs = gameData.columnA.items.map(itemData => {
             const itemA = itemsA.find(el => el.dataset.id === itemData.id);
             const itemB = itemsB.find(el => el.dataset.id === itemData.id);
             
             if (itemA && itemB) {
-                setTimeout(() => {
-                    itemA.classList.add('correct');
-                    itemB.classList.add('correct');
-
-                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                    line.setAttribute('stroke', '#4caf50');
-                    line.setAttribute('stroke-width', '2');
-
-                    svg.appendChild(line);
-                    updateLinePosition(line, 
-                        itemA.querySelector('.connection-dot'), 
-                        itemB.querySelector('.connection-dot')
-                    );
-
-                    connections.push({
-                        line: line,
-                        item1: itemA,
-                        item2: itemB
-                    });
-                }, index * 100); // Change 100 to adjust delay between each line appearing
+                return {
+                    itemA,
+                    itemB,
+                    yPosition: itemA.getBoundingClientRect().top
+                };
             }
+            return null;
+        }).filter(pair => pair !== null);
+
+        // Sort pairs by vertical position (top to bottom)
+        pairs.sort((a, b) => a.yPosition - b.yPosition);
+
+        // Create connections in order
+        pairs.forEach((pair, index) => {
+            setTimeout(() => {
+                // First add the correct class with transition
+                pair.itemA.classList.add('correct');
+                pair.itemB.classList.add('correct');
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('stroke', '#4caf50');
+                line.setAttribute('stroke-width', '2');
+                line.style.pointerEvents = 'none';
+
+                // Start from first dot
+                const dot1 = pair.itemA.querySelector('.connection-dot');
+                const dot2 = pair.itemB.querySelector('.connection-dot');
+
+                line.setAttribute('x1', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
+                line.setAttribute('y1', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
+                line.setAttribute('x2', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
+                line.setAttribute('y2', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
+
+                svg.appendChild(line);
+                
+                // Force reflow
+                line.getBoundingClientRect();
+
+                // Animate to final position
+                requestAnimationFrame(() => {
+                    line.style.transition = 'all 0.5s ease-in-out';
+                    updateLinePosition(line, dot1, dot2);
+                });
+
+                connections.push({
+                    line: line,
+                    item1: pair.itemA,
+                    item2: pair.itemB
+                });
+            }, index * 400);
         });
 
         const feedback = document.getElementById('feedback');
@@ -264,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
         feedback.className = 'feedback correct';
         setTimeout(() => {
             feedback.className = 'feedback';
-        }, 220000);
+        }, pairs.length * 800 + 1000);
     }
 
     function resetGame() {
