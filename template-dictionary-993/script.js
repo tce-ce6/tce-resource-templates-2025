@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextWordBtn = document.getElementById('nextWordBtn');
     const homeBtn = document.getElementById('homeBtn');
     const playAudioBtn = document.getElementById('playAudio');
+    const paginationDots = document.querySelector('.pagination-dots');
+
+    // Cache word display elements
+    const wordTextElement = document.querySelector('.word-text');
+    const wordMeaningElement = document.querySelector('.word-meaning');
+    const exampleBoxElement = document.querySelector('.example-box');
     const currentIndexSpan = document.getElementById('currentIndex');
     const totalWordsSpan = document.getElementById('totalWords');
 
@@ -51,6 +57,23 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn.disabled = !hasSelection;
     }
 
+    function updatePaginationDots() {
+        if (!paginationDots) return;
+        
+        paginationDots.innerHTML = '';
+        selectedWords.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `dot${index === currentIndex ? ' active' : ''}`;
+            dot.textContent = index + 1;
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                displayCurrentWord();
+                updatePaginationDots();
+            });
+            paginationDots.appendChild(dot);
+        });
+    }
+
     // Event Listeners
     selectAllBtn.addEventListener('click', () => {
         const checkboxes = document.querySelectorAll('.word-item input[type="checkbox"]');
@@ -69,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentIndex = 0;
             showDisplayScreen();
             displayCurrentWord();
+            updatePaginationDots();
         }
     });
 
@@ -76,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentIndex > 0) {
             currentIndex--;
             displayCurrentWord();
+            updatePaginationDots();
         }
     });
 
@@ -83,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentIndex < selectedWords.length - 1) {
             currentIndex++;
             displayCurrentWord();
+            updatePaginationDots();
         }
     });
 
@@ -106,27 +132,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayCurrentWord() {
+        if (!selectedWords.length) return;
+        
         const word = selectedWords[currentIndex];
         
         // Update word and meaning
-        document.querySelector('.word-text').textContent = word.word;
-        document.querySelector('.word-meaning').textContent = word.meaning;
+        if (wordTextElement) wordTextElement.textContent = word.word;
+        if (wordMeaningElement) wordMeaningElement.textContent = word.meaning;
         
         // Update example
-        document.querySelector('.example-box').textContent = word.example;
+        if (exampleBoxElement) exampleBoxElement.textContent = word.example;
         
         // Update navigation
-        currentIndexSpan.textContent = currentIndex + 1;
-        totalWordsSpan.textContent = selectedWords.length;
+        if (currentIndexSpan) currentIndexSpan.textContent = currentIndex + 1;
+        if (totalWordsSpan) totalWordsSpan.textContent = selectedWords.length;
         
         // Update button states
-        prevBtn.disabled = currentIndex === 0;
-        nextWordBtn.disabled = currentIndex === selectedWords.length - 1;
+        if (prevBtn) prevBtn.disabled = currentIndex === 0;
+        if (nextWordBtn) nextWordBtn.disabled = currentIndex === selectedWords.length - 1;
     }
 
     function playCurrentAudio() {
         const word = selectedWords[currentIndex];
-        if (word.audio) {
+        if (word && word.audio) {
             const audio = new Audio(word.audio);
             audio.play().catch(error => {
                 console.error('Error playing audio:', error);
