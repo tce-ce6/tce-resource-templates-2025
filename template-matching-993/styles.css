@@ -199,6 +199,16 @@ body, html {
 svg line {
     transition: all 0.5s ease-in-out;
     stroke-width: 3;
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+}
+
+.correct svg line {
+    filter: drop-shadow(0 2px 3px rgba(76, 175, 80, 0.3));
+}
+
+.incorrect svg line {
+    filter: drop-shadow(0 2px 3px rgba(244, 67, 54, 0.3));
 }
 
 .show-answer-btn, .reset-btn {
