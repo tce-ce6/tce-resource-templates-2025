@@ -1,0 +1,40 @@
+{
+    "words": [
+        {
+            "word": "large tracts of land",
+            "meaning": "large areas of land",
+            "example": "After his grandmother passed away, she left him large tracts of land in their village.",
+            "audio": "audio/large-tracts.mp3"
+        },
+        {
+            "word": "landlord",
+            "meaning": "a person who owns and rents land, buildings, or apartments",
+            "example": "The landlord increased the rent this year.",
+            "audio": "audio/landlord.mp3"
+        },
+        {
+            "word": "chant",
+            "meaning": "to repeat or sing a word or phrase",
+            "example": "The crowd began to chant the player's name.",
+            "audio": "audio/chant.mp3"
+        },
+        {
+            "word": "tended",
+            "meaning": "looked after, cared for",
+            "example": "She tended the garden every morning.",
+            "audio": "audio/tended.mp3"
+        },
+        {
+            "word": "over the years",
+            "meaning": "as time passed",
+            "example": "Over the years, the small town grew into a city.",
+            "audio": "audio/over-the-years.mp3"
+        },
+        {
+            "word": "vessel",
+            "meaning": "container",
+            "example": "She poured the water into a clay vessel.",
+            "audio": "audio/vessel.mp3"
+        }
+    ]
+}
