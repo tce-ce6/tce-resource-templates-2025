@@ -253,15 +253,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 pair.itemA.classList.add('correct');
                 pair.itemB.classList.add('correct');
 
+                const dot1 = pair.itemA.querySelector('.connection-dot');
+                const dot2 = pair.itemB.querySelector('.connection-dot');
+
+                // Add blink animation class
+                dot1.classList.add('blink');
+                dot2.classList.add('blink');
+
+                // Remove blink class after animation
+                setTimeout(() => {
+                    dot1.classList.remove('blink');
+                    dot2.classList.remove('blink');
+                }, 300);
+
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('stroke', '#4caf50');
                 line.setAttribute('stroke-width', '2');
                 line.style.pointerEvents = 'none';
 
                 // Start from first dot
-                const dot1 = pair.itemA.querySelector('.connection-dot');
-                const dot2 = pair.itemB.querySelector('.connection-dot');
-
                 line.setAttribute('x1', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
                 line.setAttribute('y1', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
                 line.setAttribute('x2', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
@@ -291,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
         feedback.className = 'feedback correct';
         setTimeout(() => {
             feedback.className = 'feedback';
-        }, pairs.length * 800 + 1000);
+        }, pairs.length * 400 + 1000);
     }
 
     function resetGame() {

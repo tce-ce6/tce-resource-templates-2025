@@ -123,6 +123,7 @@ body, html {
     border-radius: 50%;
     background-color: #5c8dad;
     transition: background-color 0.3s ease;
+    transform-origin: center center;
 }
 
 .selected .connection-dot::after {
@@ -229,4 +230,14 @@ svg line {
     padding: 10px;
     font-size: 20px;
     font-weight: 500;
+}
+
+@keyframes blinkDot {
+    0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); background-color: #4caf50;}
+    50% { transform: translate(-50%, -50%) scale(1.5); filter: brightness(1.5); background-color: yellowgreen; }
+    100% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); background-color: #4caf50; }
+}
+
+.connection-dot.blink::after {
+    animation: blinkDot 0.5s ease-in-out;
 }
