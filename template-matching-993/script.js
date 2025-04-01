@@ -77,14 +77,14 @@ document.addEventListener('DOMContentLoaded', function() {
             columnB.appendChild(createItem(item.text, 'B', item.id.replace('item', '') - 1, 'right'));
         });
 
-        // Adjust row heights after items are created
+        
         setTimeout(adjustRowHeights, 0);
     }
 
     function handleItemClick(event) {
         const item = event.currentTarget;
         
-        // Ignore click if item is already correctly matched
+        
         if (item.classList.contains('correct')) {
             return;
         }
@@ -97,15 +97,15 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (selectedItem !== item) {
             const selectedDot = selectedItem.querySelector('.connection-dot');
             
-            // Check if the other item is already correctly matched
+        
             if (selectedDot.dataset.column !== dot.dataset.column && !selectedItem.classList.contains('correct')) {
-                // Add selected state to second item before checking answer
+        
                 item.classList.add('selected');
                 
-                // Small delay to show selected state before showing result
+        
                 setTimeout(() => {
                     createConnection(selectedItem, item);
-                    // Remove selected state after connection is made
+        
                     selectedItem.classList.remove('selected');
                     item.classList.remove('selected');
                     selectedItem = null;
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
         line.setAttribute('stroke-width', '2');
         line.style.pointerEvents = 'none';
 
-        // First position the line at dot1
+        
         line.setAttribute('x1', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
         line.setAttribute('y1', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
         line.setAttribute('x2', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
@@ -140,10 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         svg.appendChild(line);
 
-        // Force a reflow to ensure the initial position is rendered
+        
         line.getBoundingClientRect();
 
-        // Now animate to the final position
+        
         requestAnimationFrame(() => {
             line.style.transition = 'all 0.3s ease-in-out';
             updateLinePosition(line, dot1, dot2);
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
         feedback.textContent = isCorrect ? gameData.feedback.correct : gameData.feedback.incorrect;
         feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
 
-        // Add correct/incorrect classes to the items
+        
         connection.item1.classList.remove('correct', 'incorrect');
         connection.item2.classList.remove('correct', 'incorrect');
         connection.item1.classList.add(isCorrect ? 'correct' : 'incorrect');
@@ -207,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 connection.line.remove();
                 connections = connections.filter(conn => conn !== connection);
                 feedback.className = 'feedback';
-                // Remove the incorrect class after timeout
                 connection.item1.classList.remove('incorrect');
                 connection.item2.classList.remove('incorrect');
             }, 1500);
@@ -215,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showAnswer() {
-        // Clear existing connections
+        
         connections.forEach(conn => {
             conn.line.remove();
         });
@@ -228,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const itemsA = Array.from(document.getElementById('column-a').querySelectorAll('.item'));
         const itemsB = Array.from(document.getElementById('column-b').querySelectorAll('.item'));
 
-        // Create array of pairs with their vertical positions
+        
         const pairs = gameData.columnA.items.map(itemData => {
             const itemA = itemsA.find(el => el.dataset.id === itemData.id);
             const itemB = itemsB.find(el => el.dataset.id === itemData.id);
@@ -243,24 +242,24 @@ document.addEventListener('DOMContentLoaded', function() {
             return null;
         }).filter(pair => pair !== null);
 
-        // Sort pairs by vertical position (top to bottom)
+        
         pairs.sort((a, b) => a.yPosition - b.yPosition);
 
-        // Create connections in order
+        
         pairs.forEach((pair, index) => {
             setTimeout(() => {
-                // First add the correct class with transition
+        
                 pair.itemA.classList.add('correct');
                 pair.itemB.classList.add('correct');
 
                 const dot1 = pair.itemA.querySelector('.connection-dot');
                 const dot2 = pair.itemB.querySelector('.connection-dot');
 
-                // Add blink animation class
+        
                 dot1.classList.add('blink');
                 dot2.classList.add('blink');
 
-                // Remove blink class after animation
+        
                 setTimeout(() => {
                     dot1.classList.remove('blink');
                     dot2.classList.remove('blink');
@@ -271,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 line.setAttribute('stroke-width', '2');
                 line.style.pointerEvents = 'none';
 
-                // Start from first dot
+        
                 line.setAttribute('x1', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
                 line.setAttribute('y1', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
                 line.setAttribute('x2', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
@@ -279,10 +278,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 svg.appendChild(line);
                 
-                // Force reflow
+        
                 line.getBoundingClientRect();
 
-                // Animate to final position
+        
                 requestAnimationFrame(() => {
                     line.style.transition = 'all 0.5s ease-in-out';
                     updateLinePosition(line, dot1, dot2);
