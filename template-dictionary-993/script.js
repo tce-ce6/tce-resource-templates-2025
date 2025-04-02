@@ -37,23 +37,35 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error loading words:', error);
         });
 
-    function displayWordList() {
-        wordList.innerHTML = '';
-        words.forEach(word => {
-            const div = document.createElement('div');
-            div.className = 'word-item';
-            div.innerHTML = `
-                <input type="checkbox" id="word-${word.word}" value="${word.word}">
-                <label for="word-${word.word}">${word.word}</label>
-            `;
-            wordList.appendChild(div);
-        });
-
-        // Add change event listeners to checkboxes
-        document.querySelectorAll('.word-item input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', updateNextButtonState);
-        });
-    }
+        function displayWordList() {
+            wordList.innerHTML = '';
+            words.forEach(word => {
+                const div = document.createElement('div');
+                div.className = 'word-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="word-${word.word}" value="${word.word}">
+                    <label for="word-${word.word}">${word.word}</label>
+                `;
+                
+                const checkbox = div.querySelector('input[type="checkbox"]');
+        
+                // Make entire word-item clickable
+                div.addEventListener('click', (event) => {
+                    if (event.target !== checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        updateNextButtonState();
+                    }
+                });
+        
+                wordList.appendChild(div);
+            });
+        
+            // Add change event listeners to checkboxes
+            document.querySelectorAll('.word-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateNextButtonState);
+            });
+        }
+        
 
     function updateNextButtonState() {
         const hasSelection = document.querySelector('.word-item input[type="checkbox"]:checked');

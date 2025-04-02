@@ -45,9 +45,9 @@ h1 {
 }
 
 .word-item {
-    position: relative;
+    /* position: relative; */
     padding: 15px 45px 15px 15px;
-    border: 2px solid #ccc;
+    /* border: 2px solid #ccc; */
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -58,10 +58,10 @@ h1 {
 }
 
 .word-item input[type="checkbox"] {
-    position: absolute;
+    /* position: absolute;
     right: 15px;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%); */
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -71,6 +71,7 @@ h1 {
     font-size: 16px;
     color: #333;
     cursor: pointer;
+    pointer-events: none;
 }
 
 .action-buttons {
