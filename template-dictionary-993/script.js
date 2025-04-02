@@ -74,8 +74,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updatePaginationDots() {
         if (!paginationDots) return;
-
+    
         paginationDots.innerHTML = '';
+    
+        // Create the background line that stretches across all dots
+        const line = document.createElement('div');
+        line.className = 'pagination-line';
+        paginationDots.appendChild(line);
+    
         selectedWords.forEach((_, index) => {
             const dot = document.createElement('div');
             dot.className = `dot${index === currentIndex ? ' active' : ''}`;
@@ -85,9 +91,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 displayCurrentWord();
                 updatePaginationDots();
             });
+    
             paginationDots.appendChild(dot);
         });
+    
+        // Adjust the line width based on the number of dots
+        const dots = document.querySelectorAll('.dot');
+        if (dots.length > 1) {
+            const firstDot = dots[0];
+            const lastDot = dots[dots.length - 1];
+            const containerRect = paginationDots.getBoundingClientRect();
+            const firstDotRect = firstDot.getBoundingClientRect();
+            const lastDotRect = lastDot.getBoundingClientRect();
+    
+            const startX = firstDotRect.left - containerRect.left + firstDotRect.width / 2;
+            const endX = lastDotRect.left - containerRect.left + lastDotRect.width / 2;
+            line.style.width = `${endX - startX + 200}px`;
+            //line.style.left = `${startX}px`;
+        }
     }
+    
 
     // Event Listeners
     selectAllBtn.addEventListener('click', () => {

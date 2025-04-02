@@ -206,7 +206,7 @@ position: relative;
     border: none;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    font-size: 20px;
+    font-size: 26px;
     color: white;
 }
 
@@ -220,7 +220,7 @@ position: relative;
     filter: brightness(0) invert(1);
 }
 
-.navigation {
+.navigationsss {
     display: flex
 ;
     justify-content: center;
@@ -230,6 +230,34 @@ position: relative;
     width: 100%;
     bottom: 30px;
 }
+.navigation {
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    
+    position: absolute;
+    bottom: 10px;
+    margin: 0 auto;
+    width: 100%;;
+}
+
+.pagination-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(to right, transparent, black 20%, black 80%, transparent); 
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0; /* Keep behind dots */
+}
+
+
+
+.dot.active {
+    background-color: blue;
+}
+
 
 .progress {
     display: flex;
@@ -243,7 +271,8 @@ position: relative;
 }
 
 #prevBtn, #nextWordBtn {
-    
+ width: 40px;
+ height: 40px;   
 }
 
 #prevBtn:hover, #nextWordBtn:hover {
@@ -279,7 +308,7 @@ position: relative;
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: #cfe2f3;
+    background: radial-gradient(circle, skyblue 20%, white 80%);
     color: #1f2059;
     display: flex;
     align-items: center;
@@ -287,6 +316,8 @@ position: relative;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
+    z-index: 1; /* Ensure dots are above the line */
+    border: 1px solid black;
 }
 
 .dot:hover {
@@ -335,4 +366,6 @@ position: relative;
     gap: 10px;
     position: absolute;
     bottom: 100px;
+    align-items:center;
 }
+
