@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 div.className = 'word-item';
                 div.innerHTML = `
                     <input type="checkbox" id="word-${word.word}" value="${word.word}">
-                    <label for="word-${word.word}">${word.word}</label>
+                    <div class="word-item-text">${word.word}</div>
                 `;
                 
                 const checkbox = div.querySelector('input[type="checkbox"]');
@@ -153,8 +153,8 @@ document.addEventListener('DOMContentLoaded', function () {
         stopAudio(); // Stop audio when switching words
         const word = selectedWords[currentIndex];
 
-        if (wordTextElement) wordTextElement.textContent = word.word;
-        if (wordMeaningElement) wordMeaningElement.textContent = word.meaning;
+        if (wordTextElement) wordTextElement.textContent = word.word + " ";
+        if (wordMeaningElement) wordMeaningElement.textContent = " - "+word.meaning;
         if (exampleBoxElement) exampleBoxElement.textContent = word.example;
 
         if (currentIndexSpan) currentIndexSpan.textContent = currentIndex + 1;
@@ -185,6 +185,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Pause if currently playing
             currentAudio.pause();
             isPlaying = false;
+            
+            updatePlayButton();
+            //stopAudio();
         } else {
             // Resume playback if paused
             currentAudio.play().then(() => {
@@ -206,6 +209,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updatePlayButton() {
-        playAudioBtn.textContent = isPlaying ? 'Pause' : 'Play';
+        playAudioBtn.innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
     }
 });
