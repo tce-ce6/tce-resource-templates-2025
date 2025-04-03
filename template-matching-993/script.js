@@ -30,23 +30,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const textSpan = document.createElement('span');
         textSpan.textContent = text.text;
 
-       
-        
         // If an image exists, create a div with background image
     if (text.image) {
         //contentContainer.style.flexDirection = 'column';
-        
         contentContainer.style.gap = '10px';
         contentContainer.style.background = '#000';
+        //contentContainer.style.background = '#4b8ac038'
         contentContainer.style.padding = '4px';
         contentContainer.style.color = 'white';
-        
-        
         const imgDiv = document.createElement('div');
         imgDiv.className = 'item-image';
         imgDiv.style.backgroundImage = `url(${text.image})`;
         contentContainer.appendChild(imgDiv);
     }
+        
+
 
         const dot = document.createElement('div');
         dot.className = 'connection-dot';
@@ -64,6 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
             contentContainer.appendChild(textSpan);
             div.appendChild(dot)
         }
+
+               
         
 
         div.addEventListener('click', handleItemClick);
