@@ -18,12 +18,35 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.reset-btn').addEventListener('click', resetGame);
 
     function createItem(text, column, index, side) {
+        console.log(text)
         const div = document.createElement('div');
         div.className = 'item';
         div.dataset.id = `${index + 1}`;
         
+        const contentContainer = document.createElement('div');
+        contentContainer.className = 'content-container';
+        div.appendChild(contentContainer);
+
         const textSpan = document.createElement('span');
-        textSpan.textContent = text;
+        textSpan.textContent = text.text;
+
+       
+        
+        // If an image exists, create a div with background image
+    if (text.image) {
+        //contentContainer.style.flexDirection = 'column';
+        
+        contentContainer.style.gap = '10px';
+        contentContainer.style.background = '#000';
+        contentContainer.style.padding = '4px';
+        contentContainer.style.color = 'white';
+        
+        
+        const imgDiv = document.createElement('div');
+        imgDiv.className = 'item-image';
+        imgDiv.style.backgroundImage = `url(${text.image})`;
+        contentContainer.appendChild(imgDiv);
+    }
 
         const dot = document.createElement('div');
         dot.className = 'connection-dot';
@@ -31,12 +54,17 @@ document.addEventListener('DOMContentLoaded', function() {
         dot.dataset.index = index;
 
         if (side === 'left') {
-            div.appendChild(textSpan);
-            div.appendChild(dot);
+            //div.appendChild(textSpan);
+            //div.appendChild(dot);
+            contentContainer.appendChild(textSpan);
+            div.appendChild(dot)
         } else {
-            div.appendChild(dot);
-            div.appendChild(textSpan);
+            //div.appendChild(dot);
+            //div.appendChild(textSpan);
+            contentContainer.appendChild(textSpan);
+            div.appendChild(dot)
         }
+        
 
         div.addEventListener('click', handleItemClick);
         return div;
@@ -60,7 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
         titleText.textContent = gameData.titleText;
         const columnA = document.getElementById('column-a');
         const columnB = document.getElementById('column-b');
-
+        // Set column titles from JSON
+        document.getElementById('column-a-title').textContent = gameData.columnA.title;
+        document.getElementById('column-b-title').textContent = gameData.columnB.title;
         
         while (columnA.children.length > 1) columnA.removeChild(columnA.lastChild);
         while (columnB.children.length > 1) columnB.removeChild(columnB.lastChild);
@@ -70,11 +100,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const shuffledB = [...gameData.columnB.items].sort(() => Math.random() - 0.5);
 
         shuffledA.forEach((item, index) => {
-            columnA.appendChild(createItem(item.text, 'A', item.id.replace('item', '') - 1, 'left'));
+            columnA.appendChild(createItem(item, 'A', item.id.replace('item', '') - 1, 'left'));
         });
 
         shuffledB.forEach((item, index) => {
-            columnB.appendChild(createItem(item.text, 'B', item.id.replace('item', '') - 1, 'right'));
+            columnB.appendChild(createItem(item, 'B', item.id.replace('item', '') - 1, 'right'));
         });
 
         

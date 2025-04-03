@@ -1,6 +1,6 @@
 {
     "titleText": "Match the words to their meanings.",
-    "instructionText": "",
+    "instructionText": "Drag and match the words with their correct meanings.",
     "debug": false,
     "backgroundImage": "assets/background.jpg",
     "feedback": {
@@ -8,11 +8,12 @@
         "incorrect": "Incorrect! Try again."
     },
     "columnA": {
-        "title": "Column A",
+        "title": "Words",
         "items": [
             {
                 "id": "1",
-                "text": "chant dsds dsdsds sdsddsds jsajkasjkas asjkhaskhjsd askjhaskjhsa asjkhashkjas  "
+                "text": "chant",
+                "image": "assets/images/real.jpg"
             },
             {
                 "id": "2",
@@ -21,47 +22,47 @@
             {
                 "id": "3",
                 "text": "over the years"
+                
             },
             {
                 "id": "4",
-                "text": "vessel"
+                "text": "vessel asmbas ashas asjkhas",
+                "image": "assets/images/real2.jpg"
             },
             {
                 "id": "5",
                 "text": "sprinkled"
-            },
-            {
-                "id": "6",
-                "text": "muttered"
             }
         ]
     },
     "columnB": {
-        "title": "Column B",
+        "title": "Meanings",
         "items": [
             {
                 "id": "1",
-                "text": "to repeat or sing a word or phrase sd shsd sdjds dsj fdfddfdf dffddffd dffddffdd"
+                "text": "to repeat or sing a word or phrase dsjds kjhds dskjhds sdkjds"
+               
             },
             {
                 "id": "2",
-                "text": "looked after, cared for"
+                "text": "looked after, cared for dshjbds jhas ak askjhas askjhas askjhas asjkhas sakjh",
+                "image": "assets/images/real3.jpg"
             },
             {
                 "id": "3",
                 "text": "as time passed"
+               
             },
             {
                 "id": "4",
-                "text": "container"
+                "text": "container",
+                "image": "assets/images/real4.jpg"
+                
             },
             {
                 "id": "5",
                 "text": "scattered drops of liquid"
-            },
-            {
-                "id": "6",
-                "text": "spoke in a low voice"
+                
             }
         ]
     }
