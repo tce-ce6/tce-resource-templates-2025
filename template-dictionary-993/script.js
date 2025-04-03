@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // State
+    
     let words = [];
     let selectedWords = [];
     let currentIndex = 0;
     let currentAudio = null;
     let isPlaying = false;
 
-    // DOM Elements
+    
     const selectionScreen = document.getElementById('selectionScreen');
     const displayScreen = document.getElementById('displayScreen');
     const wordList = document.querySelector('.word-list');
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const stopAudioBtn = document.getElementById('stopAudio');
     const paginationDots = document.querySelector('.pagination-dots');
 
-    // Cache word display elements
+    
     const wordImageElement = document.querySelector('.word-image');
     const wordTextElement = document.querySelector('.word-text');
     const wordMeaningElement = document.querySelector('.word-meaning');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentIndexSpan = document.getElementById('currentIndex');
     const totalWordsSpan = document.getElementById('totalWords');
 
-    // Load words from JSON
+    
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 const checkbox = div.querySelector('input[type="checkbox"]');
         
-                // Make entire word-item clickable
+            
                 div.addEventListener('click', (event) => {
                     if (event.target !== checkbox) {
                         checkbox.checked = !checkbox.checked;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 wordList.appendChild(div);
             });
         
-            // Add change event listeners to checkboxes
+            
             document.querySelectorAll('.word-item input[type="checkbox"]').forEach(checkbox => {
                 checkbox.addEventListener('change', updateNextButtonState);
             });
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
         paginationDots.innerHTML = '';
     
-        // Create the background line that stretches across all dots
+        
         const line = document.createElement('div');
         line.className = 'pagination-line';
         paginationDots.appendChild(line);
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
             paginationDots.appendChild(dot);
         });
     
-        // Adjust the line width based on the number of dots
+        
         const dots = document.querySelectorAll('.dot');
         if (dots.length > 1) {
             const firstDot = dots[0];
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
 
-    // Event Listeners
+    
     selectAllBtn.addEventListener('click', () => {
         const checkboxes = document.querySelectorAll('.word-item input[type="checkbox"]');
         const allChecked = Array.from(checkboxes).every(cb => cb.checked);
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     homeBtn.addEventListener('click', () => {
-        stopAudio(); // Stop audio when returning home
+        stopAudio(); 
         showSelectionScreen();
     });
 
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayCurrentWord() {
         if (!selectedWords.length) return;
 
-        stopAudio(); // Stop audio when switching words
+        stopAudio(); 
         const word = selectedWords[currentIndex];
 
         if (wordTextElement) wordTextElement.textContent = word.word + " ";
@@ -201,7 +201,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!word || !word.audio) return;
 
         if (!currentAudio) {
-            // Start playing new audio
             currentAudio = new Audio(word.audio);
             currentAudio.play().then(() => {
                 isPlaying = true;
@@ -213,14 +212,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 updatePlayButton();
             };
         } else if (isPlaying) {
-            // Pause if currently playing
             currentAudio.pause();
             isPlaying = false;
             
             updatePlayButton();
             //stopAudio();
         } else {
-            // Resume playback if paused
             currentAudio.play().then(() => {
                 isPlaying = true;
             }).catch(error => console.error('Error resuming audio:', error));

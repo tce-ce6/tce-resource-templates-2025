@@ -344,34 +344,7 @@ position: relative;
     color: white;
 }
 
-@media (max-width: 768px) {
-    body {
-        padding: 20px;
-    }
 
-    .word-list {
-        grid-template-columns: 1fr;
-    }
-
-    .word-display {
-        padding: 10px;
-    }
-
-    .word-box,
-    .example-box {
-        padding: 20px;
-    }
-
-    .navigation {
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-
-    #homeBtn {
-        position: static;
-        margin: 20px auto;
-    }
-}
 
 .playbackControl{
     display: flex
