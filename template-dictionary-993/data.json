@@ -4,25 +4,29 @@
             "word": "large tracts of land",
             "meaning": "large areas of land",
             "example": "After his grandmother passed away, she left him large tracts of land in their village.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": ""
         },
         {
             "word": "landlord",
             "meaning": "a person who owns and rents land, buildings, or apartments",
             "example": "The landlord collects rent from the tenants on the fifth of every month.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real.jpg"
         },
         {
             "word": "potion",
             "meaning": "a liquid with magical properties",
             "example": "The witch in the story claimed that her potion could make anyone invisible.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real2.jpg"
         },
         {
             "word": "give up",
             "meaning": "stop trying",
             "example": "Even though the puzzle was difficult, Sarah refused to give up until she solved it.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real3.jpg"
         },
         {
             "word": "followers",
@@ -34,7 +38,8 @@
             "word": "sage",
             "meaning": "wise spiritual person",
             "example": "The old sage lived in the mountain temple and gave advice to villagers.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real4.jpg"
         },
         {
             "word": "not believing one's luck",
@@ -46,13 +51,15 @@
             "word": "dew",
             "meaning": "small drops of water on leaves that form during night",
             "example": "Early morning walkers saw sparkling dew on the grass.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real.jpg"
         },
         {
             "word": "chant",
             "meaning": "to repeat or sing a word or phrase",
             "example": "The monks would chant prayers every morning at sunrise.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real2.jpg"
         },
         {
             "word": "tended",
@@ -64,19 +71,22 @@
             "word": "over the years",
             "meaning": "as time passed",
             "example": "Over the years, the small shop grew into a large supermarket.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real3.jpg"
         },
         {
             "word": "vessel",
             "meaning": "container",
             "example": "She kept water in a clay vessel to keep it cool.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real.jpg"
         },
         {
             "word": "sprinkled",
             "meaning": "scattered drops of liquid",
             "example": "The gardener sprinkled water on the delicate seedlings.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "assets/audio/real.mp3",
+            "image": "assets/images/real4.jpg"
         },
         {
             "word": "muttered",

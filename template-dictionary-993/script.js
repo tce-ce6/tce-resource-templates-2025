@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const paginationDots = document.querySelector('.pagination-dots');
 
     // Cache word display elements
+    const wordImageElement = document.querySelector('.word-image');
     const wordTextElement = document.querySelector('.word-text');
     const wordMeaningElement = document.querySelector('.word-meaning');
     const exampleBoxElement = document.querySelector('.example-box');
@@ -179,6 +180,13 @@ document.addEventListener('DOMContentLoaded', function () {
         if (wordTextElement) wordTextElement.textContent = word.word + " ";
         if (wordMeaningElement) wordMeaningElement.textContent = " - "+word.meaning;
         if (exampleBoxElement) exampleBoxElement.textContent = word.example;
+
+        if (word.image) {
+            wordImageElement.style.backgroundImage = `url('${word.image}')`;
+            wordImageElement.style.display = 'block';
+        } else {
+            wordImageElement.style.display = 'none';
+        }
 
         if (currentIndexSpan) currentIndexSpan.textContent = currentIndex + 1;
         if (totalWordsSpan) totalWordsSpan.textContent = selectedWords.length;
