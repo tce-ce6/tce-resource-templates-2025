@@ -1,0 +1,359 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    background-color: black;
+}
+.container{
+    position: relative;
+    width: 993px;
+    height: 610px;
+    
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+}
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+    padding: 10px;;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.instruction {
+    color: #721121;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+/* Selection Screen */
+.word-list {
+    display: grid
+    ;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 40px;
+        margin: 20px;
+}
+
+.word-item {
+    /* position: relative; */
+    /* padding: 15px 45px 15px 15px; */
+    /* border: 2px solid #ccc; */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex
+;
+    gap: 10px;
+}
+.word-item-text{
+    font-size: 18px;
+    line-height: 26px;
+}
+
+.word-item:hover {
+    border-color: #1f2059;
+}
+
+.word-item input[type="checkbox"] {
+    /* position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%); */
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.word-item label {
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+.action-buttons {
+    display: flex
+;
+    justify-content: right;
+    align-items: center;
+    /* padding: 0 20px; */
+    position: absolute;
+    bottom: 30px;
+    /* width: 100%; */
+    gap: 10px;
+    right: 20px;
+}
+
+#selectAllBtn {
+    background: #1f2059;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#selectAllBtn:hover {
+    background: #3a6d77;
+}
+
+#nextBtn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #1f2059;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: white;
+    font-size: 20px;
+}
+
+#nextBtn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    
+}
+
+#nextBtn img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+/* Display Screen */
+.word-display {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.word-box {
+    background: #cfe2f3;
+    padding: 2px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex
+;
+    justify-content: center;
+    gap: 10px;
+    width: 80%;
+    position: relative;
+    margin: 0 auto;
+    line-height: 42px;
+}
+
+.word-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    
+}
+.word-image{
+    width: 250px;
+    height: 180px;
+    background-size: cover;
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+}
+
+.word-meaning {
+    font-size: 24px;
+    color: #666;
+}
+.boxspacer{
+    width: 2px;
+    height: 50px;
+    background-color: #d0e2f3;
+position: relative;
+    margin: 0 auto;
+    
+
+}
+.content{
+    position: relative;
+    margin-top: 30px;
+}
+.example-box {
+    background: #d0e2f3;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
+    width: 70%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.audio-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #1f2059;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 26px;
+    color: white;
+}
+
+.audio-btn:hover {
+    background: #3a6d77;
+}
+
+.audio-btn img {
+    width: 30px;
+    height: 30px;
+    filter: brightness(0) invert(1);
+}
+
+.navigationsss {
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    position: absolute;
+    width: 100%;
+    bottom: 30px;
+}
+.navigation {
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    
+    position: absolute;
+    bottom: 10px;
+    margin: 0 auto;
+    width: 100%;;
+}
+
+.pagination-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(to right, transparent, black 20%, black 80%, transparent); 
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0; /* Keep behind dots */
+}
+
+
+
+.dot.active {
+    background-color: blue;
+}
+
+
+.progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress span {
+    font-size: 18px;
+    color: #333;
+}
+
+#prevBtn, #nextWordBtn {
+ width: 40px;
+ height: 40px;   
+ z-index: 2;
+}
+
+#prevBtn:hover, #nextWordBtn:hover {
+    background: #3a6d77;
+}
+
+#prevBtn:disabled, #nextWordBtn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+
+
+#homeBtn:hover {
+    background: #3a6d77;
+}
+
+#homeBtn img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+.pagination-dots {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+}
+
+.dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, skyblue 20%, white 80%);
+    color: #1f2059;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1; /* Ensure dots are above the line */
+    border: 1px solid black;
+}
+
+.dot:hover {
+    background: #bdd7eb;
+}
+
+.dot.active {
+    background: #1f2059;
+    color: white;
+}
+
+
+
+.playbackControl{
+    display: flex
+;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    bottom: 100px;
+    align-items:center;
+}
+
