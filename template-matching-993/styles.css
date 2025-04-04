@@ -18,7 +18,7 @@ body, html {
 .content-container{
     display: flex;
     justify-content: center;
-    align-items: center;
+     align-items: center; 
     
     border-radius: 8px;
 }
@@ -136,7 +136,7 @@ body, html {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: #5c8dad;
+    background-color: #c9dfed;
     transition: background-color 0.3s ease;
     transform-origin: center center;
 }

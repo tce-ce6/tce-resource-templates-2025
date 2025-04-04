@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (text.image) {
         //contentContainer.style.flexDirection = 'column';
         contentContainer.style.gap = '10px';
-        contentContainer.style.background = '#000';
+        contentContainer.style.background = 'linear-gradient(45deg, #d7e6ef, transparent)';
         //contentContainer.style.background = '#4b8ac038'
         contentContainer.style.padding = '4px';
-        contentContainer.style.color = 'white';
+        //contentContainer.style.color = 'white';
         const imgDiv = document.createElement('div');
         imgDiv.className = 'item-image';
         imgDiv.style.backgroundImage = `url(${text.image})`;
