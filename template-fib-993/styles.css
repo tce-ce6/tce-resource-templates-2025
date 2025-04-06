@@ -127,3 +127,20 @@ button:hover {
     font-size: 20x;
     font-weight: 700;
 }
+
+.blank.correct {
+    color: green;
+    font-weight: bold;
+    border-bottom: none;
+}
+
+.logo{
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    width: 60px;
+    height: 40px;
+    background-image: url(assets/TCE-Logo-Black.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}

@@ -97,10 +97,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function setupBlankClicks() {
         document.querySelectorAll(".blank").forEach(blank => {
-            blank.addEventListener("click", function () {
+            blank.addEventListener("click", function handler() {
                 if (selectedAnswer) {
                     this.textContent = selectedAnswer;
                     this.dataset.selected = selectedAnswer;
+    
+                    const answer = jsonData.answers.items.find(a => a.id === this.dataset.id);
+                    if (selectedAnswer === answer.text) {
+                        // Correct immediately? Disable right away
+                        this.classList.add("correct");
+                        this.style.pointerEvents = "none";
+                    }
+    
                     selectedAnswer = null;
                 }
             });
@@ -125,16 +133,21 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("check-btn").addEventListener("click", () => {
         let correctAnswers = jsonData.answers.items;
         let blanks = document.querySelectorAll(".blank");
-        let correct = true;
-
+        let allCorrect = true;
+    
         blanks.forEach(blank => {
-            let answer = correctAnswers.find(a => a.id === blank.dataset.id);
-            if (blank.dataset.selected !== answer.text) {
-                correct = false;
+            let correctAnswer = correctAnswers.find(a => a.id === blank.dataset.id);
+            if (blank.dataset.selected === correctAnswer.text) {
+                blank.classList.add("correct");
+                blank.style.pointerEvents = "none";
+            } else {
+                allCorrect = false;
             }
         });
-
-        document.getElementById("feedback").textContent = correct ? jsonData.feedback.correct : jsonData.feedback.incorrect;
+    
+        document.getElementById("feedback").textContent = allCorrect
+            ? jsonData.feedback.correct
+            : jsonData.feedback.incorrect;
     });
 
     document.getElementById("reset-btn").addEventListener("click", () => {

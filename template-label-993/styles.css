@@ -175,3 +175,13 @@ body, html {
     /* box-shadow: 4px 7px 5px -3px rgba(0, 0, 0, 0.2); */
     left: 0;
   }
+  .logo{
+    position: absolute;
+    top: 20px;
+    right: 0px;
+    width: 60px;
+    height: 40px;
+    background-image: url(assets/TCE-Logo-Black.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
