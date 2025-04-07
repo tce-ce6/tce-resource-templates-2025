@@ -12,14 +12,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Navigation Buttons
     document.getElementById("practice-btn").addEventListener("click", () => {
         stopVocabAudio();
-        vocabScreen.style.display = "none";
-        fillupScreen.style.display = "block";
+        //vocabScreen.style.display = "none";
+        //fillupScreen.style.display = "block";
+        showScreen2();
     });
 
     document.getElementById("home-btn").addEventListener("click", () => {
         stopPracticeAudio();
-        vocabScreen.style.display = "block";
-        fillupScreen.style.display = "none";
+        //vocabScreen.style.display = "block";
+        //fillupScreen.style.display = "none";
+        showScreen1();
     });
 
     // Load JSON
@@ -380,4 +382,37 @@ document.addEventListener("DOMContentLoaded", function () {
             blank.dataset.selected = a.text;
         });
     });
+
+    function showScreen1() {
+        stopPracticeAudio();
+    
+        // Move screen1 in, screen2 out
+        fillupScreen.classList.remove("show");
+        fillupScreen.classList.add("hide-right");
+    
+        vocabScreen.classList.remove("hidden", "hide-left");
+        void vocabScreen.offsetWidth; // Force reflow
+        vocabScreen.classList.add("show");
+    
+        setTimeout(() => {
+            fillupScreen.classList.add("hidden");
+        }, 500);
+    }
+    
+    function showScreen2() {
+        stopVocabAudio();
+    
+        // Move screen2 in, screen1 out
+        vocabScreen.classList.remove("show");
+        vocabScreen.classList.add("hide-left");
+    
+        fillupScreen.classList.remove("hidden", "hide-right");
+        void fillupScreen.offsetWidth; // Force reflow
+        fillupScreen.classList.add("show");
+    
+        setTimeout(() => {
+            vocabScreen.classList.add("hidden");
+        }, 500);
+    }
+    
 });
