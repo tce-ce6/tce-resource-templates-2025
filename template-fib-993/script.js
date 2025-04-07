@@ -9,22 +9,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const vocabScreen = document.getElementById("screen1");
     const fillupScreen = document.getElementById("screen2");
 
-    // Navigation Buttons
+    
     document.getElementById("practice-btn").addEventListener("click", () => {
         stopVocabAudio();
-        //vocabScreen.style.display = "none";
-        //fillupScreen.style.display = "block";
         showScreen2();
     });
 
     document.getElementById("home-btn").addEventListener("click", () => {
         stopPracticeAudio();
-        //vocabScreen.style.display = "block";
-        //fillupScreen.style.display = "none";
         showScreen1();
     });
 
-    // Load JSON
+    
     fetch("data.json")
         .then(response => response.json())
         .then(data => {
@@ -38,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setupFillupScreen(data);
     }
 
-    // Vocab Display
+    
     function setupVocabScreen(vocabItems) {
         displayVocabItem(vocabItems[currentVocabIndex]);
         renderPagination(vocabItems);
@@ -70,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
         prevBtn.disabled = currentVocabIndex === 0;
         nextBtn.disabled = currentVocabIndex === vocabItems.length - 1;
     
-        // Optional styling (like dimming)
+        
         prevBtn.classList.toggle("disabled", prevBtn.disabled);
         nextBtn.classList.toggle("disabled", nextBtn.disabled);
     }
@@ -79,22 +75,22 @@ document.addEventListener("DOMContentLoaded", function () {
         const container = document.getElementById("vocab-container");
         container.innerHTML = "";
 
-        // Clear previous vocab audios
+        
         stopVocabAudio();
         vocabAudios = [];
 
-        // Get matching audio
+        
         const matchingAnswer = jsonData.answers.items.find(a => a.text === item.word || a.text === item.text);
         const audioSrc = matchingAnswer?.audio;
 
-        // Create audio
+        
         let audio = null;
         if (audioSrc) {
             audio = new Audio(audioSrc);
             vocabAudios.push(audio);
         }
 
-        // Create audio button
+        
         const audioBtn = document.createElement("div");
         audioBtn.classList.add("audio-toggle-screen1");
         audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
@@ -123,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        // Word display
         const wordDiv = document.createElement("div");
         wordDiv.classList.add("vocab-word");
         wordDiv.innerHTML = "<b>" + item.text + "</b> - " + item.meaning;
@@ -136,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const pagination = document.getElementById("paginationSmall");
         pagination.innerHTML = "";
     
-        // Create page buttons
         items.forEach((_, index) => {
             const btn = document.createElement("div");
             btn.classList.add("page-button");
@@ -152,12 +146,10 @@ document.addEventListener("DOMContentLoaded", function () {
             pagination.appendChild(btn);
         });
     
-        // Create and append pagination line
         const paginationLine = document.createElement("div");
         paginationLine.classList.add("pagination-line");
         pagination.appendChild(paginationLine);
     
-        // Calculate total width after a slight delay to ensure elements are rendered
         setTimeout(() => {
             const prevBtn = document.getElementById("prevPage");
             const nextBtn = document.getElementById("nextPage");
@@ -213,7 +205,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Fill-up Practice Screen
     function setupFillupScreen(data) {
         const instruction = document.getElementById("instructionText");
         const questions = document.getElementById("questions-container");
@@ -235,7 +226,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const wrapper = document.createElement("div");
             wrapper.classList.add("question-wrapper");
 
-            // Audio button
             const audioBtn = document.createElement("div");
             audioBtn.classList.add("audio-toggle");
             audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
@@ -279,7 +269,6 @@ document.addEventListener("DOMContentLoaded", function () {
             questions.appendChild(wrapper);
         });
 
-        // Answers
         shuffleArray(data.answers.items).forEach(answer => {
             const answerEl = document.createElement("div");
             answerEl.classList.add("answer");
@@ -369,7 +358,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return arr.slice().sort(() => Math.random() - 0.5);
     }
 
-    // Reset and Show Answer Buttons
     document.getElementById("reset-btn").addEventListener("click", () => {
         stopPracticeAudio();
         setupFillupScreen(jsonData);
@@ -386,16 +374,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function showScreen1() {
         stopPracticeAudio();
     
-        // Hide screen2 to the left
         fillupScreen.classList.remove("show");
         fillupScreen.classList.add("hide-left");
     
-        // Show screen1
+
         vocabScreen.classList.remove("hidden", "hide-left");
         void vocabScreen.offsetWidth; // Force reflow
         vocabScreen.classList.add("show");
     
-        // Hide screen2 after animation
+
         setTimeout(() => {
             fillupScreen.classList.add("hidden");
         }, 500);
@@ -403,22 +390,17 @@ document.addEventListener("DOMContentLoaded", function () {
     
     function showScreen2() {
         stopVocabAudio();
-    
-        // Hide screen1 to the left
         vocabScreen.classList.remove("show");
         vocabScreen.classList.add("hide-left");
     
-        // Make sure screen2 is visible before showing it
+        
         fillupScreen.classList.remove("hidden");
         fillupScreen.classList.remove("hide-left");
     
-        // Force reflow
+        
         void fillupScreen.offsetWidth;
-    
-        // Show screen2
         fillupScreen.classList.add("show");
     
-        // After animation, hide screen1
         setTimeout(() => {
             vocabScreen.classList.add("hidden");
         }, 500);
