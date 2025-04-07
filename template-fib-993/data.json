@@ -7,13 +7,13 @@
     },
     "answers": {
         "items": [
-            {"id": "1", "text": "landlord"},
-            {"id": "2","text": "over the years"},
-            {"id": "3","text": "give up"},
-            {"id": "4","text": "followers"},
-            {"id": "5","text": "potions"},
-            {"id": "6","text": "precious"},
-            {"id": "7","text": "stacks"}
+            {"id": "1", "text": "landlord", "meaning": "a person who owns and rents land, buildings, or apartments"},
+            {"id": "2","text": "over the years", "meaning": "as time passed"},
+            {"id": "3","text": "give up", "meaning": "stop trying"},
+            {"id": "4","text": "followers", "meaning": "people who believe in and follow someone"},
+            {"id": "5","text": "potions", "meaning": "a liquid with magical properties"},
+            {"id": "6","text": "precious", "meaning": "valuable"},
+            {"id": "7","text": "stacks",  "meaning": "neatly piled items"}
         ]
     },
     "questions": {
