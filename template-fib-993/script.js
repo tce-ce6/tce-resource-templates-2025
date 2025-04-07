@@ -133,6 +133,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderPagination(items) {
         const pagination = document.getElementById("paginationSmall");
         pagination.innerHTML = "";
+    
+        // Create page buttons
         items.forEach((_, index) => {
             const btn = document.createElement("div");
             btn.classList.add("page-button");
@@ -147,7 +149,61 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             pagination.appendChild(btn);
         });
+    
+        // Create and append pagination line
+        const paginationLine = document.createElement("div");
+        paginationLine.classList.add("pagination-line");
+        pagination.appendChild(paginationLine);
+    
+        // Calculate total width after a slight delay to ensure elements are rendered
+        setTimeout(() => {
+            const prevBtn = document.getElementById("prevPage");
+            const nextBtn = document.getElementById("nextPage");
+            const pageButtons = pagination.querySelectorAll(".page-button");
+    
+            let totalWidth = 0;
+    
+            if (prevBtn) totalWidth += prevBtn.offsetWidth;
+            if (nextBtn) totalWidth += nextBtn.offsetWidth;
+    
+            pageButtons.forEach(btn => {
+                totalWidth += btn.offsetWidth;
+            });
+    
+            paginationLine.style.width = `${totalWidth+150}px`;
+            paginationLine.style.margin = "0 auto";
+        }, 0);
+    
+        updateNavButtons(items);
     }
+    
+    function OLD_renderPagination(items) {
+        
+        const pagination = document.getElementById("paginationSmall");
+        pagination.innerHTML = "";
+        
+        const paginationLine = document.createElement("div");
+        pagination.appendChild(paginationLine);
+        paginationLine.classList.add("pagination-line");
+
+        items.forEach((_, index) => {
+            const btn = document.createElement("div");
+            btn.classList.add("page-button");
+            btn.textContent = index + 1;
+            if (index === currentVocabIndex) btn.classList.add("active-page");
+            btn.addEventListener("click", () => {
+                stopVocabAudio();
+                currentVocabIndex = index;
+                displayVocabItem(items[currentVocabIndex]);
+                updatePaginationHighlight();
+                updateNavButtons(items);
+            });
+            pagination.appendChild(btn);
+        });
+
+    }
+   
+    
 
     function updatePaginationHighlight() {
         document.querySelectorAll(".page-button").forEach((btn, idx) => {
