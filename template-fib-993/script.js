@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
         vocabScreen.style.display = "none";
         fillupScreen.style.display = "block";
     });
+    document.getElementById("home-btn").addEventListener("click", () => {
+        vocabScreen.style.display = "block";
+        fillupScreen.style.display = "none";
+    });
 
     fetch("data.json")
         .then(response => response.json())
@@ -24,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setupFillupScreen(data);
     }
 
-    function setupVocabScreen(vocabItems) {
+    function OLD_setupVocabScreen(vocabItems) {
         displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
 
         document.getElementById("nextPage").addEventListener("click", () => {
@@ -42,16 +46,75 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function setupVocabScreen(vocabItems) {
+        displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
+        renderPagination(vocabItems);
+    
+        const nextBtn = document.getElementById("nextPage");
+        const prevBtn = document.getElementById("prevPage");
+
+        if (nextBtn && prevBtn) {
+            nextBtn.addEventListener("click", () => {
+                if (currentVocabIndex < vocabItems.length - 1) {
+                    currentVocabIndex++;
+                    displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
+                    updatePaginationHighlight();
+                }
+            });
+
+            prevBtn.addEventListener("click", () => {
+                if (currentVocabIndex > 0) {
+                    currentVocabIndex--;
+                    displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
+                    updatePaginationHighlight();
+                }
+            });
+        }
+
+        
+    }
+
+    function renderPagination(vocabItems) {
+        const pagination = document.getElementById("paginationSmall");
+        pagination.innerHTML = ""; // clear existing buttons
+    
+        vocabItems.forEach((_, index) => {
+            const btn = document.createElement("div");
+            btn.classList.add("page-button");
+            btn.textContent = index + 1;
+    
+            if (index === currentVocabIndex) {
+                btn.classList.add("active-page");
+            }
+    
+            btn.addEventListener("click", () => {
+                currentVocabIndex = index;
+                displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
+                updatePaginationHighlight();
+            });
+    
+            pagination.appendChild(btn);
+        });
+    }
+
+    function updatePaginationHighlight() {
+        const buttons = document.querySelectorAll(".page-button");
+        buttons.forEach((btn, idx) => {
+            btn.classList.toggle("active-page", idx === currentVocabIndex);
+        });
+    }
+    
     function displayVocabItem(item, vocabItems) {
         const container = document.getElementById("vocab-container");
-        const pageInfo = document.getElementById("pageInfo");
+        //const pageInfo = document.getElementById("pageInfo");
 
         container.innerHTML = `
             <div class="vocab-word"><strong>${item.text || ""}</strong></div>
             <div class="vocab-meaning">${item.meaning || ""}</div>
         `;
 
-        pageInfo.textContent = `Word ${currentVocabIndex + 1} of ${vocabItems.length}`;
+        container.innerHTML = `<div class="vocab-word"><strong> ${item.text || ""}</strong> - ${item.meaning || ""}</div>`;
+        //pageInfo.textContent = `Word ${currentVocabIndex + 1} of ${vocabItems.length}`;
     }
 
     function setupFillupScreen(data) {

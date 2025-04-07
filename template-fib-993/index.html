@@ -14,14 +14,17 @@
       <div class="instruction">
         Read the words and their meanings. Click 'Practice' when you are ready.
       </div>
-      <div id="vocab-container"></div>
+      <div id="vocab-container" class="vocab-box"></div>
       <div id="pagination">
-        <button id="prevPage">Previous</button>
-        <span id="pageInfo"></span>
-        <button id="nextPage">Next</button>
+        <button id="prevPage" class="audio-btn"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+        <!-- <span id="pageInfo"></span> -->
+        <div id="paginationSmall" class="pagination-buttons"></div>
+        <button id="nextPage" class="audio-btn"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+        
+        <button id="practice-btn" class='commonBtn'>Practice</button>
       </div>
-      <div id="pagination" class="pagination-buttons"></div>
-      <button id="practice-btn">Practice</button>
+      
+      
     </div>
 
     <!-- Screen 2: Fill in the blanks -->
@@ -32,8 +35,9 @@
       <div id="answers-container" class="answers-box"></div>
       <p id="feedback"></p>
       <div class="navigation">
-        <button id="reset-btn">Reset</button>
-        <button id="show-answers-btn">Solution</button>
+        <button id="reset-btn" class='commonBtn'>Reset</button>
+        <button id="show-answers-btn" class='commonBtn'>Solution</button>
+        <button id="home-btn" class='audio-btn'><i class="fa fa-home" aria-hidden="true"></i></button>
       </div>
     </div>
   </div>
