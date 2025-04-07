@@ -73,6 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
             audio = new Audio(audioSrc);
             allAudios.push(audio);
         }
+
+        console.log('allAudios',allAudios)
     
         // Create audio button
         const audioBtn = document.createElement("div");
@@ -110,16 +112,9 @@ document.addEventListener("DOMContentLoaded", function () {
         
         const finalText = "<b>" + item.text + "</b>" +" - " + item.meaning;
 
-        wordDiv.innerHTML = finalText//`<div class='vocab-word-text'>${item.text || ""}</div>`;
+        wordDiv.innerHTML = finalText;
     
-        //const meaningDiv = document.createElement("div");
-        //meaningDiv.classList.add("vocab-meaning");
-        //meaningDiv.innerHTML = "- " +item.meaning || "";
-    
-        // Append everything
-        
         container.appendChild(wordDiv);
-        //wordDiv.appendChild(meaningDiv);
         container.appendChild(audioBtn);
     }
     
@@ -298,6 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Reset and Show Answer Buttons
     document.getElementById("reset-btn").addEventListener("click", () => {
+        stopAllAudio();
       setupFillupScreen(jsonData);
     });
 
