@@ -386,14 +386,16 @@ document.addEventListener("DOMContentLoaded", function () {
     function showScreen1() {
         stopPracticeAudio();
     
-        // Move screen1 in, screen2 out
+        // Hide screen2 to the left
         fillupScreen.classList.remove("show");
-        fillupScreen.classList.add("hide-right");
+        fillupScreen.classList.add("hide-left");
     
+        // Show screen1
         vocabScreen.classList.remove("hidden", "hide-left");
         void vocabScreen.offsetWidth; // Force reflow
         vocabScreen.classList.add("show");
     
+        // Hide screen2 after animation
         setTimeout(() => {
             fillupScreen.classList.add("hidden");
         }, 500);
@@ -402,17 +404,26 @@ document.addEventListener("DOMContentLoaded", function () {
     function showScreen2() {
         stopVocabAudio();
     
-        // Move screen2 in, screen1 out
+        // Hide screen1 to the left
         vocabScreen.classList.remove("show");
         vocabScreen.classList.add("hide-left");
     
-        fillupScreen.classList.remove("hidden", "hide-right");
-        void fillupScreen.offsetWidth; // Force reflow
+        // Make sure screen2 is visible before showing it
+        fillupScreen.classList.remove("hidden");
+        fillupScreen.classList.remove("hide-left");
+    
+        // Force reflow
+        void fillupScreen.offsetWidth;
+    
+        // Show screen2
         fillupScreen.classList.add("show");
     
+        // After animation, hide screen1
         setTimeout(() => {
             vocabScreen.classList.add("hidden");
         }, 500);
     }
+    
+    
     
 });

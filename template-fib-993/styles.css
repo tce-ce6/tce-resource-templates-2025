@@ -14,7 +14,7 @@ body {
     
     justify-content: center;
     align-items: center;
-    background-color: orange;
+    background-color: #fff;
 }
 h2 {
     color: #d9534f;
@@ -146,6 +146,7 @@ h2 {
     background-image: url(assets/TCE-Logo-Black.png);
     background-size: contain;
     background-repeat: no-repeat;
+    z-index: 5;
 }
 .blank.flash-red {
     background-color: rgb(223, 105, 105);
@@ -258,6 +259,7 @@ h2 {
 #screen1{
     padding: 20px;
     height: 570px;
+    width: 953px;
     background: white;
 }
 #screen2{
@@ -353,30 +355,26 @@ h2 {
     top: 0;
     left: 0;
     
-    transition: transform 0.5s ease;
-    will-change: transform;
-    overflow-y: auto;
-    background: white; /* or whatever background */
-  }
-  
-  .hidden {
-    visibility: hidden;
-  pointer-events: none;
-  opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    
   }
   
   .show {
     transform: translateX(0%);
-    visibility: visible;
-    pointer-events: auto;
-    z-index: 2;
-  }
-  
-  .hide-left {
-    transform: translateX(100%);
+    opacity: 1;
     z-index: 1;
   }
   
+  .hide-left {
+    transform: translateX(-100%);
+    opacity: 0;
+    z-index: 0;
+  }
+  
+  .hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
   .hide-right {
     transform: translateX(-100%);
     z-index: 1;
