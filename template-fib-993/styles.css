@@ -130,7 +130,7 @@ button:hover {
 
 .blank.correct {
     color: green;
-    font-weight: bold;
+    
     border-bottom: none;
 }
 
@@ -143,4 +143,18 @@ button:hover {
     background-image: url(assets/TCE-Logo-Black.png);
     background-size: contain;
     background-repeat: no-repeat;
+}
+.blank.flash-red {
+    background-color: rgb(223, 105, 105);
+    
+    color: white;
+    transition: color 0.2s ease-in-out;
+}
+.disabled-answer {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+.answer.selected {
+    background-color: #cceeff;
 }

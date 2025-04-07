@@ -93,6 +93,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function selectAnswer(answer) {
         selectedAnswer = answer;
+    
+        // Remove selection from all answers
+        document.querySelectorAll('.answer').forEach(el => el.classList.remove('selected'));
+    
+        // Add selection to the clicked answer
+        const selectedEl = document.querySelector(`.answer[data-answer="${CSS.escape(answer)}"]`);
+        if (selectedEl) {
+            selectedEl.classList.add("selected");
+        }
     }
 
     function setupBlankClicks() {
@@ -104,16 +113,49 @@ document.addEventListener("DOMContentLoaded", function () {
     
                     const answer = jsonData.answers.items.find(a => a.id === this.dataset.id);
                     if (selectedAnswer === answer.text) {
-                        // Correct immediately? Disable right away
                         this.classList.add("correct");
                         this.style.pointerEvents = "none";
+    
+                        const usedAnswer = document.querySelector(`.answer[data-answer="${CSS.escape(selectedAnswer)}"]`);
+                        if (usedAnswer) {
+                            usedAnswer.classList.add("disabled-answer");
+                            usedAnswer.style.pointerEvents = "none";
+                        }
+    
+                        // After correct, check if all are now correct
+                        const correctAnswers = jsonData.answers.items;
+                        const blanks = Array.from(document.querySelectorAll('.blank'));
+    
+                        const allCorrect = blanks.every(blank => {
+                            const correctAnswer = correctAnswers.find(a => a.id === blank.dataset.id);
+                            return blank.dataset.selected === correctAnswer.text;
+                        });
+    
+                        if (allCorrect) {
+                            document.getElementById("feedback").textContent = jsonData.feedback.correct;
+                        }
+    
+                    } else {
+                        // Incorrect attempt
+                        this.classList.add("flash-red");
+                        document.getElementById("feedback").textContent = jsonData.feedback.incorrect;
+    
+                        setTimeout(() => {
+                            this.textContent = "";
+                            this.dataset.selected = "";
+                            this.classList.remove("flash-red");
+                            document.getElementById("feedback").textContent  = "";
+                        }, 1000);
                     }
     
+                    // Clear selected state
+                    document.querySelectorAll('.answer').forEach(el => el.classList.remove('selected'));
                     selectedAnswer = null;
                 }
             });
         });
     }
+        
 
     function stopAllAudio() {
         allAudios.forEach(audio => {
@@ -130,25 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return array.sort(() => Math.random() - 0.5);
     }
 
-    document.getElementById("check-btn").addEventListener("click", () => {
-        let correctAnswers = jsonData.answers.items;
-        let blanks = document.querySelectorAll(".blank");
-        let allCorrect = true;
-    
-        blanks.forEach(blank => {
-            let correctAnswer = correctAnswers.find(a => a.id === blank.dataset.id);
-            if (blank.dataset.selected === correctAnswer.text) {
-                blank.classList.add("correct");
-                blank.style.pointerEvents = "none";
-            } else {
-                allCorrect = false;
-            }
-        });
-    
-        document.getElementById("feedback").textContent = allCorrect
-            ? jsonData.feedback.correct
-            : jsonData.feedback.incorrect;
-    });
+   
 
     document.getElementById("reset-btn").addEventListener("click", () => {
         initialize(jsonData);
