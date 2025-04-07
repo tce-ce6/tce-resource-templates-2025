@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     let jsonData;
     let allAudios = [];
+    let currentVocabIndex = 0;
+
+    const vocabScreen = document.getElementById("screen1");
+    const fillupScreen = document.getElementById("screen2");
+
+    document.getElementById("practice-btn").addEventListener("click", () => {
+        vocabScreen.style.display = "none";
+        fillupScreen.style.display = "block";
+    });
 
     fetch("data.json")
         .then(response => response.json())
@@ -11,6 +20,41 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Error loading JSON:", error));
 
     function initialize(data) {
+        setupVocabScreen(data.answers.items);
+        setupFillupScreen(data);
+    }
+
+    function setupVocabScreen(vocabItems) {
+        displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
+
+        document.getElementById("nextPage").addEventListener("click", () => {
+            if (currentVocabIndex < vocabItems.length - 1) {
+                currentVocabIndex++;
+                displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
+            }
+        });
+
+        document.getElementById("prevPage").addEventListener("click", () => {
+            if (currentVocabIndex > 0) {
+                currentVocabIndex--;
+                displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
+            }
+        });
+    }
+
+    function displayVocabItem(item, vocabItems) {
+        const container = document.getElementById("vocab-container");
+        const pageInfo = document.getElementById("pageInfo");
+
+        container.innerHTML = `
+            <div class="vocab-word"><strong>${item.text || ""}</strong></div>
+            <div class="vocab-meaning">${item.meaning || ""}</div>
+        `;
+
+        pageInfo.textContent = `Word ${currentVocabIndex + 1} of ${vocabItems.length}`;
+    }
+
+    function setupFillupScreen(data) {
         const instructionElement = document.getElementById("instructionText");
         const questionsContainer = document.getElementById("questions-container");
         const answersContainer = document.getElementById("answers-container");
@@ -30,8 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
         shuffledQuestions.forEach((q, index) => {
             let wrapper = document.createElement("div");
             wrapper.classList.add("question-wrapper");
-
-            
 
             let audioBtn = document.createElement("div");
             audioBtn.classList.add("audio-toggle");
@@ -93,11 +135,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function selectAnswer(answer) {
         selectedAnswer = answer;
-    
-        // Remove selection from all answers
+
         document.querySelectorAll('.answer').forEach(el => el.classList.remove('selected'));
-    
-        // Add selection to the clicked answer
         const selectedEl = document.querySelector(`.answer[data-answer="${CSS.escape(answer)}"]`);
         if (selectedEl) {
             selectedEl.classList.add("selected");
@@ -106,56 +145,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function setupBlankClicks() {
         document.querySelectorAll(".blank").forEach(blank => {
-            blank.addEventListener("click", function handler() {
+            blank.addEventListener("click", function () {
                 if (selectedAnswer) {
                     this.textContent = selectedAnswer;
                     this.dataset.selected = selectedAnswer;
-    
+
                     const answer = jsonData.answers.items.find(a => a.id === this.dataset.id);
                     if (selectedAnswer === answer.text) {
                         this.classList.add("correct");
                         this.style.pointerEvents = "none";
-    
+
                         const usedAnswer = document.querySelector(`.answer[data-answer="${CSS.escape(selectedAnswer)}"]`);
                         if (usedAnswer) {
                             usedAnswer.classList.add("disabled-answer");
                             usedAnswer.style.pointerEvents = "none";
                         }
-    
-                        // After correct, check if all are now correct
+
                         const correctAnswers = jsonData.answers.items;
                         const blanks = Array.from(document.querySelectorAll('.blank'));
-    
                         const allCorrect = blanks.every(blank => {
                             const correctAnswer = correctAnswers.find(a => a.id === blank.dataset.id);
                             return blank.dataset.selected === correctAnswer.text;
                         });
-    
+
                         if (allCorrect) {
                             document.getElementById("feedback").textContent = jsonData.feedback.correct;
                         }
-    
+
                     } else {
-                        // Incorrect attempt
                         this.classList.add("flash-red");
                         document.getElementById("feedback").textContent = jsonData.feedback.incorrect;
-    
+
                         setTimeout(() => {
                             this.textContent = "";
                             this.dataset.selected = "";
                             this.classList.remove("flash-red");
-                            document.getElementById("feedback").textContent  = "";
+                            document.getElementById("feedback").textContent = "";
                         }, 1000);
                     }
-    
-                    // Clear selected state
+
                     document.querySelectorAll('.answer').forEach(el => el.classList.remove('selected'));
                     selectedAnswer = null;
                 }
             });
         });
     }
-        
 
     function stopAllAudio() {
         allAudios.forEach(audio => {
@@ -172,10 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
         return array.sort(() => Math.random() - 0.5);
     }
 
-   
-
     document.getElementById("reset-btn").addEventListener("click", () => {
-        initialize(jsonData);
+        setupFillupScreen(jsonData);
     });
 
     document.getElementById("show-answers-btn").addEventListener("click", () => {

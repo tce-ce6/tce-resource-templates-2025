@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fill in the Blanks</title>
-    <link rel="stylesheet" href="assets/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fill in the Blanks</title>
+  <link rel="stylesheet" href="assets/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="logo"></div>
-        <div id="instructionText">Choose the correct word or phrase to fill in the blanks.</div>
-        <div id="questions-container"></div>
-        <div id="answers-container" class="answers-box"></div>
-        <p id="feedback"></p>
-        <div class="navigation">
-            <!-- <button id="check-btn">Check Answers</button> -->
-            <button id="reset-btn">Reset</button>
-            <button id="show-answers-btn">Solution</button>
-        </div>
+  <div class="container">
+    <!-- Screen 1: Vocabulary -->
+    <div id="screen1" class="screen">
+      <div class="instruction">
+        Read the words and their meanings. Click 'Practice' when you are ready.
+      </div>
+      <div id="vocab-container"></div>
+      <div id="pagination">
+        <button id="prevPage">Previous</button>
+        <span id="pageInfo"></span>
+        <button id="nextPage">Next</button>
+      </div>
+      <div id="pagination" class="pagination-buttons"></div>
+      <button id="practice-btn">Practice</button>
     </div>
-    
-   
-    <script src="script.js"></script>
+
+    <!-- Screen 2: Fill in the blanks -->
+    <div id="screen2" class="screen" style="display: none;">
+      <div class="logo"></div>
+      <div id="instructionText"></div>
+      <div id="questions-container"></div>
+      <div id="answers-container" class="answers-box"></div>
+      <p id="feedback"></p>
+      <div class="navigation">
+        <button id="reset-btn">Reset</button>
+        <button id="show-answers-btn">Solution</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

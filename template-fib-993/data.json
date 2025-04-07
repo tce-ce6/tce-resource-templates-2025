@@ -5,6 +5,19 @@
         "correct": "Correct!",
         "incorrect": "Incorrect! Try again."
     },
+    "vocab": {
+    "items": [
+        {
+            "word": "landlord",
+            "meaning": "a person who owns and rents land, buildings, or apartments"
+        },
+        {
+            "word": "over the years",
+            "meaning": "as time passed"
+        }
+  
+    ]
+},
     "answers": {
         "items": [
             {"id": "1", "text": "landlord", "meaning": "a person who owns and rents land, buildings, or apartments"},
