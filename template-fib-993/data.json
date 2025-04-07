@@ -5,22 +5,10 @@
         "correct": "Correct!",
         "incorrect": "Incorrect! Try again."
     },
-    "vocab": {
-    "items": [
-        {
-            "word": "landlord",
-            "meaning": "a person who owns and rents land, buildings, or apartments"
-        },
-        {
-            "word": "over the years",
-            "meaning": "as time passed"
-        }
-  
-    ]
-},
+    
     "answers": {
         "items": [
-            {"id": "1", "text": "landlord", "meaning": "a person who owns and rents land, buildings, or apartments", "audio": "assets/audio/real.mp3"},
+            {"id": "1", "text": "landlord", "meaning": "a person who owns and rents land, buildings, or apartments sssa sasasasa sasasa", "audio": "assets/audio/real.mp3"},
             {"id": "2","text": "over the years", "meaning": "as time passed", "audio": "assets/audio/real.mp3"},
             {"id": "3","text": "give up", "meaning": "stop trying", "audio": "assets/audio/real.mp3"},
             {"id": "4","text": "followers", "meaning": "people who believe in and follow someone","audio": "assets/audio/real.mp3"},

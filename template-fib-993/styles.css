@@ -253,6 +253,8 @@ h2 {
 
 #screen1{
     padding: 20px;
+    height: 570px;
+    background: white;
 }
 #screen2{
     padding: 20px;
@@ -280,12 +282,44 @@ h2 {
     gap: 10px;
     width: 90%;
     position: relative;
-    margin: 0 auto;
-    line-height: 42px;
-    position: relative;
+    /* margin: 0 auto; */
+    /* line-height: 42px; */
+    /* position: relative; */
     top: 100px;
     height: auto;
     font-size: 26px;
     padding: 10px;
-    text-align: center;
+    /* text-align: center; */
+    align-items: center;
+    flex-direction: column;
 }
+
+.vocab-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .vocab-word {
+    
+    
+  }
+  .vocab-word-text{
+    font-weight: 700;
+  }
+  .audio-toggle-screen1 {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 6px;
+    position: absolute;
+    top: 300px;
+    width: 30px;
+    height: 30px;
+    background-color: skyblue;
+    border-radius: 30px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    
+  }

@@ -2,283 +2,310 @@ document.addEventListener("DOMContentLoaded", function () {
     let jsonData;
     let allAudios = [];
     let currentVocabIndex = 0;
+    let selectedAnswer = null;
 
     const vocabScreen = document.getElementById("screen1");
     const fillupScreen = document.getElementById("screen2");
 
+    // Navigation Buttons
     document.getElementById("practice-btn").addEventListener("click", () => {
-        vocabScreen.style.display = "none";
-        fillupScreen.style.display = "block";
-    });
-    document.getElementById("home-btn").addEventListener("click", () => {
-        vocabScreen.style.display = "block";
-        fillupScreen.style.display = "none";
+        stopAllAudio();
+      vocabScreen.style.display = "none";
+      fillupScreen.style.display = "block";
     });
 
+    document.getElementById("home-btn").addEventListener("click", () => {
+        stopAllAudio();
+      vocabScreen.style.display = "block";
+      fillupScreen.style.display = "none";
+    });
+
+    // Load JSON
     fetch("data.json")
-        .then(response => response.json())
-        .then(data => {
-            jsonData = data;
-            initialize(jsonData);
-        })
-        .catch(error => console.error("Error loading JSON:", error));
+      .then(response => response.json())
+      .then(data => {
+        jsonData = data;
+        initialize(data);
+      })
+      .catch(error => console.error("Error loading JSON:", error));
 
     function initialize(data) {
-        setupVocabScreen(data.answers.items);
-        setupFillupScreen(data);
+      setupVocabScreen(data.answers.items);
+      setupFillupScreen(data);
     }
 
-    function OLD_setupVocabScreen(vocabItems) {
-        displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
-
-        document.getElementById("nextPage").addEventListener("click", () => {
-            if (currentVocabIndex < vocabItems.length - 1) {
-                currentVocabIndex++;
-                displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
-            }
-        });
-
-        document.getElementById("prevPage").addEventListener("click", () => {
-            if (currentVocabIndex > 0) {
-                currentVocabIndex--;
-                displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
-            }
-        });
-    }
-
+    // Vocab Display
     function setupVocabScreen(vocabItems) {
-        displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
-        renderPagination(vocabItems);
-    
-        const nextBtn = document.getElementById("nextPage");
-        const prevBtn = document.getElementById("prevPage");
+      displayVocabItem(vocabItems[currentVocabIndex]);
+      renderPagination(vocabItems);
 
-        if (nextBtn && prevBtn) {
-            nextBtn.addEventListener("click", () => {
-                if (currentVocabIndex < vocabItems.length - 1) {
-                    currentVocabIndex++;
-                    displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
-                    updatePaginationHighlight();
-                }
-            });
-
-            prevBtn.addEventListener("click", () => {
-                if (currentVocabIndex > 0) {
-                    currentVocabIndex--;
-                    displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
-                    updatePaginationHighlight();
-                }
-            });
-        }
-
+      document.getElementById("nextPage").addEventListener("click", () => {
+        stopAllAudio();
         
+        if (currentVocabIndex < vocabItems.length - 1) {
+          currentVocabIndex++;
+          displayVocabItem(vocabItems[currentVocabIndex]);
+          updatePaginationHighlight();
+        }
+      });
+
+      document.getElementById("prevPage").addEventListener("click", () => {
+        stopAllAudio();
+        if (currentVocabIndex > 0) {
+          currentVocabIndex--;
+          displayVocabItem(vocabItems[currentVocabIndex]);
+          updatePaginationHighlight();
+        }
+      });
     }
 
-    function renderPagination(vocabItems) {
-        const pagination = document.getElementById("paginationSmall");
-        pagination.innerHTML = ""; // clear existing buttons
-    
-        vocabItems.forEach((_, index) => {
-            const btn = document.createElement("div");
-            btn.classList.add("page-button");
-            btn.textContent = index + 1;
-    
-            if (index === currentVocabIndex) {
-                btn.classList.add("active-page");
-            }
-    
-            btn.addEventListener("click", () => {
-                currentVocabIndex = index;
-                displayVocabItem(vocabItems[currentVocabIndex], vocabItems);
-                updatePaginationHighlight();
-            });
-    
-            pagination.appendChild(btn);
-        });
-    }
-
-    function updatePaginationHighlight() {
-        const buttons = document.querySelectorAll(".page-button");
-        buttons.forEach((btn, idx) => {
-            btn.classList.toggle("active-page", idx === currentVocabIndex);
-        });
-    }
-    
     function displayVocabItem(item, vocabItems) {
         const container = document.getElementById("vocab-container");
-        //const pageInfo = document.getElementById("pageInfo");
-
-        container.innerHTML = `
-            <div class="vocab-word"><strong>${item.text || ""}</strong></div>
-            <div class="vocab-meaning">${item.meaning || ""}</div>
-        `;
-
-        container.innerHTML = `<div class="vocab-word"><strong> ${item.text || ""}</strong> - ${item.meaning || ""}</div>`;
-        //pageInfo.textContent = `Word ${currentVocabIndex + 1} of ${vocabItems.length}`;
-    }
-
-    function setupFillupScreen(data) {
-        const instructionElement = document.getElementById("instructionText");
-        const questionsContainer = document.getElementById("questions-container");
-        const answersContainer = document.getElementById("answers-container");
-        const feedbackElement = document.getElementById("feedback");
-
-        instructionElement.textContent = data.instructionText || "";
-        questionsContainer.innerHTML = "";
-        answersContainer.innerHTML = "";
-        feedbackElement.textContent = "";
-        allAudios = [];
-
-        let maxAnswerLength = Math.max(...data.answers.items.map(a => a.text.length));
-        let blankWidth = `${maxAnswerLength}ch`;
-
-        let shuffledQuestions = shuffleArray(data.questions.items);
-
-        shuffledQuestions.forEach((q, index) => {
-            let wrapper = document.createElement("div");
-            wrapper.classList.add("question-wrapper");
-
-            let audioBtn = document.createElement("div");
-            audioBtn.classList.add("audio-toggle");
-            audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
-            let audio = new Audio(q.audio);
+        container.innerHTML = "";
+    
+        // Find matching audio from answers
+        const matchingAnswer = jsonData.answers.items.find(a => a.text === item.word || a.text === item.text);
+        const audioSrc = matchingAnswer?.audio;
+    
+        // Create audio element
+        let audio = null;
+        if (audioSrc) {
+            audio = new Audio(audioSrc);
             allAudios.push(audio);
-            let isPlaying = false;
-
+        }
+    
+        // Create audio button
+        const audioBtn = document.createElement("div");
+        audioBtn.classList.add("audio-toggle-screen1");
+        audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
+        let isPlaying = false;
+    
+        if (audio) {
             audioBtn.addEventListener("click", () => {
+                stopAllAudio()
                 if (!isPlaying) {
                     stopAllAudio();
                     audio.play();
+                    isPlaying = true;
                     audioBtn.classList.add("active-audio");
                     audioBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
                 } else {
                     audio.pause();
+                    isPlaying = false;
                     audioBtn.classList.remove("active-audio");
                     audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
                 }
-                isPlaying = !isPlaying;
-
+    
                 audio.onended = () => {
                     isPlaying = false;
                     audioBtn.classList.remove("active-audio");
                     audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
                 };
             });
-            wrapper.appendChild(audioBtn);
+        }
+    
+        // Create word and meaning elements
+        const wordDiv = document.createElement("div");
+        wordDiv.classList.add("vocab-word");
+        
+        const finalText = "<b>" + item.text + "</b>" +" - " + item.meaning;
 
-            let numberDiv = document.createElement("div");
-            numberDiv.classList.add("question-number");
-            numberDiv.textContent = `${index + 1}`;
-            wrapper.appendChild(numberDiv);
+        wordDiv.innerHTML = finalText//`<div class='vocab-word-text'>${item.text || ""}</div>`;
+    
+        //const meaningDiv = document.createElement("div");
+        //meaningDiv.classList.add("vocab-meaning");
+        //meaningDiv.innerHTML = "- " +item.meaning || "";
+    
+        // Append everything
+        
+        container.appendChild(wordDiv);
+        //wordDiv.appendChild(meaningDiv);
+        container.appendChild(audioBtn);
+    }
+    
 
-            let questionElement = document.createElement("div");
-            questionElement.classList.add("question-text");
-            const blankHTML = `<span class='blank' data-id='${q.id}' style='display:inline-block; width:${blankWidth}; border-bottom:1px solid black;'></span>`;
-            questionElement.innerHTML = q.text.replace(/<blank>/gi, blankHTML);
-            wrapper.appendChild(questionElement);
-
-            questionsContainer.appendChild(wrapper);
+    function renderPagination(items) {
+      const pagination = document.getElementById("paginationSmall");
+      pagination.innerHTML = "";
+      items.forEach((_, index) => {
+        const btn = document.createElement("div");
+        btn.classList.add("page-button");
+        btn.textContent = index + 1;
+        if (index === currentVocabIndex) btn.classList.add("active-page");
+        btn.addEventListener("click", () => {
+          currentVocabIndex = index;
+          displayVocabItem(items[currentVocabIndex]);
+          updatePaginationHighlight();
         });
-
-        let shuffledAnswers = shuffleArray(data.answers.items);
-        shuffledAnswers.forEach(answer => {
-            let answerElement = document.createElement("div");
-            answerElement.classList.add("answer");
-            answerElement.textContent = answer.text;
-            answerElement.dataset.answer = answer.text;
-            answersContainer.appendChild(answerElement);
-
-            answerElement.addEventListener("click", () => selectAnswer(answer.text));
-        });
-
-        setupBlankClicks();
+        pagination.appendChild(btn);
+      });
     }
 
-    let selectedAnswer = null;
+    function updatePaginationHighlight() {
+      document.querySelectorAll(".page-button").forEach((btn, idx) => {
+        btn.classList.toggle("active-page", idx === currentVocabIndex);
+      });
+    }
+
+    // Fill-up Practice Screen
+    function setupFillupScreen(data) {
+      const instruction = document.getElementById("instructionText");
+      const questions = document.getElementById("questions-container");
+      const answers = document.getElementById("answers-container");
+      const feedback = document.getElementById("feedback");
+
+      instruction.textContent = data.instructionText || "";
+      questions.innerHTML = "";
+      answers.innerHTML = "";
+      feedback.textContent = "";
+
+      allAudios = [];
+      selectedAnswer = null;
+
+      const blankWidth = `${Math.max(...data.answers.items.map(a => a.text.length))}ch`;
+      const shuffledQuestions = shuffleArray(data.questions.items);
+
+      shuffledQuestions.forEach((q, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("question-wrapper");
+
+        // Audio button
+        const audioBtn = document.createElement("div");
+        audioBtn.classList.add("audio-toggle");
+        audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
+        const audio = new Audio(q.audio);
+        allAudios.push(audio);
+
+        let isPlaying = false;
+        audioBtn.addEventListener("click", () => {
+          stopAllAudio();
+          if (!isPlaying) {
+            audio.play();
+            audioBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            audioBtn.classList.add("active-audio");
+          } else {
+            audio.pause();
+            audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
+            audioBtn.classList.remove("active-audio");
+          }
+          isPlaying = !isPlaying;
+
+          audio.onended = () => {
+            isPlaying = false;
+            audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
+            audioBtn.classList.remove("active-audio");
+          };
+        });
+
+        wrapper.appendChild(audioBtn);
+
+        // Question Number
+        const numberDiv = document.createElement("div");
+        numberDiv.classList.add("question-number");
+        numberDiv.textContent = `${index + 1}`;
+        wrapper.appendChild(numberDiv);
+
+        // Question Text with blank
+        const questionElement = document.createElement("div");
+        questionElement.classList.add("question-text");
+        const blankHTML = `<span class='blank' data-id='${q.id}' style='display:inline-block; width:${blankWidth}; border-bottom:1px solid black;'></span>`;
+        questionElement.innerHTML = q.text.replace(/<blank>/gi, blankHTML);
+        wrapper.appendChild(questionElement);
+
+        questions.appendChild(wrapper);
+      });
+
+      // Answers
+      shuffleArray(data.answers.items).forEach(answer => {
+        const answerEl = document.createElement("div");
+        answerEl.classList.add("answer");
+        answerEl.textContent = answer.text;
+        answerEl.dataset.answer = answer.text;
+
+        answerEl.addEventListener("click", () => selectAnswer(answer.text));
+        answers.appendChild(answerEl);
+      });
+
+      setupBlankClicks();
+    }
 
     function selectAnswer(answer) {
-        selectedAnswer = answer;
-
-        document.querySelectorAll('.answer').forEach(el => el.classList.remove('selected'));
-        const selectedEl = document.querySelector(`.answer[data-answer="${CSS.escape(answer)}"]`);
-        if (selectedEl) {
-            selectedEl.classList.add("selected");
-        }
+      selectedAnswer = answer;
+      document.querySelectorAll(".answer").forEach(el => el.classList.remove("selected"));
+      const selectedEl = document.querySelector(`.answer[data-answer="${CSS.escape(answer)}"]`);
+      if (selectedEl) selectedEl.classList.add("selected");
     }
 
     function setupBlankClicks() {
-        document.querySelectorAll(".blank").forEach(blank => {
-            blank.addEventListener("click", function () {
-                if (selectedAnswer) {
-                    this.textContent = selectedAnswer;
-                    this.dataset.selected = selectedAnswer;
+      document.querySelectorAll(".blank").forEach(blank => {
+        blank.addEventListener("click", function () {
+          if (!selectedAnswer) return;
 
-                    const answer = jsonData.answers.items.find(a => a.id === this.dataset.id);
-                    if (selectedAnswer === answer.text) {
-                        this.classList.add("correct");
-                        this.style.pointerEvents = "none";
+          this.textContent = selectedAnswer;
+          this.dataset.selected = selectedAnswer;
 
-                        const usedAnswer = document.querySelector(`.answer[data-answer="${CSS.escape(selectedAnswer)}"]`);
-                        if (usedAnswer) {
-                            usedAnswer.classList.add("disabled-answer");
-                            usedAnswer.style.pointerEvents = "none";
-                        }
+          const correct = jsonData.answers.items.find(a => a.id === this.dataset.id);
 
-                        const correctAnswers = jsonData.answers.items;
-                        const blanks = Array.from(document.querySelectorAll('.blank'));
-                        const allCorrect = blanks.every(blank => {
-                            const correctAnswer = correctAnswers.find(a => a.id === blank.dataset.id);
-                            return blank.dataset.selected === correctAnswer.text;
-                        });
+          if (selectedAnswer === correct.text) {
+            this.classList.add("correct");
+            this.style.pointerEvents = "none";
 
-                        if (allCorrect) {
-                            document.getElementById("feedback").textContent = jsonData.feedback.correct;
-                        }
+            const usedAnswer = document.querySelector(`.answer[data-answer="${CSS.escape(selectedAnswer)}"]`);
+            if (usedAnswer) {
+              usedAnswer.classList.add("disabled-answer");
+              usedAnswer.style.pointerEvents = "none";
+            }
 
-                    } else {
-                        this.classList.add("flash-red");
-                        document.getElementById("feedback").textContent = jsonData.feedback.incorrect;
-
-                        setTimeout(() => {
-                            this.textContent = "";
-                            this.dataset.selected = "";
-                            this.classList.remove("flash-red");
-                            document.getElementById("feedback").textContent = "";
-                        }, 1000);
-                    }
-
-                    document.querySelectorAll('.answer').forEach(el => el.classList.remove('selected'));
-                    selectedAnswer = null;
-                }
+            const allCorrect = Array.from(document.querySelectorAll(".blank")).every(b => {
+              const a = jsonData.answers.items.find(x => x.id === b.dataset.id);
+              return b.dataset.selected === a.text;
             });
+
+            if (allCorrect) document.getElementById("feedback").textContent = jsonData.feedback.correct;
+          } else {
+            this.classList.add("flash-red");
+            document.getElementById("feedback").textContent = jsonData.feedback.incorrect;
+            setTimeout(() => {
+              this.textContent = "";
+              this.dataset.selected = "";
+              this.classList.remove("flash-red");
+              document.getElementById("feedback").textContent = "";
+            }, 1000);
+          }
+
+          document.querySelectorAll('.answer').forEach(el => el.classList.remove('selected'));
+          selectedAnswer = null;
         });
+      });
     }
 
     function stopAllAudio() {
-        allAudios.forEach(audio => {
-            audio.pause();
-            audio.currentTime = 0;
-        });
-        document.querySelectorAll(".audio-toggle").forEach(btn => {
-            btn.innerHTML = '<i class="fa fa-volume-up"></i>';
-            btn.classList.remove("active-audio");
-        });
+      allAudios.forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+      //allAudios = [];
+      console.log("All audio stopped.",allAudios);
+      document.querySelectorAll(".audio-toggle").forEach(btn => {
+        btn.innerHTML = '<i class="fa fa-volume-up"></i>';
+        btn.classList.remove("active-audio");
+      });
     }
 
-    function shuffleArray(array) {
-        return array.sort(() => Math.random() - 0.5);
+    function shuffleArray(arr) {
+      return arr.slice().sort(() => Math.random() - 0.5);
     }
 
+    // Reset and Show Answer Buttons
     document.getElementById("reset-btn").addEventListener("click", () => {
-        setupFillupScreen(jsonData);
+      setupFillupScreen(jsonData);
     });
 
     document.getElementById("show-answers-btn").addEventListener("click", () => {
-        let correctAnswers = jsonData.answers.items;
-        document.querySelectorAll(".blank").forEach(blank => {
-            let answer = correctAnswers.find(a => a.id === blank.dataset.id);
-            blank.textContent = answer.text;
-            blank.dataset.selected = answer.text;
-        });
+      document.querySelectorAll(".blank").forEach(blank => {
+        const a = jsonData.answers.items.find(ans => ans.id === blank.dataset.id);
+        blank.textContent = a.text;
+        blank.dataset.selected = a.text;
+      });
     });
-});
+  });
