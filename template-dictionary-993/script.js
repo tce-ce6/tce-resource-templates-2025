@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     playAudioBtn.addEventListener('click', toggleAudio);
-    stopAudioBtn.addEventListener('click', stopAudio);
+    stopAudioBtn.addEventListener('click', replayAudio);
 
     function showSelectionScreen() {
         displayScreen.classList.remove('active');
@@ -233,8 +233,17 @@ document.addEventListener('DOMContentLoaded', function () {
             currentAudio = null;
             isPlaying = false;
             updatePlayButton();
+            
         }
     }
+
+    function replayAudio() {
+        currentAudio.currentTime = 0;
+            currentAudio.play();
+            isPlaying = true;
+            updatePlayButton();
+    }
+    
 
     function updatePlayButton() {
         playAudioBtn.innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';

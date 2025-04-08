@@ -1,0 +1,381 @@
+/* styles.css */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    background-color: black;
+}
+.container{
+    position: relative;
+    width: 993px;
+    height: 610px;
+    
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+h2 {
+    color: #d9534f;
+    font-style: italic;
+}
+#questions-container {
+    text-align: left;
+    /* margin-bottom: 20px; */
+    display: flex
+;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+}
+.blank {
+    display: inline-block;
+    min-width: 100px;
+    padding: 5px;
+    border: 1px solid black;
+    height: 14px;
+    cursor: pointer;
+    line-height: 14px;
+    text-align: center;
+    border-radius: 5px;
+}
+.answers-box {
+    display: flex
+;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* margin-bottom: 20px; */
+    margin-top: 40px;
+    background: skyblue;
+    /* width: 80%; */
+    justify-content: center;
+    border-radius: 10px;
+    padding: 10px;
+}
+.answer {
+    padding: 4px;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #000;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.audio-btn {
+    border-radius: 50%;
+    background: #1f2059;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 22px;
+    color: white;
+    width: 40px;
+    height: 40px;
+    z-index: 3;
+}
+.audio-btn:hover {
+    background: #3071a9;
+}
+#feedback {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.question-wrapper{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.question-number{
+    width: 30px;
+    height: 30px;
+    background-color: skyblue;
+    border-radius: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.audio-toggle{
+    width: 30px;
+    height: 30px;
+    background-color: skyblue;
+    border-radius: 30px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+.audio-toggle.active-audio {
+    background-color: #2a9df4;
+    color: white;
+}
+
+.question-text{
+    display: flex
+;
+    align-items: center;
+    gap: 10px;
+}
+
+.navigation{
+    position: absolute;
+    bottom: 10px;
+    width: 98%;
+    display: flex
+;
+    /* align-items: center; */
+    gap: 10px;
+    justify-content: center;
+}
+#instructionText{
+    font-size: 20x;
+    font-weight: 700;
+}
+
+.blank.correct {
+    color: green;
+    
+    border-bottom: none;
+}
+
+.logo{
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    width: 60px;
+    height: 40px;
+    background-image: url(assets/TCE-Logo-Black.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 5;
+}
+.blank.flash-red {
+    background-color: rgb(223, 105, 105);
+    
+    color: white;
+    transition: color 0.2s ease-in-out;
+}
+.disabled-answer {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+.answer.selected {
+    background-color: #cceeff;
+}
+
+
+
+
+
+
+
+
+
+.word-card {
+    background-color: #d9ecff;
+    padding: 20px;
+    font-size: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .pagination {
+    text-align: center;
+    margin: 10px 0;
+    width: 90%;
+  }
+  
+  .pagination .dot {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .pagination .active {
+    background-color: #333;
+    color: white;
+    border-color: #333;
+  }
+  
+  #practice-btn {
+    
+    display: block;
+    
+    font-size: 18px;
+    position: absolute;
+    right: 60px;
+  }
+
+  .pagination-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.page-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, skyblue 20%, white 80%);
+    color: #1f2059;
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 3;
+    border: 1px solid black;
+}
+
+.page-button:hover {
+    background-color: #ddd;
+}
+
+.active-page {
+    background: #1f2059;
+    color: white;
+}
+#pagination{
+    display: flex
+;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+    position: absolute;
+    width: 96%;
+    bottom: 20px;
+}
+
+#screen1{
+    padding: 20px;
+    height: 570px;
+    width: 953px;
+    background: white;
+}
+#screen2{
+    padding: 10px;
+    height: 590px;
+    background: white;
+    width: 973px;
+}
+
+.commonBtn{
+    background: #1f2059;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.vocab-box{
+    background: #cfe2f3;
+    padding: 2px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex
+;
+    justify-content: center;
+    gap: 10px;
+    
+    position: relative;
+    /* margin: 0 auto; */
+    /* line-height: 42px; */
+    /* position: relative; */
+    top: 100px;
+    height: auto;
+    font-size: 26px;
+    padding: 10px;
+    /* text-align: center; */
+    align-items: center;
+    flex-direction: column;
+}
+
+.vocab-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .vocab-word {
+    
+    
+  }
+  .vocab-word-text{
+    font-weight: 700;
+  }
+  .audio-toggle-screen1 {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 6px;
+    position: absolute;
+    top: 300px;
+    width: 30px;
+    height: 30px;
+    background-color: skyblue;
+    border-radius: 30px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    
+  }
+
+  button.disabled {
+    
+    pointer-events: none;
+    cursor: default;
+    background: darkgray;
+}
+
+.pagination-line{
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    position: absolute;
+    top: 50%;
+    background: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+}
+
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    
+  }
+  
+  .show {
+    transform: translateX(0%);
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  .hide-left {
+    transform: translateX(-100%);
+    opacity: 0;
+    z-index: 0;
+  }
+  
+  .hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .hide-right {
+    transform: translateX(-100%);
+    z-index: 1;
+  }

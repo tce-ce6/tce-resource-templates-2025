@@ -1,0 +1,59 @@
+{
+    "titleText": "",
+    "instructionText": "Choose the correct word or phrase to fill in the blanks.",
+    "feedback": {
+        "correct": "Correct!",
+        "incorrect": "Incorrect! Try again."
+    },
+    
+    "answers": {
+        "items": [
+            {"id": "1", "text": "landlord", "meaning": "a person who owns and rents land, buildings, or apartments sssa sasasasa sasasa", "audio": "assets/audio/real.mp3"},
+            {"id": "2","text": "over the years", "meaning": "as time passed", "audio": "assets/audio/sample-6.mp3"},
+            {"id": "3","text": "give up", "meaning": "stop trying", "audio": "assets/audio/real.mp3"},
+            {"id": "4","text": "followers", "meaning": "people who believe in and follow someone","audio": "assets/audio/sample-6.mp3"},
+            {"id": "5","text": "potions", "meaning": "a liquid with magical properties", "audio": "assets/audio/real.mp3"},
+            {"id": "6","text": "precious", "meaning": "valuable", "audio": "assets/audio/sample-6.mp3"},
+            {"id": "7","text": "stacks",  "meaning": "neatly piled items", "audio": "assets/audio/real.mp3"}
+        ]
+    },
+    "questions": {
+        "items": [
+            {
+                "id": "1",
+                "text": "The <blank> collects rent from the tenants on the fifth of every month.",
+                "audio": "assets/audio/real.mp3"
+            },
+            {
+                "id": "2",
+                "text": "The witch in the story claimed that her <blank> over the years could make anyone invisible.",
+                "audio": "assets/audio/sample-6.mp3"
+            },
+            {
+                "id": "3",
+                "text": "Even though the puzzle was difficult, Sarah refused to <blank> until she solved it.",
+                "audio": "assets/audio/real.mp3"
+            },
+            {
+                "id": "4",
+                "text": "<blank> the small shop grew into a large supermarket.",
+                "audio": "assets/audio/sample-6.mp3"
+            },
+            {
+                "id": "5",
+                "text": "She kept water in a clay <blank> to keep it cool.",
+                "audio": "assets/audio/real.mp3"
+            },
+            {
+                "id": "6",
+                "text": "The old family photograph was <blank> to her.",
+                "audio": "assets/audio/sample-6.mp3"
+            },
+            {
+                "id": "7",
+                "text": "There were <blank> of books on the librarian's desk.",
+                "audio": "assets/audio/real.mp3"
+            }
+        ]
+    }
+}

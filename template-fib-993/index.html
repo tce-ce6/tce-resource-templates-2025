@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fill in the Blanks</title>
+  <link rel="stylesheet" href="assets/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logo"></div>
+    <!-- Screen 1: Vocabulary -->
+    <div id="screen1" class="screen show">
+      <div class="instruction">
+        Read the words and their meanings. Click 'Practice' when you are ready.
+      </div>
+      <div id="vocab-container" class="vocab-box"></div>
+      <div id="pagination">
+        <button id="prevPage" class="audio-btn"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+        
+        <div id="paginationSmall" class="pagination-buttons"></div>
+        <button id="nextPage" class="audio-btn"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+        
+        <button id="practice-btn" class='commonBtn'>Practice</button>
+      </div>
+      
+      
+    </div>
+
+    <!-- Screen 2: Fill in the blanks -->
+    <div id="screen2" class="screen hidden hide-left">
+      
+      <div id="instructionText"></div>
+      <div id="questions-container"></div>
+      <div id="answers-container" class="answers-box"></div>
+      <p id="feedback"></p>
+      <div class="navigation">
+        <button id="reset-btn" class='commonBtn'>Reset</button>
+        <button id="show-answers-btn" class='commonBtn'>Solution</button>
+        <button id="home-btn" class='audio-btn'><i class="fa fa-home" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
