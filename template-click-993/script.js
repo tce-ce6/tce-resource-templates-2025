@@ -2,12 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let selectedItem = null;
     let state = {}; 
     let feedbackMessages = {}; 
-    let titleText = "";
-    let instructionMessage = ""; 
-    let collectionData = []; 
-    const feedback = document.getElementById("feedback");
-    let jsonData ;
+    let jsonData;
     let showAnswer = false;
+    const feedback = document.getElementById("feedback");
+
     loadJSONData('data.json');
 
     function loadJSONData(fileName) {
@@ -15,126 +13,114 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => initialize(data))
             .catch(error => {
-                console.error("Error loading JSON file:", error);
-                feedback.textContent = `Failed to load ${fileName}. Using default data.`;
-                feedback.style.color = "red";
-                setTimeout(() => feedback.textContent = "", 3000);
-                
-                fetch('data.json')
-                    .then(response => response.json())
-                    .then(data => initialize(data))
-                    .catch(error => console.error("Error loading default JSON:", error));
+                console.error("Error loading JSON:", error);
+                feedback.textContent = "Failed to load data.";
             });
     }
 
     function initialize(data) {
         jsonData = data;
-        feedbackMessages = data.feedback; 
-        
-        titleText = data.titleText || "Select items from the collection and place them in the appropriate containers"; // Load instruction message
-        instructionMessage = data.instructionText || "Select items from the collection and place them in the appropriate containers"; // Load instruction message
+        feedbackMessages = data.feedback || {};
+        state = {};
+        selectedItem = null;
+        showAnswer = false;
 
-        const titleElement = document.getElementById("titleText");
-        if(titleElement){
-            titleElement.textContent = titleText;
-        }
-
-        const instructionElement = document.getElementById("instructionText");
-        if (instructionElement) {
-            instructionElement.textContent = instructionMessage;
-        }
-        const backgroundImgElement = document.getElementById("background-image");
-        backgroundImgElement.style.backgroundImage = `url('${data.backgroundImage.imageSrc}')`;
+        document.getElementById("titleText").textContent = data.titleText || "";
+        document.getElementById("instructionText").textContent = data.instructionText || "";
+        document.getElementById("background-image").style.backgroundImage = `url('${data.backgroundImage?.imageSrc}')`;
 
         const collection = document.getElementById("collection");
         const containerArea = document.getElementById("containerArea");
-        if (!collection || !containerArea) {
-            console.error("Collection or containerArea element not found.");
-            return;
-        }
-        collectionData = [...data.collection];
+        collection.innerHTML = "";
+        containerArea.innerHTML = "";
 
         data.containers.forEach(container => {
             state[container.id] = [];
+
             const containerDiv = document.createElement("div");
-            
-            
-            const containerLabelParent = document.createElement("div");
-            const containerLabel = document.createElement("div");
-
-            containerLabelParent.className = "container-label-parent";
-
             containerDiv.className = "drop-zone";
             containerDiv.id = container.id;
-            containerLabel.textContent = container.label;
-            containerLabel.className = "container-label";
-            containerLabel.style['max-width'] = container.width || "100%";
             containerDiv.style.width = container.width || "100%";
             containerDiv.style.height = container.height || "100%";
 
-            const containerWrapper = document.createElement("div");
-            containerWrapper.className = "container-wrapper";
-            containerWrapper.appendChild(containerLabelParent);
-            containerLabelParent.appendChild(containerLabel);
-            containerWrapper.appendChild(containerDiv);
-            containerArea.appendChild(containerWrapper);
+            const containerLabel = document.createElement("div");
+            containerLabel.className = "container-label";
+            containerLabel.textContent = container.label;
 
-            
-            containerDiv.addEventListener("mousedown", () => handleDrop(containerDiv, data));
-            containerDiv.addEventListener("touchstart", () => handleDrop(containerDiv, data));
+            const containerLabelParent = document.createElement("div");
+            containerLabelParent.className = "container-label-parent";
+            containerLabelParent.appendChild(containerLabel);
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "container-wrapper";
+            wrapper.appendChild(containerLabelParent);
+            wrapper.appendChild(containerDiv);
+
+            containerArea.appendChild(wrapper);
+
+            containerDiv.addEventListener("mousedown", () => handleDrop(containerDiv));
+            containerDiv.addEventListener("touchstart", () => handleDrop(containerDiv));
         });
-        shuffleArray(data.collection); 
+
+        shuffleArray(data.collection);
 
         data.collection.forEach(item => {
-            const element = document.createElement("img");
-                element.src = item.src;
-                element.alt = item.label;
-                element.title = item.label;
-                element.dataset.label = item.label;
-                element.dataset.target = JSON.stringify(item.target);
-                element.style.width = item.width || "60px";
-                element.style.height = item.height || "60px";
-
-            element.classList.add("draggable-item");
-            element.addEventListener("mousedown", event => handleItemSelection(event, element));
-            element.addEventListener("touchstart", event => handleItemSelection(event, element));
-
+            const element = createDraggableItem(item);
             collection.appendChild(element);
         });
+
         document.addEventListener("mouseup", handleDeselect);
         document.addEventListener("touchend", handleDeselect);
-        const resetButton = document.getElementById("resetButton");
-        if (resetButton) {
-            resetButton.addEventListener("click", resetGame);
-        }
+
+        document.getElementById("resetButton").addEventListener("click", resetGame);
         document.getElementById("toggle-answer").addEventListener("click", toggleAnswers);
     }
 
-    function shuffleArray(arr) {
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]]; 
+    function createDraggableItem(item) {
+        let element;
+
+        if (item.type === "text") {
+            element = document.createElement("div");
+            element.textContent = item.label;
+            element.className = "draggable-item text-item";
+            element.style.width = item.width || "auto";
+            element.style.height = item.height || "auto";
+        } else {
+            element = document.createElement("img");
+            element.src = item.src;
+            element.alt = item.label;
+            element.className = "draggable-item";
+            element.style.width = item.width || "60px";
+            element.style.height = item.height || "60px";
         }
+
+        element.title = item.label;
+        element.dataset.label = item.label;
+        element.dataset.target = JSON.stringify(item.target);
+        element.dataset.type = item.type || "image";
+
+        element.addEventListener("mousedown", event => handleItemSelection(event, element));
+        element.addEventListener("touchstart", event => handleItemSelection(event, element));
+
+        return element;
     }
 
     function handleItemSelection(event, element) {
-        event.preventDefault();         
-        console.log('ele-->',selectedItem, element)
-        if (stateHasItem(element)) {
-            return; 
-        }
+        event.preventDefault();
+        if (stateHasItem(element)) return;
+
         if (selectedItem === element) {
             element.classList.remove("selected");
             selectedItem = null;
         } else {
-            document.querySelectorAll(".draggable-item").forEach(item => item.classList.remove("selected"));
+            document.querySelectorAll(".draggable-item").forEach(el => el.classList.remove("selected"));
             element.classList.add("selected");
             selectedItem = element;
         }
     }
 
     function stateHasItem(item) {
-        return Object.values(state).some(containerItems => containerItems.includes(item.dataset.label));
+        return Object.values(state).some(arr => arr.includes(item.dataset.label));
     }
 
     function handleDeselect(event) {
@@ -145,78 +131,89 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
- 
 
-
-
-    function handleDrop(containerDiv, data) {
-        if(showAnswer){
-            feedback.textContent = "Please hide the answer to continue.";
+    function handleDrop(containerDiv) {
+        if (!selectedItem || showAnswer) {
+            feedback.textContent = showAnswer ? "Please hide the answer to continue." : "";
             setTimeout(() => feedback.textContent = "", 2000);
+            return;
         }
-        if (selectedItem && !showAnswer) {
-            const target = JSON.parse(selectedItem.dataset.target);
-            const containerId = containerDiv.id;
-            const itemLabel = selectedItem.dataset.label;
     
-            if (target.includes(containerId)) {
-                feedback.textContent = feedbackMessages.correct;
-                //feedback.style.color = "green";
-                containerDiv.classList.add("correct");
+        const containerId = containerDiv.id;
+        const label = selectedItem.dataset.label;
+        const target = JSON.parse(selectedItem.dataset.target);
+        const type = selectedItem.dataset.type || "image";
     
-                state[containerId].push(itemLabel);
-                const clone = selectedItem.cloneNode(true);
-                clone.classList.remove("selected");
+        if (!target.includes(containerId)) {
+            feedback.textContent = feedbackMessages.incorrect || "Incorrect!";
+            containerDiv.classList.add("incorrect");
+            setTimeout(() => containerDiv.classList.remove("incorrect"), 1000);
+            setTimeout(() => feedback.textContent = "", 2000);
+            return;
+        }
     
-                
-                const label = document.createElement("div");
-                label.textContent = itemLabel;
-                label.className = "dropped-item-label"; 
+        feedback.textContent = feedbackMessages.correct || "Correct!";
+        containerDiv.classList.add("correct");
+        setTimeout(() => containerDiv.classList.remove("correct"), 1500);
+        setTimeout(() => feedback.textContent = "", 2000);
     
-                
-                const itemWrapper = document.createElement("div");
-                itemWrapper.className = "dropped-item-wrapper";
-                itemWrapper.appendChild(clone);
-                itemWrapper.appendChild(label);
+        state[containerId].push(label);
     
-                clone.addEventListener("click", () => {
-                    containerDiv.removeChild(itemWrapper);
-                    state[containerId] = state[containerId].filter(label => label !== itemLabel);
+        const clone = createDraggableItem({
+            label,
+            type,
+            src: selectedItem.src,
+            width: selectedItem.style.width,
+            height: selectedItem.style.height
+        });
     
-                    
-                    const collectionItem = document.querySelector(`#collection img[data-label='${itemLabel}']`);
-                    if (collectionItem) {
-                        collectionItem.classList.remove("grayed-out"); 
-                    }
-                });
+        const wrapper = document.createElement("div");
+        wrapper.className = "dropped-item-wrapper";
+        wrapper.appendChild(clone);
     
-                containerDiv.appendChild(itemWrapper);
-                selectedItem.classList.remove("selected");
-                selectedItem = null;
+        if (type !== "text") {
+            const labelEl = document.createElement("div");
+            labelEl.textContent = label;
+            labelEl.className = "dropped-item-label";
+            wrapper.appendChild(labelEl);
+        }
     
-                
-                const collectionItem = document.querySelector(`#collection img[data-label='${itemLabel}']`);
-                if (collectionItem) {
-                    collectionItem.classList.add("grayed-out");
-                }
-    
+        clone.addEventListener("click", () => {
+            if (showAnswer) {
+                feedback.textContent = "Please hide the answer to continue.";
                 setTimeout(() => feedback.textContent = "", 2000);
-                setTimeout(() => {
-                    containerDiv.classList.remove("correct");
-                }, 1500);
-            } else {
-                feedback.textContent = feedbackMessages.incorrect;
-                //feedback.style.color = "red";
-                containerDiv.classList.add("incorrect");
-                setTimeout(() => {
-                    containerDiv.classList.remove("incorrect");
-                }, 1000);
-                setTimeout(() => feedback.textContent = "", 2000);
+                return;
             }
+    
+            containerDiv.removeChild(wrapper);
+            state[containerId] = state[containerId].filter(l => l !== label);
+    
+            const orig = document.querySelector(`#collection .draggable-item[data-label='${label}']`);
+            if (orig) {
+                if (type === "image") {
+                    orig.classList.remove("grayed-out");
+                } else {
+                    document.getElementById("collection").appendChild(orig); // Re-add text item
+                }
+            }
+        });
+    
+        containerDiv.appendChild(wrapper);
+    
+        selectedItem.classList.remove("selected");
+    
+        if (type === "text") {
+            const textEl = document.querySelector(`#collection .draggable-item.text-item[data-label='${label}']`);
+            if (textEl) {
+                textEl.remove(); // Remove text item from collection after correct drop
+            }
+        } else {
+            selectedItem.classList.add("grayed-out");
         }
+    
+        selectedItem = null;
     }
     
-   
 
     function toggleAnswers() {
         showAnswer = !showAnswer;
@@ -224,37 +221,32 @@ document.addEventListener("DOMContentLoaded", function () {
     
         Object.keys(state).forEach(containerId => {
             const containerDiv = document.getElementById(containerId);
-            
-            
-            const existingItems = Array.from(containerDiv.children).map(child => child.querySelector(".dropped-item-label")?.textContent);
-            
+    
             if (showAnswer) {
                 jsonData.collection.forEach(item => {
-                    if (item.target.includes(containerId) && !existingItems.includes(item.label)) {
-                        const clone = document.createElement("img");
-                        clone.src = item.src;
-                        clone.alt = item.label;
-                        clone.style.width = item.width || "60px";
-                        clone.style.height = item.height || "60px";
-                        clone.classList.add("draggable-item");
+                    if (item.target.includes(containerId) && !state[containerId].includes(item.label)) {
+                        const itemEl = createDraggableItem(item);
     
-                        const label = document.createElement("div");
-                        label.textContent = item.label;
-                        label.className = "dropped-item-label";
+                        const wrapper = document.createElement("div");
+                        wrapper.className = "dropped-item-wrapper";
+                        wrapper.appendChild(itemEl);
     
-                        const itemWrapper = document.createElement("div");
-                        itemWrapper.className = "dropped-item-wrapper";
-                        itemWrapper.appendChild(clone);
-                        itemWrapper.appendChild(label);
+                        if (item.type !== "text") {
+                            const labelEl = document.createElement("div");
+                            labelEl.textContent = item.label;
+                            labelEl.className = "dropped-item-label";
+                            wrapper.appendChild(labelEl);
+                        }
     
-                        containerDiv.appendChild(itemWrapper);
+                        // Add to state temporarily for removal later
+                        containerDiv.appendChild(wrapper);
+                        wrapper.dataset.autoAnswer = "true";
                     }
                 });
             } else {
-                
+                // Remove only auto-generated answer items
                 Array.from(containerDiv.children).forEach(child => {
-                    const labelText = child.querySelector(".dropped-item-label")?.textContent;
-                    if (!state[containerId].includes(labelText)) {
+                    if (child.dataset.autoAnswer === "true") {
                         containerDiv.removeChild(child);
                     }
                 });
@@ -262,19 +254,55 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     
-    
+    function OLD_toggleAnswers() {
+        showAnswer = !showAnswer;
+        document.getElementById("toggle-answer").textContent = showAnswer ? "Hide Answer" : "Show Answer";
+
+        Object.keys(state).forEach(containerId => {
+            const containerDiv = document.getElementById(containerId);
+            const existingLabels = Array.from(containerDiv.children)
+                .map(child => child.querySelector(".dropped-item-label")?.textContent);
+
+            if (showAnswer) {
+                jsonData.collection.forEach(item => {
+                    if (item.target.includes(containerId) && !existingLabels.includes(item.label)) {
+                        const itemEl = createDraggableItem(item);
+
+                        const wrapper = document.createElement("div");
+                        wrapper.className = "dropped-item-wrapper";
+                        wrapper.appendChild(itemEl);
+
+                        if (item.type !== "text") {
+                            const labelEl = document.createElement("div");
+                            labelEl.textContent = item.label;
+                            labelEl.className = "dropped-item-label";
+                            wrapper.appendChild(labelEl);
+                        }
+
+                        containerDiv.appendChild(wrapper);
+                    }
+                });
+            } else {
+                Array.from(containerDiv.children).forEach(child => {
+                    const label = child.querySelector(".dropped-item-label")?.textContent;
+                    if (!state[containerId].includes(label)) {
+                        containerDiv.removeChild(child);
+                    }
+                });
+            }
+        });
+    }
+
     function resetGame() {
-        showAnswer = false;
-        document.getElementById("toggle-answer").textContent = "Show Answer";
-        state = {};
-        const collection = document.getElementById("collection");
-        const containerArea = document.getElementById("containerArea");
-        if (collection) collection.innerHTML = ""; 
-        if (containerArea) containerArea.innerHTML = ""; 
-        initialize(jsonData)
+        initialize(jsonData);
         feedback.textContent = "Game has been reset.";
-        //feedback.style.color = "blue";
         setTimeout(() => feedback.textContent = "", 2000);
     }
-    
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+    }
 });

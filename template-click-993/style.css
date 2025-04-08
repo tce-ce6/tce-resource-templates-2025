@@ -59,7 +59,7 @@ body {
     object-fit: cover;
     box-shadow: 2px 5px 7px rgba(0, 0, 0, 0.3);
     text-align: center;
-    line-height: 60px;
+    
     background-color: white;
     border: 2px solid #fff;
     
@@ -88,7 +88,7 @@ body {
     border: 2px solid #ba9d80;
     display: flex
 ;
-    align-items: center;
+    /* align-items: center; */
     position: relative;
     flex-shrink: 0;
     background-color: white;
@@ -341,4 +341,15 @@ body {
   background-image: url(assets/TCE-Logo-Black.png);
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.text-item {
+  
+  width: 100px;
+  border-radius: 8px;
+  
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
 }
