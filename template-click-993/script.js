@@ -135,14 +135,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleDrop(containerDiv) {
         if (!selectedItem || showAnswer) {
             feedback.textContent = showAnswer ? "Please hide the answer to continue." : "";
+            setTimeout(() => feedback.textContent = "", 2000);
             return;
         }
-
+    
         const containerId = containerDiv.id;
         const label = selectedItem.dataset.label;
         const target = JSON.parse(selectedItem.dataset.target);
         const type = selectedItem.dataset.type || "image";
-
+    
         if (!target.includes(containerId)) {
             feedback.textContent = feedbackMessages.incorrect || "Incorrect!";
             containerDiv.classList.add("incorrect");
@@ -150,14 +151,14 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => feedback.textContent = "", 2000);
             return;
         }
-
+    
         feedback.textContent = feedbackMessages.correct || "Correct!";
         containerDiv.classList.add("correct");
         setTimeout(() => containerDiv.classList.remove("correct"), 1500);
         setTimeout(() => feedback.textContent = "", 2000);
-
+    
         state[containerId].push(label);
-
+    
         const clone = createDraggableItem({
             label,
             type,
@@ -165,32 +166,54 @@ document.addEventListener("DOMContentLoaded", function () {
             width: selectedItem.style.width,
             height: selectedItem.style.height
         });
-
+    
         const wrapper = document.createElement("div");
-wrapper.className = "dropped-item-wrapper";
-wrapper.appendChild(clone);
-
-if (type !== "text") {
-    const labelEl = document.createElement("div");
-    labelEl.textContent = label;
-    labelEl.className = "dropped-item-label";
-    wrapper.appendChild(labelEl);
-}
-
+        wrapper.className = "dropped-item-wrapper";
+        wrapper.appendChild(clone);
+    
+        if (type !== "text") {
+            const labelEl = document.createElement("div");
+            labelEl.textContent = label;
+            labelEl.className = "dropped-item-label";
+            wrapper.appendChild(labelEl);
+        }
+    
         clone.addEventListener("click", () => {
+            if (showAnswer) {
+                feedback.textContent = "Please hide the answer to continue.";
+                setTimeout(() => feedback.textContent = "", 2000);
+                return;
+            }
+    
             containerDiv.removeChild(wrapper);
             state[containerId] = state[containerId].filter(l => l !== label);
-
+    
             const orig = document.querySelector(`#collection .draggable-item[data-label='${label}']`);
-            if (orig) orig.classList.remove("grayed-out");
+            if (orig) {
+                if (type === "image") {
+                    orig.classList.remove("grayed-out");
+                } else {
+                    document.getElementById("collection").appendChild(orig); // Re-add text item
+                }
+            }
         });
-
+    
         containerDiv.appendChild(wrapper);
-
+    
         selectedItem.classList.remove("selected");
-        selectedItem.classList.add("grayed-out");
+    
+        if (type === "text") {
+            const textEl = document.querySelector(`#collection .draggable-item.text-item[data-label='${label}']`);
+            if (textEl) {
+                textEl.remove(); // Remove text item from collection after correct drop
+            }
+        } else {
+            selectedItem.classList.add("grayed-out");
+        }
+    
         selectedItem = null;
     }
+    
 
     function toggleAnswers() {
         showAnswer = !showAnswer;
