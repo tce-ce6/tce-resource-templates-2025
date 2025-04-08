@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (type === "image") {
                     orig.classList.remove("grayed-out");
                 } else {
-                    document.getElementById("collection").appendChild(orig); // Re-add text item
+                    document.getElementById("collection").appendChild(orig); 
                 }
             }
         });
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (type === "text") {
             const textEl = document.querySelector(`#collection .draggable-item.text-item[data-label='${label}']`);
             if (textEl) {
-                textEl.remove(); // Remove text item from collection after correct drop
+                textEl.remove(); 
             }
         } else {
             selectedItem.classList.add("grayed-out");
@@ -238,13 +238,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             wrapper.appendChild(labelEl);
                         }
     
-                        // Add to state temporarily for removal later
+               
                         containerDiv.appendChild(wrapper);
                         wrapper.dataset.autoAnswer = "true";
                     }
                 });
             } else {
-                // Remove only auto-generated answer items
+               
                 Array.from(containerDiv.children).forEach(child => {
                     if (child.dataset.autoAnswer === "true") {
                         containerDiv.removeChild(child);
