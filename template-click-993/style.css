@@ -67,7 +67,7 @@ body {
   
   .draggable-item:hover {
     /* transform: scale(1.1); */
-    filter: brightness(1.1) contrast(1.1);
+    /* filter: brightness(1.1) contrast(1.1); */
     
   }
   
@@ -112,7 +112,8 @@ body {
   }
   
   .selected {
-    border: 2px solid #1683ac;
+    /* border: 1px solid #1683ac; */
+    filter: drop-shadow(0px 0px 12px #000);
   }
   
   /* Styles for feedback message */
