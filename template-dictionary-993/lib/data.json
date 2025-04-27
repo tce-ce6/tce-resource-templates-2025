@@ -4,119 +4,119 @@
             "word": "large tracts of land",
             "meaning": "large areas of land",
             "example": "After his grandmother passed away, she left him large tracts of land in their village.",
-            "audio": "assets/audio/real.mp3",
+            "audio": "lib/assets/audio/real.mp3",
             "image": ""
         },
         {
             "word": "landlord",
             "meaning": "a person who owns and rents land, buildings, or apartments",
             "example": "The landlord collects rent from the tenants on the fifth of every month.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real.jpg"
         },
         {
             "word": "potion",
             "meaning": "a liquid with magical properties",
             "example": "The witch in the story claimed that her potion could make anyone invisible.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real2.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real2.jpg"
         },
         {
             "word": "give up",
             "meaning": "stop trying",
             "example": "Even though the puzzle was difficult, Sarah refused to give up until she solved it.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real3.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real3.jpg"
         },
         {
             "word": "followers",
             "meaning": "people who believe in and follow someone",
             "example": "The guru's followers gathered around him eagerly as he began singing.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "lib/assets/audio/real.mp3"
         },
         {
             "word": "sage",
             "meaning": "wise spiritual person",
             "example": "The old sage lived in the mountain temple and gave advice to villagers.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real4.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real4.jpg"
         },
         {
             "word": "not believing one's luck",
             "meaning": "surprised by good fortune",
             "example": "When Avi won the first prize, she stood there not believing her luck.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "lib/assets/audio/real.mp3"
         },
         {
             "word": "dew",
             "meaning": "small drops of water on leaves that form during night",
             "example": "Early morning walkers saw sparkling dew on the grass.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real.jpg"
         },
         {
             "word": "chant",
             "meaning": "to repeat or sing a word or phrase",
             "example": "The monks would chant prayers every morning at sunrise.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real2.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real2.jpg"
         },
         {
             "word": "tended",
             "meaning": "looked after, cared for",
             "example": "Maya tended her garden daily, watering each plant carefully.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "lib/assets/audio/real.mp3"
         },
         {
             "word": "over the years",
             "meaning": "as time passed",
             "example": "Over the years, the small shop grew into a large supermarket.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real3.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real3.jpg"
         },
         {
             "word": "vessel",
             "meaning": "container",
             "example": "She kept water in a clay vessel to keep it cool.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real.jpg"
         },
         {
             "word": "sprinkled",
             "meaning": "scattered drops of liquid",
             "example": "The gardener sprinkled water on the delicate seedlings.",
-            "audio": "assets/audio/real.mp3",
-            "image": "assets/images/real4.jpg"
+            "audio": "lib/assets/audio/real.mp3",
+            "image": "lib/assets/images/real4.jpg"
         },
         {
             "word": "muttered",
             "meaning": "spoke in a low voice",
             "example": "\"I can't find my keys,\" he muttered to himself while searching his pockets.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "lib/assets/audio/real.mp3"
         },
         {
             "word": "precious",
             "meaning": "valuable",
             "example": "The old family photograph was precious to her.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "lib/assets/audio/real.mp3"
         },
         {
             "word": "stacks",
             "meaning": "neatly piled items",
             "example": "There were stacks of books on the librarian's desk.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "lib/assets/audio/real.mp3"
         },
         {
             "word": "to his surprise",
             "meaning": "unexpectedly",
             "example": "To his surprise, everyone remembered his birthday.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "lib/assets/audio/real.mp3"
         },
         {
             "word": "wisdom",
             "meaning": "deep understanding",
             "example": "The grandfather shared his wisdom about life with his grandchildren.",
-            "audio": "assets/audio/real.mp3"
+            "audio": "lib/assets/audio/real.mp3"
         }
     ]
 }

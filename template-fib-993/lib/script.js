@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     
-    fetch("data.json")
+    fetch("lib/data.json")
         .then(response => response.json())
         .then(data => {
             jsonData = data;
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
         practiceAudios = [];
         selectedAnswer = null;
 
-        const blankWidth = `${Math.max(...data.answers.items.map(a => a.text.length))}ch`;
+        const blankWidth = `${Math.max(...data.answers.items.map(a => a.text.length-2))}ch`;
         const shuffledQuestions = shuffleArray(data.questions.items);
 
         shuffledQuestions.forEach((q, index) => {

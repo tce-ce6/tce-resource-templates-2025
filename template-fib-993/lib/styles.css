@@ -39,6 +39,9 @@ h2 {
     line-height: 14px;
     text-align: center;
     border-radius: 5px;
+    /* filter: drop-shadow(1px 0px 2px gray);  */
+    background-color: #fff;
+    box-shadow: inset 2px 2px 4px #80808096;
 }
 .answers-box {
     display: flex

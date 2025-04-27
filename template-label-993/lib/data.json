@@ -4,11 +4,11 @@
   "debug": false,
 
   "backgroundImage": {
-    "imageSrc": "assets/background.jpg",
+    "imageSrc": "lib/assets/background.jpg",
     "altText": "Background"
   },
   "targetImage": {
-    "imageSrc": "assets/pashastanding.svg",
+    "imageSrc": "lib/assets/pashastanding.svg",
     "altText": "Pasha",
     "top":"-22px",
     "width": "100%",
