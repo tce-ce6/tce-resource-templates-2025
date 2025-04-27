@@ -2,7 +2,7 @@
     "titleText": "Match the words to their meanings.",
     "instructionText": "Drag and match the words with their correct meanings.",
     "debug": false,
-    "backgroundImage": "assets/background.jpg",
+    "backgroundImage": "lib/assets/background.jpg",
     "feedback": {
         "correct": "Correct!",
         "incorrect": "Incorrect! Try again."
@@ -13,7 +13,7 @@
             {
                 "id": "1",
                 "text": "chant",
-                "image": "assets/images/real.jpg"
+                "image": "lib/assets/images/real.jpg"
             },
             {
                 "id": "2",
@@ -27,7 +27,7 @@
             {
                 "id": "4",
                 "text": "vessel",
-                "image": "assets/images/real2.jpg"
+                "image": "lib/assets/images/real2.jpg"
             },
             {
                 "id": "5",
@@ -46,7 +46,7 @@
             {
                 "id": "2",
                 "text": "looked after, cared for",
-                "image": "assets/images/real3.jpg"
+                "image": "lib/assets/images/real3.jpg"
             },
             {
                 "id": "3",
@@ -56,7 +56,7 @@
             {
                 "id": "4",
                 "text": "container asjnasas",
-                "image": "assets/images/real4.jpg"
+                "image": "lib/assets/images/real4.jpg"
                 
             },
             {

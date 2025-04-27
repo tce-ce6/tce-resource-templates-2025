@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let showAnswer = false;
     const feedback = document.getElementById("feedback");
 
-    loadJSONData('data.json');
+    loadJSONData('lib/data.json');
 
     function loadJSONData(fileName) {
         fetch(fileName)

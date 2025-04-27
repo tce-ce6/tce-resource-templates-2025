@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let boxWidth, boxHeight, boxTop, boxLeft, boxBorderColor, boxBackgroundColor;
     let lineEndX, lineEndY;
   
-    fetch("data.json")
+    fetch("lib/data.json")
         .then((response) => response.json())
         .then((data) => initialize(data))
         .catch((err) => console.error("Error loading JSON:", err));

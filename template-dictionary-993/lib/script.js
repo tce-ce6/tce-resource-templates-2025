@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalWordsSpan = document.getElementById('totalWords');
 
     
-    fetch('data.json')
+    fetch('lib/data.json')
         .then(response => response.json())
         .then(data => {
             words = data.words;

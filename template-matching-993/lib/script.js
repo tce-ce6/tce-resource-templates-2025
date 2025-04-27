@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    fetch('data.json')
+    fetch('lib/data.json')
         .then(response => response.json())
         .then(data => {
             window.gameData = data;

@@ -1,0 +1,28 @@
+{
+    "titleText":"Sort the organs correctly.",
+    "instructionText": "Tap an organ, and than tap the correct box.",
+    "feedback": { "correct": "Great!", "incorrect": "Incorrect! Try again.", "removed": "Organ removed."},
+    "backgroundImage": {
+      "imageSrc": "lib/assets/background.jpg",
+      "altText": "Background"
+    },
+    "containers": [
+      { "id": "external", "label": "External Organs", "width":"400px", "height":"200px" },
+      { "id": "internal", "label": "Internal Organs", "width":"400px", "height":"200px" }
+    ],
+    "collection": [
+      { "label": "brain", "type": "text", "width":"auto", "height":"auto", "src": "lib/assets/images/internalparts/brain.png", "target": ["internal"] },
+      { "label": "lungs", "type": "image", "width":"60px", "height":"60px",  "src": "lib/assets/images/internalparts/lungs.png", "target": ["internal"]},
+      { "label": "intestines", "type": "image", "width":"60px", "height":"60px",  "src": "lib/assets/images/internalparts/intestines.png",  "target": ["internal"]},
+      { "label": "heart", "type": "image", "width":"60px", "height":"60px",  "src": "lib/assets/images/internalparts/heart.png", "target": ["internal"] },
+      { "label": "kidneys", "type": "image", "width":"60px", "height":"60px",  "src": "lib/assets/images/internalparts/kidneys.png", "target": ["internal"] },
+      { "label": "stomach", "type": "image", "width":"60px", "height":"60px",  "src": "lib/assets/images/internalparts/stomach.png", "target": ["internal"] },
+      { "label": "leg dd aa sd sdsd dsds dssd sd",  "type": "text", "width":"auto", "height":"auto", "src": "lib/assets/images/externalparts/leg.png", "target": ["external"] },
+      { "label": "palm", "type": "image", "width":"60px", "height":"60px",  "src": "lib/assets/images/externalparts/palm.png", "target": ["external"] },
+      { "label": "hand", "type": "text", "width":"auto", "height":"auto",  "src": "lib/assets/images/externalparts/hand.png", "target": ["external"] },
+      { "label": "nose", "type": "image", "width":"60px", "height":"60px",  "src": "lib/assets/images/externalparts/nose.png", "target": ["external"] },
+      { "label": "ear",  "type": "image", "width":"60px", "height":"60px", "src": "lib/assets/images/externalparts/ear.png", "target": ["external"] },
+      { "label": "feet",  "type": "image", "width":"60px", "height":"60px", "src": "lib/assets/images/externalparts/feet.png", "target": ["external"] }
+    ]
+  }
+  
