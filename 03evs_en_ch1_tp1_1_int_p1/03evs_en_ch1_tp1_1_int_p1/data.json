@@ -1,0 +1,53 @@
+{
+    "titleText": "Match the names of the games with their correct images.",
+    "instructionText": "Drag and match the words with their correct meanings.",
+    "debug": false,
+    "backgroundImage": "03evs_en_ch1_tp1_1_int_p1/assets/background.jpg",
+    "feedback": {
+        "correct": "Correct!",
+        "incorrect": "Incorrect! Try again."
+    },
+    "columnA": {
+        "title": "Names",
+        "items": [
+            {
+                "id": "1",
+                "text": "Kanche Goli / Goli gundu"
+            },
+            {
+                "id": "2",
+                "text": "Lattu / Pambaram"
+            },
+            {
+                "id": "3",
+                "text": "Gilli danda / Vitti dandu"
+                
+            },
+            {
+                "id": "4",
+                "text": "Kho-kho / Rathera"
+            }
+        ]
+    },
+    "columnB": {
+        "title": "Images",
+        "items": [
+            {
+                "id": "1",
+                "image": "03evs_en_ch1_tp1_1_int_p1/assets/images/Kanchegoli.jpg"
+            },
+            {
+                "id": "2",
+                "image": "03evs_en_ch1_tp1_1_int_p1/assets/images/Lattu.jpg"
+            },
+            {
+                "id": "3",
+                "image": "03evs_en_ch1_tp1_1_int_p1/assets/images/Gillidanda.jpg"
+            },
+            {
+                "id": "4",
+                "image": "03evs_en_ch1_tp1_1_int_p1/assets/images/Khokho.jpg"
+            }
+        ]
+    }
+}
