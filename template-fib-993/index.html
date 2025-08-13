@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fill in the Blanks</title>
-  <link rel="stylesheet" href="lib/assets/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="lib/styles.css">
+
 </head>
+
 <body>
   <div class="container">
     <div class="logo"></div>
@@ -18,19 +19,19 @@
       <div id="vocab-container" class="vocab-box"></div>
       <div id="pagination">
         <button id="prevPage" class="audio-btn"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
-        
+
         <div id="paginationSmall" class="pagination-buttons"></div>
         <button id="nextPage" class="audio-btn"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
-        
+
         <button id="practice-btn" class='commonBtn'>Practice</button>
       </div>
-      
-      
+
+
     </div>
 
     <!-- Screen 2: Fill in the blanks -->
     <div id="screen2" class="screen hidden hide-left">
-      
+
       <div id="instructionText"></div>
       <div id="questions-container"></div>
       <div id="answers-container" class="answers-box"></div>
@@ -42,7 +43,32 @@
       </div>
     </div>
   </div>
+  <script>
+    // For Production: Change below folderName based on target folder name.
+    var folderName = 'lib';
+    // ---------------------
 
-  <script src="lib/script.js"></script>
+    // Load styles.css
+    const cssFile = 'styles.css';
+    const link1 = document.createElement('link');
+    link1.rel = 'stylesheet';
+    link1.href = `${folderName}/${cssFile}`;
+    document.head.appendChild(link1);
+
+    // Load Font Awesome
+    const faFolder = 'assets/font-awesome/6.7.2/css';
+    const faFile = 'all.min.css';
+    const link2 = document.createElement('link');
+    link2.rel = 'stylesheet';
+    link2.href = `${folderName}/${faFolder}/${faFile}`;
+    link2.integrity = 'sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==';
+    link2.crossOrigin = 'anonymous';
+    link2.referrerPolicy = 'no-referrer';
+    document.head.appendChild(link2);
+
+    // Load JS file
+    document.write(`<script src="${folderName}/script.js"><\/script>`);
+  </script>
 </body>
+
 </html>

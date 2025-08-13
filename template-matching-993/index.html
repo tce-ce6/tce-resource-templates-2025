@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match the Column</title>
-    <link rel="stylesheet" href="lib/styles.css">
 </head>
+
 <body>
-    
+
     <div class="container">
         <div class="logo"></div>
         <div id="titleTxt"></div>
@@ -26,7 +27,21 @@
         </div>
         <div id="feedback" class="feedback"></div>
     </div>
-    
-    <script src="lib/script.js"></script>
+    <script>
+        // For Production: Change below folderName based on target folder name.
+        var folderName = 'lib';
+        // ---------------------
+
+        // Load styles.css
+        const cssFile = 'styles.css';
+        const link1 = document.createElement('link');
+        link1.rel = 'stylesheet';
+        link1.href = `${folderName}/${cssFile}`;
+        document.head.appendChild(link1);
+
+        // Load JS file
+        document.write(`<script src="${folderName}/script.js"><\/script>`);
+    </script>
 </body>
+
 </html>

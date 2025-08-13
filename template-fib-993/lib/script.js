@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     
-    fetch("lib/data.json")
+    fetch(folderName+'/data.json')
         .then(response => response.json())
         .then(data => {
             jsonData = data;
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         let audio = null;
         if (audioSrc) {
-            audio = new Audio(audioSrc);
+            audio = new Audio(folderName+'/'+audioSrc);
             vocabAudios.push(audio);
         }
 
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const audioBtn = document.createElement("div");
             audioBtn.classList.add("audio-toggle");
             audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
-            const audio = new Audio(q.audio);
+            const audio = new Audio(folderName+'/'+q.audio);
             practiceAudios.push(audio);
 
             let isPlaying = false;

@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalWordsSpan = document.getElementById('totalWords');
 
     
-    fetch('lib/data.json')
+    fetch(folderName+'/data.json')
         .then(response => response.json())
         .then(data => {
             words = data.words;
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (exampleBoxElement) exampleBoxElement.textContent = word.example;
 
         if (word.image) {
-            wordImageElement.style.backgroundImage = `url('${word.image}')`;
+            wordImageElement.style.backgroundImage = `url('${folderName+'/'+word.image}')`;
             wordImageElement.style.display = 'block';
         } else {
             wordImageElement.style.display = 'none';
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!word || !word.audio) return;
 
         if (!currentAudio) {
-            currentAudio = new Audio(word.audio);
+            currentAudio = new Audio(folderName+'/'+word.audio);
             currentAudio.play().then(() => {
                 isPlaying = true;
                 updatePlayButton();

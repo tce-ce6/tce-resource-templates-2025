@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    console.log('json load')
     let selectedItem = null;
     let state = {}; 
     let feedbackMessages = {}; 
@@ -6,9 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
     let showAnswer = false;
     const feedback = document.getElementById("feedback");
 
-    loadJSONData('lib/data.json');
+    loadJSONData(folderName+'/data.json');
+    
 
     function loadJSONData(fileName) {
+        console.log('json load')
         fetch(fileName)
             .then(response => response.json())
             .then(data => initialize(data))
@@ -27,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById("titleText").textContent = data.titleText || "";
         document.getElementById("instructionText").textContent = data.instructionText || "";
-        document.getElementById("background-image").style.backgroundImage = `url('${data.backgroundImage?.imageSrc}')`;
+        document.getElementById("background-image").style.backgroundImage = `url('${folderName+'/'+data.backgroundImage?.imageSrc}')`;
 
         const collection = document.getElementById("collection");
         const containerArea = document.getElementById("containerArea");
@@ -87,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
             element.style.height = item.height || "auto";
         } else {
             element = document.createElement("img");
-            element.src = item.src;
+            element.src = folderName+'/'+item.src;
             element.alt = item.label;
             element.className = "draggable-item";
             element.style.width = item.width || "60px";

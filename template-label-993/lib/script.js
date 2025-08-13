@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let boxWidth, boxHeight, boxTop, boxLeft, boxBorderColor, boxBackgroundColor;
     let lineEndX, lineEndY;
   
-    fetch("lib/data.json")
+    fetch(folderName+'/data.json')
         .then((response) => response.json())
         .then((data) => initialize(data))
         .catch((err) => console.error("Error loading JSON:", err));
@@ -14,10 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
         jsonData = data;
   
         const backgroundImgElement = document.getElementById("background-image");
-        backgroundImgElement.style.backgroundImage = `url('${data.backgroundImage.imageSrc}')`;
+        backgroundImgElement.style.backgroundImage = `url('${folderName+'/'+data.backgroundImage.imageSrc}')`;
   
         const targetImgElement = document.getElementById("target-image");
-        targetImgElement.src = data.targetImage.imageSrc;
+        targetImgElement.src = folderName+'/'+data.targetImage.imageSrc;
         targetImgElement.style.width = data.targetImage.width;
         targetImgElement.style.height = data.targetImage.height;
         targetImgElement.style.top = data.targetImage.top;

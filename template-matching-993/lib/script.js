@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    fetch('lib/data.json')
+    fetch(folderName+'/data.json')
         .then(response => response.json())
         .then(data => {
             window.gameData = data;
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         //contentContainer.style.color = 'white';
         const imgDiv = document.createElement('div');
         imgDiv.className = 'item-image';
-        imgDiv.style.backgroundImage = `url(${text.image})`;
+        imgDiv.style.backgroundImage = `url(${folderName+'/'+text.image})`;
         contentContainer.appendChild(imgDiv);
     }
         
