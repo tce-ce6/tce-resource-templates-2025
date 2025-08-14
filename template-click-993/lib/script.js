@@ -80,33 +80,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function createDraggableItem(item) {
-        let element;
+    let element;
 
-        if (item.type === "text") {
-            element = document.createElement("div");
-            element.textContent = item.label;
-            element.className = "draggable-item text-item";
-            element.style.width = item.width || "auto";
-            element.style.height = item.height || "auto";
+    // Keep original relative path for re-use
+    let finalSrc = "";
+    if (item.src) {
+        if (
+            !item.src.startsWith(folderName + "/") &&
+            !item.src.startsWith("http") &&
+            !item.src.startsWith("/")
+        ) {
+            finalSrc = folderName + '/' + item.src;
         } else {
-            element = document.createElement("img");
-            element.src = folderName+'/'+item.src;
-            element.alt = item.label;
-            element.className = "draggable-item";
-            element.style.width = item.width || "60px";
-            element.style.height = item.height || "60px";
+            finalSrc = item.src;
         }
-
-        element.title = item.label;
-        element.dataset.label = item.label;
-        element.dataset.target = JSON.stringify(item.target);
-        element.dataset.type = item.type || "image";
-
-        element.addEventListener("mousedown", event => handleItemSelection(event, element));
-        element.addEventListener("touchstart", event => handleItemSelection(event, element));
-
-        return element;
     }
+
+    if (item.type === "text") {
+        element = document.createElement("div");
+        element.textContent = item.label;
+        element.className = "draggable-item text-item";
+        element.style.width = item.width || "auto";
+        element.style.height = item.height || "auto";
+    } else {
+        element = document.createElement("img");
+        element.src = finalSrc;
+        element.alt = item.label;
+        element.className = "draggable-item";
+        element.style.width = item.width || "60px";
+        element.style.height = item.height || "60px";
+    }
+
+    element.title = item.label;
+    element.dataset.label = item.label;
+    element.dataset.target = JSON.stringify(item.target);
+    element.dataset.type = item.type || "image";
+    element.dataset.src = finalSrc; // store the actual working src path
+
+    element.addEventListener("mousedown", event => handleItemSelection(event, element));
+    element.addEventListener("touchstart", event => handleItemSelection(event, element));
+
+    return element;
+}
+
 
     function handleItemSelection(event, element) {
         event.preventDefault();
@@ -136,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function handleDrop(containerDiv) {
+        console.log('selectedItem ', selectedItem)
         if (!selectedItem || showAnswer) {
             feedback.textContent = showAnswer ? "Please hide the answer to continue." : "";
             setTimeout(() => feedback.textContent = "", 2000);
@@ -161,11 +178,11 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => feedback.textContent = "", 2000);
     
         state[containerId].push(label);
-    
+        
         const clone = createDraggableItem({
             label,
             type,
-            src: selectedItem.src,
+            src: selectedItem.dataset.src, // use stored original src
             width: selectedItem.style.width,
             height: selectedItem.style.height
         });
@@ -182,6 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     
         clone.addEventListener("click", () => {
+            /*
             if (showAnswer) {
                 feedback.textContent = "Please hide the answer to continue.";
                 setTimeout(() => feedback.textContent = "", 2000);
@@ -198,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     document.getElementById("collection").appendChild(orig); 
                 }
-            }
+            }*/
         });
     
         containerDiv.appendChild(wrapper);
@@ -241,13 +259,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             wrapper.appendChild(labelEl);
                         }
     
-               
                         containerDiv.appendChild(wrapper);
                         wrapper.dataset.autoAnswer = "true";
                     }
                 });
             } else {
-               
                 Array.from(containerDiv.children).forEach(child => {
                     if (child.dataset.autoAnswer === "true") {
                         containerDiv.removeChild(child);
@@ -257,45 +273,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     
-    function OLD_toggleAnswers() {
-        showAnswer = !showAnswer;
-        document.getElementById("toggle-answer").textContent = showAnswer ? "Hide Answer" : "Show Answer";
-
-        Object.keys(state).forEach(containerId => {
-            const containerDiv = document.getElementById(containerId);
-            const existingLabels = Array.from(containerDiv.children)
-                .map(child => child.querySelector(".dropped-item-label")?.textContent);
-
-            if (showAnswer) {
-                jsonData.collection.forEach(item => {
-                    if (item.target.includes(containerId) && !existingLabels.includes(item.label)) {
-                        const itemEl = createDraggableItem(item);
-
-                        const wrapper = document.createElement("div");
-                        wrapper.className = "dropped-item-wrapper";
-                        wrapper.appendChild(itemEl);
-
-                        if (item.type !== "text") {
-                            const labelEl = document.createElement("div");
-                            labelEl.textContent = item.label;
-                            labelEl.className = "dropped-item-label";
-                            wrapper.appendChild(labelEl);
-                        }
-
-                        containerDiv.appendChild(wrapper);
-                    }
-                });
-            } else {
-                Array.from(containerDiv.children).forEach(child => {
-                    const label = child.querySelector(".dropped-item-label")?.textContent;
-                    if (!state[containerId].includes(label)) {
-                        containerDiv.removeChild(child);
-                    }
-                });
-            }
-        });
-    }
-
     function resetGame() {
         initialize(jsonData);
         feedback.textContent = "Game has been reset.";
