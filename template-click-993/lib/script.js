@@ -21,6 +21,34 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    // Helper function to resolve image paths - handles both base64 and file paths
+    function resolveImagePath(imageSrc) {
+        if (!imageSrc) return "";
+        
+        // If it's already a base64 data URL, return as-is
+        if (imageSrc.startsWith('data:')) {
+            return imageSrc;
+        }
+        
+        // If it's an absolute URL (http/https), return as-is
+        if (imageSrc.startsWith('http://') || imageSrc.startsWith('https://')) {
+            return imageSrc;
+        }
+        
+        // If it's an absolute path starting with '/', return as-is
+        if (imageSrc.startsWith('/')) {
+            return imageSrc;
+        }
+        
+        // If it already starts with the folderName, return as-is
+        if (imageSrc.startsWith(folderName + '/')) {
+            return imageSrc;
+        }
+        
+        // Otherwise, prepend the folderName (relative path)
+        return folderName + '/' + imageSrc;
+    }
+
     function initialize(data) {
         jsonData = data;
         feedbackMessages = data.feedback || {};
@@ -30,7 +58,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById("titleText").textContent = data.titleText || "";
         document.getElementById("instructionText").textContent = data.instructionText || "";
-        document.getElementById("background-image").style.backgroundImage = `url('${folderName+'/'+data.backgroundImage?.imageSrc}')`;
+        
+        // Handle background image - supports both base64 and file paths
+        const backgroundImageSrc = resolveImagePath(data.backgroundImage?.imageSrc);
+        if (backgroundImageSrc) {
+            document.getElementById("background-image").style.backgroundImage = `url('${backgroundImageSrc}')`;
+        }
 
         const collection = document.getElementById("collection");
         const containerArea = document.getElementById("containerArea");
@@ -80,49 +113,70 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function createDraggableItem(item) {
-    let element;
+        let element;
 
-    // Keep original relative path for re-use
-    let finalSrc = "";
-    if (item.src) {
-        if (
-            !item.src.startsWith(folderName + "/") &&
-            !item.src.startsWith("http") &&
-            !item.src.startsWith("/")
-        ) {
-            finalSrc = folderName + '/' + item.src;
+        // Use the helper function to resolve the image path
+        const finalSrc = resolveImagePath(item.src);
+
+        if (item.type === "text") {
+            element = document.createElement("div");
+            element.textContent = item.label;
+            element.className = "draggable-item text-item";
+            element.style.width = item.width || "auto";
+            element.style.height = item.height || "auto";
         } else {
-            finalSrc = item.src;
+            element = document.createElement("img");
+            element.src = finalSrc;
+            element.alt = item.label;
+            element.className = "draggable-item";
+            element.style.width = item.width || "60px";
+            element.style.height = item.height || "60px";
+            
+            // Add error handling for failed image loads
+            element.onerror = function() {
+                console.warn(`Failed to load image: ${finalSrc}`);
+                // Fallback: show the label as text if image fails to load
+                const fallbackText = document.createElement("div");
+                fallbackText.textContent = item.label;
+                fallbackText.className = "draggable-item text-item fallback";
+                fallbackText.style.width = item.width || "60px";
+                fallbackText.style.height = item.height || "60px";
+                fallbackText.style.display = "flex";
+                fallbackText.style.alignItems = "center";
+                fallbackText.style.justifyContent = "center";
+                fallbackText.style.backgroundColor = "#f0f0f0";
+                fallbackText.style.border = "2px dashed #ccc";
+                fallbackText.style.fontSize = "12px";
+                fallbackText.style.textAlign = "center";
+                
+                // Copy all the data attributes and event listeners
+                fallbackText.title = item.label;
+                fallbackText.dataset.label = item.label;
+                fallbackText.dataset.target = JSON.stringify(item.target);
+                fallbackText.dataset.type = item.type || "image";
+                fallbackText.dataset.src = finalSrc;
+                
+                fallbackText.addEventListener("mousedown", event => handleItemSelection(event, fallbackText));
+                fallbackText.addEventListener("touchstart", event => handleItemSelection(event, fallbackText));
+                
+                // Replace the failed image with the fallback
+                if (element.parentNode) {
+                    element.parentNode.replaceChild(fallbackText, element);
+                }
+            };
         }
+
+        element.title = item.label;
+        element.dataset.label = item.label;
+        element.dataset.target = JSON.stringify(item.target);
+        element.dataset.type = item.type || "image";
+        element.dataset.src = finalSrc; // store the resolved src path
+
+        element.addEventListener("mousedown", event => handleItemSelection(event, element));
+        element.addEventListener("touchstart", event => handleItemSelection(event, element));
+
+        return element;
     }
-
-    if (item.type === "text") {
-        element = document.createElement("div");
-        element.textContent = item.label;
-        element.className = "draggable-item text-item";
-        element.style.width = item.width || "auto";
-        element.style.height = item.height || "auto";
-    } else {
-        element = document.createElement("img");
-        element.src = finalSrc;
-        element.alt = item.label;
-        element.className = "draggable-item";
-        element.style.width = item.width || "60px";
-        element.style.height = item.height || "60px";
-    }
-
-    element.title = item.label;
-    element.dataset.label = item.label;
-    element.dataset.target = JSON.stringify(item.target);
-    element.dataset.type = item.type || "image";
-    element.dataset.src = finalSrc; // store the actual working src path
-
-    element.addEventListener("mousedown", event => handleItemSelection(event, element));
-    element.addEventListener("touchstart", event => handleItemSelection(event, element));
-
-    return element;
-}
-
 
     function handleItemSelection(event, element) {
         event.preventDefault();
@@ -179,12 +233,11 @@ document.addEventListener("DOMContentLoaded", function () {
     
         state[containerId].push(label);
         
+        // Create clone using the same createDraggableItem function to maintain consistency
+        const originalItemData = jsonData.collection.find(item => item.label === label);
         const clone = createDraggableItem({
-            label,
-            type,
-            src: selectedItem.dataset.src, // use stored original src
-            width: selectedItem.style.width,
-            height: selectedItem.style.height
+            ...originalItemData,
+            src: selectedItem.dataset.src // use stored resolved src
         });
     
         const wrapper = document.createElement("div");
@@ -199,6 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     
         clone.addEventListener("click", () => {
+            // Uncomment this block if you want to allow removing items from containers
             /*
             if (showAnswer) {
                 feedback.textContent = "Please hide the answer to continue.";
@@ -216,7 +270,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     document.getElementById("collection").appendChild(orig); 
                 }
-            }*/
+            }
+            */
         });
     
         containerDiv.appendChild(wrapper);

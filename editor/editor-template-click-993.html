@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Editor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+            
+        }
+
+        .container {
+            
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1d1f79 0%, #000000 100%);
+            color: white;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 600px;
+            min-height: 600px;
+        }
+
+        .editor-panel {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .preview-panel {
+            background: #f8fafc;
+            border-left: 1px solid #e2e8f0;
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            background: #e2e2e2;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .container-item, .collection-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 18px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f3f4f6;
+            padding: 6px 10px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+        }
+
+        .json-output {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #6366f1;
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .preview-container {
+            position: relative;
+        }
+
+        .dimension-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .add-item-btn {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .add-item-btn:hover {
+            background: #5b21b6;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #6366f1;
+            color: white;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 500;
+            font-size: 14px;
+            width: 130px;
+        }
+
+        .file-input-button:hover {
+            background: #5b21b6;
+        }
+
+        .image-preview {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 4px;
+            margin-top: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        @media (max-width: 768px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-panel {
+                border-left: none;
+                border-top: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Template-click-993</h1>
+            
+        </div>
+
+        <div class="editor-container">
+            <div class="editor-panel">
+                <!-- Basic Settings -->
+                <div class="section">
+                    <h3 class="section-title">Basic Settings</h3>
+                    <div class="form-group">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-input" id="titleText" value="Sort the organs correctly.">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Instructions</label>
+                        <textarea class="form-input textarea" id="instructionText">Tap an organ, and than tap the correct box.</textarea>
+                    </div>
+                </div>
+
+                <!-- Feedback Messages -->
+                <div class="section">
+                    <h3 class="section-title">Feedback Messages</h3>
+                    <div class="form-group">
+                        <label class="form-label">Correct</label>
+                        <input type="text" class="form-input" id="feedbackCorrect" value="Great!">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Incorrect</label>
+                        <input type="text" class="form-input" id="feedbackIncorrect" value="Incorrect! Try again.">
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="form-label">Removed</label>
+                        <input type="text" class="form-input" id="feedbackRemoved" value="Organ removed.">
+                    </div> -->
+                </div>
+
+                <!-- Background Image -->
+                <div class="section">
+                    <h3 class="section-title">Background Image</h3>
+                    <div class="form-group">
+                        <label class="form-label">Image Source</label>
+                        <input type="text" class="form-input" id="backgroundPath" placeholder="e.g., assets/background.jpg" 
+                               value="assets/background.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Or Upload Image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" class="file-input" id="backgroundImage" accept="image/*">
+                            <div class="file-input-button">Choose Image</div>
+                        </div>
+                        <img id="backgroundPreview" class="image-preview" style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Alt Text</label>
+                        <input type="text" class="form-input" id="backgroundAlt" value="Background">
+                    </div>
+                </div>
+
+                <!-- Containers -->
+                <div class="section">
+                    <h3 class="section-title">Containers</h3>
+                    <div id="containersContainer"></div>
+                    <button class="add-item-btn" onclick="addContainer()">+ Add Container</button>
+                </div>
+
+                <!-- Collection Items -->
+                <div class="section">
+                    <h3 class="section-title">Collection Items</h3>
+                    <div id="collectionContainer"></div>
+                    <button class="add-item-btn" onclick="addCollectionItem()">+ Add Collection Item</button>
+                </div>
+            </div>
+
+            <div class="preview-panel">
+                <div class="preview-container">
+                    <h3 class="section-title">JSON Output</h3>
+                    <button class="copy-btn" onclick="copyJSON()">Copy JSON</button>
+                    <pre class="json-output" id="jsonOutput"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let templateData = {
+            "titleText":"Sort the organs correctly.",
+            "instructionText": "Tap an organ, and than tap the correct box.",
+            "feedback": { "correct": "Great!", "incorrect": "Incorrect! Try again.", "removed": "Organ removed."},
+            "backgroundImage": {
+                "imageSrc": "assets/background.jpg",
+                "altText": "Background"
+            },
+            "containers": [
+                { "id": "external", "label": "External Organs", "width":"400px", "height":"200px" },
+                { "id": "internal", "label": "Internal Organs", "width":"400px", "height":"200px" }
+            ],
+            "collection": [
+                { "label": "brain", "type": "text", "width":"auto", "height":"auto", "src": "assets/images/internalparts/brain.png", "target": ["internal"] },
+                { "label": "lungs", "type": "image", "width":"60px", "height":"60px", "src": "assets/images/internalparts/lungs.png", "target": ["internal"]},
+                { "label": "heart", "type": "image", "width":"60px", "height":"60px", "src": "assets/images/internalparts/heart.png", "target": ["internal"] }
+            ]
+        };
+
+        function updateJSON() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            jsonOutput.textContent = JSON.stringify(templateData, null, 2);
+        }
+
+        function initializeEditor() {
+            // Basic settings listeners
+            document.getElementById('titleText').addEventListener('input', (e) => {
+                templateData.titleText = e.target.value;
+                updateJSON();
+            });
+
+            document.getElementById('instructionText').addEventListener('input', (e) => {
+                templateData.instructionText = e.target.value;
+                updateJSON();
+            });
+
+            // Feedback listeners
+            document.getElementById('feedbackCorrect').addEventListener('input', (e) => {
+                templateData.feedback.correct = e.target.value;
+                updateJSON();
+            });
+
+            document.getElementById('feedbackIncorrect').addEventListener('input', (e) => {
+                templateData.feedback.incorrect = e.target.value;
+                updateJSON();
+            });
+
+            // document.getElementById('feedbackRemoved').addEventListener('input', (e) => {
+            //     templateData.feedback.removed = e.target.value;
+            //     updateJSON();
+            // });
+
+            // Background image listeners
+            document.getElementById('backgroundPath').addEventListener('input', (e) => {
+                templateData.backgroundImage.imageSrc = e.target.value;
+                updateJSON();
+            });
+
+            document.getElementById('backgroundAlt').addEventListener('input', (e) => {
+                templateData.backgroundImage.altText = e.target.value;
+                updateJSON();
+            });
+
+            document.getElementById('backgroundImage').addEventListener('change', handleBackgroundImage);
+
+            renderContainers();
+            renderCollection();
+            updateJSON();
+        }
+
+        function handleBackgroundImage(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.getElementById('backgroundPreview');
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
+                    templateData.backgroundImage.imageSrc = event.target.result;
+                    document.getElementById('backgroundPath').value = ''; // Clear path when uploading
+                    updateJSON();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleCollectionImage(index, event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    templateData.collection[index].src = e.target.result;
+                    updateJSON();
+                    renderCollection(); // Re-render to show the preview
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderContainers() {
+            const container = document.getElementById('containersContainer');
+            container.innerHTML = '';
+            
+            templateData.containers.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'container-item';
+                div.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-title">Container: ${item.label}</div>
+                        <button class="btn btn-danger" onclick="removeContainer(${index})">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ID</label>
+                        <input type="text" class="form-input" value="${item.id}" onchange="updateContainer(${index}, 'id', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Label</label>
+                        <input type="text" class="form-input" value="${item.label}" onchange="updateContainer(${index}, 'label', this.value)">
+                    </div>
+                    <div class="dimension-inputs">
+                        <div class="form-group">
+                            <label class="form-label">Width</label>
+                            <input type="text" class="form-input" value="${item.width}" onchange="updateContainer(${index}, 'width', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Height</label>
+                            <input type="text" class="form-input" value="${item.height}" onchange="updateContainer(${index}, 'height', this.value)">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderCollection() {
+            const container = document.getElementById('collectionContainer');
+            container.innerHTML = '';
+            
+            templateData.collection.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'collection-item';
+                div.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-title">Item: ${item.label}</div>
+                        <button class="btn btn-danger" onclick="removeCollectionItem(${index})">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Label</label>
+                        <input type="text" class="form-input" value="${item.label}" onchange="updateCollectionItem(${index}, 'label', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type</label>
+                        <select class="select-input" onchange="updateCollectionItem(${index}, 'type', this.value)">
+                            <option value="text" ${item.type === 'text' ? 'selected' : ''}>Text</option>
+                            <option value="image" ${item.type === 'image' ? 'selected' : ''}>Image</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Image Source</label>
+                        <input type="text" class="form-input" placeholder="e.g., assets/images/heart.png" 
+                               value="${item.src}" onchange="updateCollectionItem(${index}, 'src', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Or Upload Image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" class="file-input" accept="image/*" onchange="handleCollectionImage(${index}, event)">
+                            <div class="file-input-button">Choose Image</div>
+                        </div>
+                        ${item.src ? `<img src="${item.src}" class="image-preview" style="display: block;">` : ''}
+                    </div>
+                    <div class="dimension-inputs">
+                        <div class="form-group">
+                            <label class="form-label">Width</label>
+                            <input type="text" class="form-input" value="${item.width}" onchange="updateCollectionItem(${index}, 'width', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Height</label>
+                            <input type="text" class="form-input" value="${item.height}" onchange="updateCollectionItem(${index}, 'height', this.value)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Target Containers</label>
+                        <div class="checkbox-group">
+                            ${templateData.containers.map(container => `
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="target-${index}-${container.id}" 
+                                           ${item.target.includes(container.id) ? 'checked' : ''}
+                                           onchange="updateCollectionTarget(${index}, '${container.id}', this.checked)">
+                                    <label for="target-${index}-${container.id}">${container.label}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addContainer() {
+            const newContainer = {
+                id: `container_${Date.now()}`,
+                label: "New Container",
+                width: "400px",
+                height: "200px"
+            };
+            templateData.containers.push(newContainer);
+            renderContainers();
+            renderCollection();
+            updateJSON();
+        }
+
+        function removeContainer(index) {
+            templateData.containers.splice(index, 1);
+            renderContainers();
+            renderCollection();
+            updateJSON();
+        }
+
+        function updateContainer(index, field, value) {
+            templateData.containers[index][field] = value;
+            renderContainers();
+            if (field === 'id' || field === 'label') {
+                renderCollection();
+            }
+            updateJSON();
+        }
+
+        function addCollectionItem() {
+            const newItem = {
+                label: "New Item",
+                type: "image",
+                width: "60px",
+                height: "60px",
+                src: "",
+                target: templateData.containers.length > 0 ? [templateData.containers[0].id] : []
+            };
+            templateData.collection.push(newItem);
+            renderCollection();
+            updateJSON();
+        }
+
+        function removeCollectionItem(index) {
+            templateData.collection.splice(index, 1);
+            renderCollection();
+            updateJSON();
+        }
+
+        function updateCollectionItem(index, field, value) {
+            templateData.collection[index][field] = value;
+            if (field === 'label') {
+                renderCollection();
+            }
+            updateJSON();
+        }
+
+        function updateCollectionTarget(index, containerId, checked) {
+            const targets = templateData.collection[index].target;
+            if (checked && !targets.includes(containerId)) {
+                targets.push(containerId);
+            } else if (!checked) {
+                const targetIndex = targets.indexOf(containerId);
+                if (targetIndex > -1) {
+                    targets.splice(targetIndex, 1);
+                }
+            }
+            updateJSON();
+        }
+
+        function copyJSON() {
+            const jsonText = JSON.stringify(templateData, null, 2);
+            navigator.clipboard.writeText(jsonText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeEditor);
+    </script>
+</body>
+</html>

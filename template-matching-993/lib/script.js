@@ -17,8 +17,82 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.show-answer-btn').addEventListener('click', showAnswer);
     document.querySelector('.reset-btn').addEventListener('click', resetGame);
 
+    // Base64 utility functions
+    function isBase64String(str) {
+        if (!str || typeof str !== 'string') return false;
+        
+        // Check for data URL format
+        if (str.startsWith('data:')) {
+            return str.includes('base64,');
+        }
+        
+        // Check for raw base64 string
+        try {
+            return btoa(atob(str)) === str;
+        } catch (err) {
+            return false;
+        }
+    }
+
+    function formatBase64Image(imageData) {
+        if (!imageData) return null;
+        
+        // If it's already a proper data URL, return as is
+        if (imageData.startsWith('data:image/')) {
+            return imageData;
+        }
+        
+        // If it's a raw base64 string, add the data URL prefix
+        if (isBase64String(imageData)) {
+            // Try to detect image type from base64 header
+            const imageType = detectImageType(imageData);
+            return `data:image/${imageType};base64,${imageData}`;
+        }
+        
+        // If it's a regular file path, return as is
+        return folderName + '/' + imageData;
+    }
+
+    function detectImageType(base64String) {
+        // Remove data URL prefix if present
+        const base64Data = base64String.replace(/^data:image\/[a-z]+;base64,/, '');
+        
+        try {
+            // Decode first few bytes to check magic numbers
+            const binaryString = atob(base64Data.substring(0, 16));
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            
+            // Check magic numbers for common image formats
+            if (bytes[0] === 0xFF && bytes[1] === 0xD8) return 'jpeg';
+            if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) return 'png';
+            if (bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46) return 'gif';
+            if (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46) return 'webp';
+            if (bytes[0] === 0x42 && bytes[1] === 0x4D) return 'bmp';
+            
+            return 'png'; // Default fallback
+        } catch (e) {
+            return 'png'; // Default fallback
+        }
+    }
+
+    // Enhanced image loading with error handling
+    function loadImage(imageSrc) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(imageSrc);
+            img.onerror = () => {
+                console.warn(`Failed to load image: ${imageSrc}`);
+                resolve(null); // Continue without image rather than failing
+            };
+            img.src = imageSrc;
+        });
+    }
+
     function createItem(text, column, index, side) {
-        console.log(text)
+        console.log(text);
         const div = document.createElement('div');
         div.className = 'item';
         div.dataset.id = `${index + 1}`;
@@ -30,21 +104,39 @@ document.addEventListener('DOMContentLoaded', function() {
         const textSpan = document.createElement('span');
         textSpan.textContent = text.text;
 
-        // If an image exists, create a div with background image
-    if (text.image) {
-        //contentContainer.style.flexDirection = 'column';
-        contentContainer.style.gap = '10px';
-        contentContainer.style.background = 'linear-gradient(45deg, #d7e6ef, transparent)';
-        //contentContainer.style.background = '#4b8ac038'
-        contentContainer.style.padding = '4px';
-        //contentContainer.style.color = 'white';
-        const imgDiv = document.createElement('div');
-        imgDiv.className = 'item-image';
-        imgDiv.style.backgroundImage = `url(${folderName+'/'+text.image})`;
-        contentContainer.appendChild(imgDiv);
-    }
-        
-
+        // Enhanced image handling with base64 support
+        if (text.image) {
+            const formattedImageSrc = formatBase64Image(text.image);
+            
+            if (formattedImageSrc) {
+                contentContainer.style.gap = '10px';
+                contentContainer.style.background = 'linear-gradient(45deg, #d7e6ef, transparent)';
+                contentContainer.style.padding = '4px';
+                
+                const imgDiv = document.createElement('div');
+                imgDiv.className = 'item-image';
+                
+                // Use loadImage to handle potential loading errors
+                loadImage(formattedImageSrc).then(src => {
+                    if (src) {
+                        imgDiv.style.backgroundImage = `url(${src})`;
+                        imgDiv.style.backgroundSize = 'cover';
+                        imgDiv.style.backgroundPosition = 'center';
+                        imgDiv.style.backgroundRepeat = 'no-repeat';
+                    } else {
+                        // Add a fallback placeholder if image fails to load
+                        imgDiv.style.backgroundColor = '#f0f0f0';
+                        imgDiv.style.border = '2px dashed #ccc';
+                        imgDiv.innerHTML = '<span style="font-size: 12px; color: #666;">Image not available</span>';
+                        imgDiv.style.display = 'flex';
+                        imgDiv.style.alignItems = 'center';
+                        imgDiv.style.justifyContent = 'center';
+                    }
+                });
+                
+                contentContainer.appendChild(imgDiv);
+            }
+        }
 
         const dot = document.createElement('div');
         dot.className = 'connection-dot';
@@ -52,19 +144,12 @@ document.addEventListener('DOMContentLoaded', function() {
         dot.dataset.index = index;
 
         if (side === 'left') {
-            //div.appendChild(textSpan);
-            //div.appendChild(dot);
             contentContainer.appendChild(textSpan);
-            div.appendChild(dot)
+            div.appendChild(dot);
         } else {
-            //div.appendChild(dot);
-            //div.appendChild(textSpan);
             contentContainer.appendChild(textSpan);
-            div.appendChild(dot)
+            div.appendChild(dot);
         }
-
-               
-        
 
         div.addEventListener('click', handleItemClick);
         return div;
@@ -88,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         titleText.textContent = gameData.titleText;
         const columnA = document.getElementById('column-a');
         const columnB = document.getElementById('column-b');
+        
         // Set column titles from JSON
         document.getElementById('column-a-title').textContent = gameData.columnA.title;
         document.getElementById('column-b-title').textContent = gameData.columnB.title;
@@ -95,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
         while (columnA.children.length > 1) columnA.removeChild(columnA.lastChild);
         while (columnB.children.length > 1) columnB.removeChild(columnB.lastChild);
 
-        
         const shuffledA = [...gameData.columnA.items].sort(() => Math.random() - 0.5);
         const shuffledB = [...gameData.columnB.items].sort(() => Math.random() - 0.5);
 
@@ -107,13 +192,39 @@ document.addEventListener('DOMContentLoaded', function() {
             columnB.appendChild(createItem(item, 'B', item.id.replace('item', '') - 1, 'right'));
         });
 
+        setTimeout(adjustRowHeights, 100); // Slightly longer delay to account for image loading
+    }
+
+    // Preload images function for better performance
+    function preloadImages() {
+        if (!gameData) return;
         
-        setTimeout(adjustRowHeights, 0);
+        const allImages = [];
+        
+        // Collect all image sources
+        [...gameData.columnA.items, ...gameData.columnB.items].forEach(item => {
+            if (item.image) {
+                const formattedSrc = formatBase64Image(item.image);
+                if (formattedSrc) {
+                    allImages.push(formattedSrc);
+                }
+            }
+        });
+        
+        // Preload all images
+        Promise.all(allImages.map(src => loadImage(src)))
+            .then(() => {
+                console.log('All images preloaded');
+                // Adjust heights again after all images are loaded
+                setTimeout(adjustRowHeights, 50);
+            })
+            .catch(error => {
+                console.warn('Some images failed to preload:', error);
+            });
     }
 
     function handleItemClick(event) {
         const item = event.currentTarget;
-        
         
         if (item.classList.contains('correct')) {
             return;
@@ -127,15 +238,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (selectedItem !== item) {
             const selectedDot = selectedItem.querySelector('.connection-dot');
             
-        
             if (selectedDot.dataset.column !== dot.dataset.column && !selectedItem.classList.contains('correct')) {
-        
                 item.classList.add('selected');
                 
-        
                 setTimeout(() => {
                     createConnection(selectedItem, item);
-        
+                    
                     selectedItem.classList.remove('selected');
                     item.classList.remove('selected');
                     selectedItem = null;
@@ -162,7 +270,6 @@ document.addEventListener('DOMContentLoaded', function() {
         line.setAttribute('stroke-width', '2');
         line.style.pointerEvents = 'none';
 
-        
         line.setAttribute('x1', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
         line.setAttribute('y1', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
         line.setAttribute('x2', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
@@ -170,10 +277,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         svg.appendChild(line);
 
-        
         line.getBoundingClientRect();
 
-        
         requestAnimationFrame(() => {
             line.style.transition = 'all 0.3s ease-in-out';
             updateLinePosition(line, dot1, dot2);
@@ -224,7 +329,6 @@ document.addEventListener('DOMContentLoaded', function() {
         feedback.textContent = isCorrect ? gameData.feedback.correct : gameData.feedback.incorrect;
         feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
 
-        
         connection.item1.classList.remove('correct', 'incorrect');
         connection.item2.classList.remove('correct', 'incorrect');
         connection.item1.classList.add(isCorrect ? 'correct' : 'incorrect');
@@ -244,7 +348,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showAnswer() {
-        
         connections.forEach(conn => {
             conn.line.remove();
         });
@@ -257,7 +360,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const itemsA = Array.from(document.getElementById('column-a').querySelectorAll('.item'));
         const itemsB = Array.from(document.getElementById('column-b').querySelectorAll('.item'));
 
-        
         const pairs = gameData.columnA.items.map(itemData => {
             const itemA = itemsA.find(el => el.dataset.id === itemData.id);
             const itemB = itemsB.find(el => el.dataset.id === itemData.id);
@@ -272,24 +374,19 @@ document.addEventListener('DOMContentLoaded', function() {
             return null;
         }).filter(pair => pair !== null);
 
-        
         pairs.sort((a, b) => a.yPosition - b.yPosition);
 
-        
         pairs.forEach((pair, index) => {
             setTimeout(() => {
-        
                 pair.itemA.classList.add('correct');
                 pair.itemB.classList.add('correct');
 
                 const dot1 = pair.itemA.querySelector('.connection-dot');
                 const dot2 = pair.itemB.querySelector('.connection-dot');
 
-        
                 dot1.classList.add('blink');
                 dot2.classList.add('blink');
 
-        
                 setTimeout(() => {
                     dot1.classList.remove('blink');
                     dot2.classList.remove('blink');
@@ -300,18 +397,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 line.setAttribute('stroke-width', '2');
                 line.style.pointerEvents = 'none';
 
-        
                 line.setAttribute('x1', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
                 line.setAttribute('y1', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
                 line.setAttribute('x2', dot1.getBoundingClientRect().left + dot1.offsetWidth / 2);
                 line.setAttribute('y2', dot1.getBoundingClientRect().top + dot1.offsetHeight / 2);
 
                 svg.appendChild(line);
-                
-        
+
                 line.getBoundingClientRect();
 
-        
                 requestAnimationFrame(() => {
                     line.style.transition = 'all 0.5s ease-in-out';
                     updateLinePosition(line, dot1, dot2);
@@ -334,21 +428,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function resetGame() {
-        
         connections.forEach(conn => {
             conn.line.remove();
         });
         connections = [];
 
-        
         document.querySelectorAll('.item').forEach(item => {
             item.classList.remove('selected', 'correct', 'incorrect');
         });
 
-        
         initializeGame();
 
-        
         const feedback = document.getElementById('feedback');
         feedback.textContent = "Game Reset!";
         feedback.className = 'feedback';
@@ -366,4 +456,11 @@ document.addEventListener('DOMContentLoaded', function() {
             );
         });
     });
+
+    // Initialize image preloading after game data is loaded
+    const originalInitializeGame = initializeGame;
+    initializeGame = function() {
+        originalInitializeGame();
+        preloadImages();
+    };
 });
