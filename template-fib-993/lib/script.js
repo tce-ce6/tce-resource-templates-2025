@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const vocabScreen = document.getElementById("screen1");
     const fillupScreen = document.getElementById("screen2");
 
-    
     document.getElementById("practice-btn").addEventListener("click", () => {
         stopVocabAudio();
         showScreen2();
@@ -20,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showScreen1();
     });
 
-    
-    fetch(folderName+'/data.json')
+    fetch(folderName + '/data.json')
         .then(response => response.json())
         .then(data => {
             jsonData = data;
@@ -34,11 +32,21 @@ document.addEventListener("DOMContentLoaded", function () {
         setupFillupScreen(data);
     }
 
-    
+    // ---- helper for base64/file audio ----
+    function createAudio(src) {
+        if (!src) return null;
+        if (src.startsWith("data:audio")) {
+            return new Audio(src); // base64
+        } else {
+            return new Audio(folderName + '/' + src); // normal file path
+        }
+    }
+
     function setupVocabScreen(vocabItems) {
         displayVocabItem(vocabItems[currentVocabIndex]);
         renderPagination(vocabItems);
         updateNavButtons(vocabItems);
+
         document.getElementById("nextPage").addEventListener("click", () => {
             stopVocabAudio();
             if (currentVocabIndex < vocabItems.length - 1) {
@@ -59,14 +67,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
     function updateNavButtons(vocabItems) {
         const nextBtn = document.getElementById("nextPage");
         const prevBtn = document.getElementById("prevPage");
-    
+
         prevBtn.disabled = currentVocabIndex === 0;
         nextBtn.disabled = currentVocabIndex === vocabItems.length - 1;
-    
-        
+
         prevBtn.classList.toggle("disabled", prevBtn.disabled);
         nextBtn.classList.toggle("disabled", nextBtn.disabled);
     }
@@ -75,22 +83,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const container = document.getElementById("vocab-container");
         container.innerHTML = "";
 
-        
         stopVocabAudio();
         vocabAudios = [];
 
-        
         const matchingAnswer = jsonData.answers.items.find(a => a.text === item.word || a.text === item.text);
         const audioSrc = matchingAnswer?.audio;
 
-        
-        let audio = null;
-        if (audioSrc) {
-            audio = new Audio(folderName+'/'+audioSrc);
-            vocabAudios.push(audio);
-        }
+        let audio = createAudio(audioSrc);
+        if (audio) vocabAudios.push(audio);
 
-        
         const audioBtn = document.createElement("div");
         audioBtn.classList.add("audio-toggle-screen1");
         audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
@@ -130,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderPagination(items) {
         const pagination = document.getElementById("paginationSmall");
         pagination.innerHTML = "";
-    
+
         items.forEach((_, index) => {
             const btn = document.createElement("div");
             btn.classList.add("page-button");
@@ -145,59 +146,31 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             pagination.appendChild(btn);
         });
-    
+
         const paginationLine = document.createElement("div");
         paginationLine.classList.add("pagination-line");
         pagination.appendChild(paginationLine);
-    
+
         setTimeout(() => {
             const prevBtn = document.getElementById("prevPage");
             const nextBtn = document.getElementById("nextPage");
             const pageButtons = pagination.querySelectorAll(".page-button");
-    
+
             let totalWidth = 0;
-    
+
             if (prevBtn) totalWidth += prevBtn.offsetWidth;
             if (nextBtn) totalWidth += nextBtn.offsetWidth;
-    
+
             pageButtons.forEach(btn => {
                 totalWidth += btn.offsetWidth;
             });
-    
-            paginationLine.style.width = `${totalWidth+150}px`;
+
+            paginationLine.style.width = `${totalWidth + 150}px`;
             paginationLine.style.margin = "0 auto";
         }, 0);
-    
+
         updateNavButtons(items);
     }
-    
-    function OLD_renderPagination(items) {
-        
-        const pagination = document.getElementById("paginationSmall");
-        pagination.innerHTML = "";
-        
-        const paginationLine = document.createElement("div");
-        pagination.appendChild(paginationLine);
-        paginationLine.classList.add("pagination-line");
-
-        items.forEach((_, index) => {
-            const btn = document.createElement("div");
-            btn.classList.add("page-button");
-            btn.textContent = index + 1;
-            if (index === currentVocabIndex) btn.classList.add("active-page");
-            btn.addEventListener("click", () => {
-                stopVocabAudio();
-                currentVocabIndex = index;
-                displayVocabItem(items[currentVocabIndex]);
-                updatePaginationHighlight();
-                updateNavButtons(items);
-            });
-            pagination.appendChild(btn);
-        });
-
-    }
-   
-    
 
     function updatePaginationHighlight() {
         document.querySelectorAll(".page-button").forEach((btn, idx) => {
@@ -219,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
         practiceAudios = [];
         selectedAnswer = null;
 
-        const blankWidth = `${Math.max(...data.answers.items.map(a => a.text.length-2))}ch`;
+        const blankWidth = `${Math.max(...data.answers.items.map(a => a.text.length - 2))}ch`;
         const shuffledQuestions = shuffleArray(data.questions.items);
 
         shuffledQuestions.forEach((q, index) => {
@@ -229,29 +202,32 @@ document.addEventListener("DOMContentLoaded", function () {
             const audioBtn = document.createElement("div");
             audioBtn.classList.add("audio-toggle");
             audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
-            const audio = new Audio(folderName+'/'+q.audio);
-            practiceAudios.push(audio);
+
+            const audio = createAudio(q.audio);
+            if (audio) practiceAudios.push(audio);
 
             let isPlaying = false;
-            audioBtn.addEventListener("click", () => {
-                stopPracticeAudio();
-                if (!isPlaying) {
-                    audio.play();
-                    audioBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    audioBtn.classList.add("active-audio");
-                } else {
-                    audio.pause();
-                    audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
-                    audioBtn.classList.remove("active-audio");
-                }
-                isPlaying = !isPlaying;
+            if (audio) {
+                audioBtn.addEventListener("click", () => {
+                    stopPracticeAudio();
+                    if (!isPlaying) {
+                        audio.play();
+                        audioBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                        audioBtn.classList.add("active-audio");
+                    } else {
+                        audio.pause();
+                        audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
+                        audioBtn.classList.remove("active-audio");
+                    }
+                    isPlaying = !isPlaying;
 
-                audio.onended = () => {
-                    isPlaying = false;
-                    audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
-                    audioBtn.classList.remove("active-audio");
-                };
-            });
+                    audio.onended = () => {
+                        isPlaying = false;
+                        audioBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
+                        audioBtn.classList.remove("active-audio");
+                    };
+                });
+            }
 
             wrapper.appendChild(audioBtn);
 
@@ -373,39 +349,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showScreen1() {
         stopPracticeAudio();
-    
         fillupScreen.classList.remove("show");
         fillupScreen.classList.add("hide-left");
-    
 
         vocabScreen.classList.remove("hidden", "hide-left");
-        void vocabScreen.offsetWidth; // Force reflow
+        void vocabScreen.offsetWidth;
         vocabScreen.classList.add("show");
-    
 
         setTimeout(() => {
             fillupScreen.classList.add("hidden");
         }, 500);
     }
-    
+
     function showScreen2() {
         stopVocabAudio();
         vocabScreen.classList.remove("show");
         vocabScreen.classList.add("hide-left");
-    
-        
+
         fillupScreen.classList.remove("hidden");
         fillupScreen.classList.remove("hide-left");
-    
-        
+
         void fillupScreen.offsetWidth;
         fillupScreen.classList.add("show");
-    
+
         setTimeout(() => {
             vocabScreen.classList.add("hidden");
         }, 500);
     }
-    
-    
-    
 });

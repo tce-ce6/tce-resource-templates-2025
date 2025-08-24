@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill in the Blanks Template Editor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .container {
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #059669 0%, #065f46 100%);
+            color: white;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 600px;
+            min-height: 600px;
+        }
+
+        .editor-panel {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .preview-panel {
+            background: #f8fafc;
+            border-left: 1px solid #e2e8f0;
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            background: #e2e2e2;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+
+        .textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .items-section {
+            background: #f0f9ff;
+            border: 2px solid #bae6fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .items-section.answers-section {
+            background: #fef3c7;
+            border-color: #fcd34d;
+        }
+
+        .items-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+            text-align: center;
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+        }
+
+        .item-container {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .add-item-btn {
+            width: 100%;
+            padding: 12px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .add-item-btn:hover {
+            background: #047857;
+        }
+
+        .add-item-btn.questions-btn {
+            background: #dc2626;
+        }
+
+        .add-item-btn.questions-btn:hover {
+            background: #b91c1c;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #059669;
+            color: white;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 500;
+            font-size: 14px;
+            width: 130px;
+        }
+
+        .file-input-button:hover {
+            background: #047857;
+        }
+
+        .json-output {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #059669;
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .preview-container {
+            position: relative;
+        }
+
+        .stats-info {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            color: #0369a1;
+        }
+
+        .stats-info strong {
+            color: #0c4a6e;
+        }
+
+        .blank-highlight {
+            background: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-panel {
+                border-left: none;
+                border-top: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Fill in the Blanks Template Editor</h1>
+        </div>
+
+        <div class="editor-container">
+            <div class="editor-panel">
+                <!-- Statistics Info -->
+                <div class="stats-info" id="statsInfo">
+                    <strong>Total Answers:</strong> <span id="answerCount">0</span> | 
+                    <strong>Total Questions:</strong> <span id="questionCount">0</span>
+                </div>
+
+                <!-- Basic Settings -->
+                <div class="section">
+                    <div class="section-title">Basic Settings</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Title Text</label>
+                        <input type="text" class="form-input" id="titleText" placeholder="Enter title for the exercise" onchange="updateBasicField('titleText', this.value)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Instruction Text</label>
+                        <textarea class="form-input textarea" id="instructionText" placeholder="Enter instructions for students" onchange="updateBasicField('instructionText', this.value)"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Correct Feedback</label>
+                        <input type="text" class="form-input" id="correctFeedback" placeholder="Message for correct answers" onchange="updateFeedback('correct', this.value)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Incorrect Feedback</label>
+                        <input type="text" class="form-input" id="incorrectFeedback" placeholder="Message for incorrect answers" onchange="updateFeedback('incorrect', this.value)">
+                    </div>
+                </div>
+
+                <!-- Answer Options -->
+                <div class="section">
+                    <div class="items-section answers-section">
+                        <h3 class="items-title">Answer Options</h3>
+                        <div id="answersContainer"></div>
+                        <button class="add-item-btn" onclick="addAnswer()">+ Add New Answer Option</button>
+                    </div>
+                </div>
+
+                <!-- Questions -->
+                <div class="section">
+                    <div class="items-section">
+                        <h3 class="items-title">Questions</h3>
+                        <div id="questionsContainer"></div>
+                        <button class="add-item-btn questions-btn" onclick="addQuestion()">+ Add New Question</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-panel">
+                <div class="preview-container">
+                    <h3 class="section-title">JSON Output</h3>
+                    <button class="copy-btn" onclick="copyJSON()">Copy JSON</button>
+                    <pre class="json-output" id="jsonOutput"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let fibData = {
+            "titleText": "",
+            "instructionText": "Choose the correct word or phrase to fill in the blanks.",
+            "feedback": {
+                "correct": "Correct!",
+                "incorrect": "Incorrect! Try again."
+            },
+            "answers": {
+                "items": [
+                    {"id": "1", "text": "landlord", "meaning": "a person who owns and rents land, buildings, or apartments", "audio": "assets/audio/real.mp3"},
+                    {"id": "2","text": "over the years", "meaning": "as time passed", "audio": "assets/audio/sample-6.mp3"},
+                    {"id": "3","text": "give up", "meaning": "stop trying", "audio": "assets/audio/real.mp3"}
+                ]
+            },
+            "questions": {
+                "items": [
+                    {
+                        "id": "1",
+                        "text": "The <blank> collects rent from the tenants on the fifth of every month.",
+                        "audio": "assets/audio/real.mp3"
+                    },
+                    {
+                        "id": "2",
+                        "text": "Even though the puzzle was difficult, Sarah refused to <blank> until she solved it.",
+                        "audio": "assets/audio/real.mp3"
+                    }
+                ]
+            }
+        };
+
+        function updateJSON() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            jsonOutput.textContent = JSON.stringify(fibData, null, 2);
+            updateStats();
+        }
+
+        function updateStats() {
+            const answerCount = document.getElementById('answerCount');
+            const questionCount = document.getElementById('questionCount');
+            answerCount.textContent = fibData.answers.items.length;
+            questionCount.textContent = fibData.questions.items.length;
+        }
+
+        function initializeEditor() {
+            // Populate basic fields
+            document.getElementById('titleText').value = fibData.titleText;
+            document.getElementById('instructionText').value = fibData.instructionText;
+            document.getElementById('correctFeedback').value = fibData.feedback.correct;
+            document.getElementById('incorrectFeedback').value = fibData.feedback.incorrect;
+            
+            renderAnswers();
+            renderQuestions();
+            updateJSON();
+        }
+
+        function updateBasicField(field, value) {
+            fibData[field] = value;
+            updateJSON();
+        }
+
+        function updateFeedback(type, value) {
+            fibData.feedback[type] = value;
+            updateJSON();
+        }
+
+        function handleAudio(type, index, event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('audio/')) {
+                    alert('Please select an audio file');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (type === 'answer') {
+                        fibData.answers.items[index].audio = e.target.result;
+                    } else {
+                        fibData.questions.items[index].audio = e.target.result;
+                    }
+                    updateJSON();
+                    if (type === 'answer') renderAnswers();
+                    else renderQuestions();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderAnswers() {
+            const container = document.getElementById('answersContainer');
+            container.innerHTML = '';
+            
+            fibData.answers.items.forEach((answer, index) => {
+                const div = document.createElement('div');
+                div.className = 'item-container';
+                div.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-title">Answer ${index + 1}: "${answer.text}"</div>
+                        <button class="btn btn-danger" onclick="removeAnswer(${index})">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Answer Text</label>
+                        <input type="text" class="form-input" value="${answer.text}" onchange="updateAnswer(${index}, 'text', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Meaning</label>
+                        <textarea class="form-input textarea" onchange="updateAnswer(${index}, 'meaning', this.value)">${answer.meaning || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Audio Source</label>
+                        <input type="text" class="form-input" placeholder="e.g., assets/audio/word.mp3" 
+                               value="${answer.audio || ''}" onchange="updateAnswer(${index}, 'audio', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Or Upload Audio</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" class="file-input" accept="audio/*" onchange="handleAudio('answer', ${index}, event)">
+                            <div class="file-input-button">Choose Audio</div>
+                        </div>
+                        ${answer.audio && answer.audio.startsWith('data:audio/') ? `<div style="margin-top: 8px; font-size: 0.8rem; color: #6b7280;">📄 Audio file uploaded (${Math.round(answer.audio.length / 1024)}KB)</div>` : ''}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            fibData.questions.items.forEach((question, index) => {
+                const div = document.createElement('div');
+                div.className = 'item-container';
+                
+                // Highlight blanks in preview
+                const previewText = question.text.replace(/<blank>/g, '<span class="blank-highlight">&lt;blank&gt;</span>');
+                
+                div.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-title">Question ${index + 1}</div>
+                        <button class="btn btn-danger" onclick="removeQuestion(${index})">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Question Text (use &lt;blank&gt; for blanks)</label>
+                        <textarea class="form-input textarea" onchange="updateQuestion(${index}, 'text', this.value)" placeholder="Enter question text with <blank> for fill-in areas">${question.text}</textarea>
+                        <div style="margin-top: 8px; padding: 8px; background: #f9fafb; border-radius: 4px; font-size: 0.85rem;">
+                            <strong>Preview:</strong> ${previewText}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Audio Source</label>
+                        <input type="text" class="form-input" placeholder="e.g., assets/audio/question.mp3" 
+                               value="${question.audio || ''}" onchange="updateQuestion(${index}, 'audio', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Or Upload Audio</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" class="file-input" accept="audio/*" onchange="handleAudio('question', ${index}, event)">
+                            <div class="file-input-button">Choose Audio</div>
+                        </div>
+                        ${question.audio && question.audio.startsWith('data:audio/') ? `<div style="margin-top: 8px; font-size: 0.8rem; color: #6b7280;">📄 Audio file uploaded (${Math.round(question.audio.length / 1024)}KB)</div>` : ''}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addAnswer() {
+            const newId = (Math.max(...fibData.answers.items.map(item => parseInt(item.id))) + 1).toString();
+            const newAnswer = {
+                "id": newId,
+                "text": "New answer",
+                "meaning": "Definition of the answer",
+                "audio": "assets/audio/real.mp3"
+            };
+            fibData.answers.items.push(newAnswer);
+            renderAnswers();
+            updateJSON();
+        }
+
+        function removeAnswer(index) {
+            fibData.answers.items.splice(index, 1);
+            renderAnswers();
+            updateJSON();
+        }
+
+        function updateAnswer(index, field, value) {
+            fibData.answers.items[index][field] = value;
+            
+            if (field === 'text') {
+                renderAnswers();
+            }
+            
+            updateJSON();
+        }
+
+        function addQuestion() {
+            const newId = (Math.max(...fibData.questions.items.map(item => parseInt(item.id))) + 1).toString();
+            const newQuestion = {
+                "id": newId,
+                "text": "This is a new question with a <blank> to fill in.",
+                "audio": "assets/audio/real.mp3"
+            };
+            fibData.questions.items.push(newQuestion);
+            renderQuestions();
+            updateJSON();
+        }
+
+        function removeQuestion(index) {
+            fibData.questions.items.splice(index, 1);
+            renderQuestions();
+            updateJSON();
+        }
+
+        function updateQuestion(index, field, value) {
+            fibData.questions.items[index][field] = value;
+            
+            if (field === 'text') {
+                renderQuestions();
+            }
+            
+            updateJSON();
+        }
+
+        function copyJSON() {
+            const jsonText = JSON.stringify(fibData, null, 2);
+            navigator.clipboard.writeText(jsonText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeEditor);
+    </script>
+</body>
+</html>
