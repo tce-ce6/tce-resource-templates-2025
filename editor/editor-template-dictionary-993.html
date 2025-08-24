@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dictionary Template Editor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .container {
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1d1f79 0%, #000000 100%);
+            color: white;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 600px;
+            min-height: 600px;
+        }
+
+        .editor-panel {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .preview-panel {
+            background: #f8fafc;
+            border-left: 1px solid #e2e8f0;
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            background: #e2e2e2;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .words-section {
+            background: #f0f0f0;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .words-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+            text-align: center;
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+        }
+
+        .word-container {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .word-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .word-title {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .add-word-btn {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .add-word-btn:hover {
+            background: #5b21b6;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #6366f1;
+            color: white;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 500;
+            font-size: 14px;
+            width: 130px;
+        }
+
+        .file-input-button:hover {
+            background: #5b21b6;
+        }
+
+        .image-preview {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 4px;
+            margin-top: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .json-output {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #6366f1;
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .preview-container {
+            position: relative;
+        }
+
+        .stats-info {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            color: #0369a1;
+        }
+
+        .stats-info strong {
+            color: #0c4a6e;
+        }
+
+        @media (max-width: 768px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-panel {
+                border-left: none;
+                border-top: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>dictionary Template Editor</h1>
+        </div>
+
+        <div class="editor-container">
+            <div class="editor-panel">
+                <!-- Statistics Info -->
+                <div class="stats-info" id="statsInfo">
+                    <strong>Total Words:</strong> <span id="wordCount">0</span>
+                </div>
+
+                <!-- dictionary Words -->
+                <div class="section">
+                    <div class="words-section">
+                        <h3 class="words-title">dictionary Words</h3>
+                        <div id="wordsContainer"></div>
+                        <button class="add-word-btn" onclick="addWord()">+ Add New Word</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-panel">
+                <div class="preview-container">
+                    <h3 class="section-title">JSON Output</h3>
+                    <button class="copy-btn" onclick="copyJSON()">Copy JSON</button>
+                    <pre class="json-output" id="jsonOutput"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let dictionaryData = {
+            "words": [
+                {
+                    "word": "large tracts of land",
+                    "meaning": "large areas of land",
+                    "example": "After his grandmother passed away, she left him large tracts of land in their village.",
+                    "audio": "assets/audio/real.mp3",
+                    "image": ""
+                },
+                {
+                    "word": "landlord",
+                    "meaning": "a person who owns and rents land, buildings, or apartments",
+                    "example": "The landlord collects rent from the tenants on the fifth of every month.",
+                    "audio": "assets/audio/real.mp3",
+                    "image": "assets/images/real.jpg"
+                },
+                {
+                    "word": "potion",
+                    "meaning": "a liquid with magical properties",
+                    "example": "The witch in the story claimed that her potion could make anyone invisible.",
+                    "audio": "assets/audio/real.mp3",
+                    "image": "assets/images/real2.jpg"
+                },
+                {
+                    "word": "give up",
+                    "meaning": "stop trying",
+                    "example": "Even though the puzzle was difficult, Sarah refused to give up until she solved it.",
+                    "audio": "assets/audio/real.mp3",
+                    "image": "assets/images/real3.jpg"
+                }
+            ]
+        };
+
+        function updateJSON() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            jsonOutput.textContent = JSON.stringify(dictionaryData, null, 2);
+            updateStats();
+        }
+
+        function updateStats() {
+            const wordCount = document.getElementById('wordCount');
+            wordCount.textContent = dictionaryData.words.length;
+        }
+
+        function initializeEditor() {
+            renderWords();
+            updateJSON();
+        }
+
+        function handleWordImage(index, event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    dictionaryData.words[index].image = e.target.result;
+                    updateJSON();
+                    renderWords();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleWordAudio(index, event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Check if it's an audio file
+                if (!file.type.startsWith('audio/')) {
+                    alert('Please select an audio file');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    dictionaryData.words[index].audio = e.target.result;
+                    updateJSON();
+                    renderWords();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderWords() {
+            const container = document.getElementById('wordsContainer');
+            container.innerHTML = '';
+            
+            dictionaryData.words.forEach((word, index) => {
+                const div = document.createElement('div');
+                div.className = 'word-container';
+                div.innerHTML = `
+                    <div class="word-header">
+                        <div class="word-title">Word ${index + 1}: "${word.word}"</div>
+                        <button class="btn btn-danger" onclick="removeWord(${index})">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Word/Phrase</label>
+                        <input type="text" class="form-input" value="${word.word}" onchange="updateWord(${index}, 'word', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Meaning</label>
+                        <textarea class="form-input textarea" onchange="updateWord(${index}, 'meaning', this.value)">${word.meaning || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Example Sentence</label>
+                        <textarea class="form-input textarea" onchange="updateWord(${index}, 'example', this.value)">${word.example || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Audio Source</label>
+                        <input type="text" class="form-input" placeholder="e.g., assets/audio/word.mp3" 
+                               value="${word.audio || ''}" onchange="updateWord(${index}, 'audio', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Or Upload Audio</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" class="file-input" accept="audio/*" onchange="handleWordAudio(${index}, event)">
+                            <div class="file-input-button">Choose Audio</div>
+                        </div>
+                        ${word.audio && word.audio.startsWith('data:audio/') ? `<div style="margin-top: 8px; font-size: 0.8rem; color: #6b7280;">📄 Audio file uploaded (${Math.round(word.audio.length / 1024)}KB)</div>` : ''}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Image Source</label>
+                        <input type="text" class="form-input" placeholder="e.g., assets/images/word.jpg" 
+                               value="${word.image || ''}" onchange="updateWord(${index}, 'image', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Or Upload Image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" class="file-input" accept="image/*" onchange="handleWordImage(${index}, event)">
+                            <div class="file-input-button">Choose Image</div>
+                        </div>
+                        ${word.image ? `<img src="${word.image}" class="image-preview" style="display: block;">` : ''}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addWord() {
+            const newWord = {
+                "word": "New word",
+                "meaning": "Definition of the word",
+                "example": "Example sentence using the word.",
+                "audio": "assets/audio/real.mp3",
+                "image": ""
+            };
+            dictionaryData.words.push(newWord);
+            renderWords();
+            updateJSON();
+        }
+
+        function removeWord(index) {
+            dictionaryData.words.splice(index, 1);
+            renderWords();
+            updateJSON();
+        }
+
+        function updateWord(index, field, value) {
+            if (field === 'image' && value === '') {
+                dictionaryData.words[index][field] = "";
+            } else if (field === 'audio' && value === '') {
+                dictionaryData.words[index][field] = "";
+            } else {
+                dictionaryData.words[index][field] = value;
+            }
+            
+            // Update the word title in the header
+            if (field === 'word') {
+                renderWords();
+            }
+            
+            updateJSON();
+        }
+
+        function copyJSON() {
+            const jsonText = JSON.stringify(dictionaryData, null, 2);
+            navigator.clipboard.writeText(jsonText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeEditor);
+    </script>
+</body>
+</html>

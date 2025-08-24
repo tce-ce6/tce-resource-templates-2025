@@ -38,35 +38,34 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error loading words:', error);
         });
 
-        function displayWordList() {
-            wordList.innerHTML = '';
-            words.forEach(word => {
-                const div = document.createElement('div');
-                div.className = 'word-item';
-                div.innerHTML = `
-                    <input type="checkbox" id="word-${word.word}" value="${word.word}">
-                    <div class="word-item-text">${word.word}</div>
-                `;
-                
-                const checkbox = div.querySelector('input[type="checkbox"]');
-        
+    function displayWordList() {
+        wordList.innerHTML = '';
+        words.forEach(word => {
+            const div = document.createElement('div');
+            div.className = 'word-item';
+            div.innerHTML = `
+                <input type="checkbox" id="word-${word.word}" value="${word.word}">
+                <div class="word-item-text">${word.word}</div>
+            `;
             
-                div.addEventListener('click', (event) => {
-                    if (event.target !== checkbox) {
-                        checkbox.checked = !checkbox.checked;
-                        updateNextButtonState();
-                    }
-                });
+            const checkbox = div.querySelector('input[type="checkbox"]');
+    
         
-                wordList.appendChild(div);
+            div.addEventListener('click', (event) => {
+                if (event.target !== checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    updateNextButtonState();
+                }
             });
+    
+            wordList.appendChild(div);
+        });
+    
         
-            
-            document.querySelectorAll('.word-item input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', updateNextButtonState);
-            });
-        }
-        
+        document.querySelectorAll('.word-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateNextButtonState);
+        });
+    }
 
     function updateNextButtonState() {
         const hasSelection = document.querySelector('.word-item input[type="checkbox"]:checked');
@@ -75,14 +74,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updatePaginationDots() {
         if (!paginationDots) return;
-    
+
         paginationDots.innerHTML = '';
-    
+
         
         const line = document.createElement('div');
         line.className = 'pagination-line';
         paginationDots.appendChild(line);
-    
+
         selectedWords.forEach((_, index) => {
             const dot = document.createElement('div');
             dot.className = `dot${index === currentIndex ? ' active' : ''}`;
@@ -92,10 +91,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 displayCurrentWord();
                 updatePaginationDots();
             });
-    
+
             paginationDots.appendChild(dot);
         });
-    
+
         
         const dots = document.querySelectorAll('.dot');
         if (dots.length > 1) {
@@ -104,14 +103,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const containerRect = paginationDots.getBoundingClientRect();
             const firstDotRect = firstDot.getBoundingClientRect();
             const lastDotRect = lastDot.getBoundingClientRect();
-    
+
             const startX = firstDotRect.left - containerRect.left + firstDotRect.width / 2;
             const endX = lastDotRect.left - containerRect.left + lastDotRect.width / 2;
             line.style.width = `${endX - startX + 200}px`;
             //line.style.left = `${startX}px`;
         }
     }
-    
 
     
     selectAllBtn.addEventListener('click', () => {
@@ -181,8 +179,22 @@ document.addEventListener('DOMContentLoaded', function () {
         if (wordMeaningElement) wordMeaningElement.textContent = " - "+word.meaning;
         if (exampleBoxElement) exampleBoxElement.textContent = word.example;
 
+        // Handle both base64 and file path images
         if (word.image) {
-            wordImageElement.style.backgroundImage = `url('${folderName+'/'+word.image}')`;
+            let imageSource;
+            if (word.image.startsWith('data:image/')) {
+                // Base64 encoded image
+                imageSource = word.image;
+            } else if (word.image.trim() !== '') {
+                // File path image
+                imageSource = folderName + '/' + word.image;
+            } else {
+                // Empty image field
+                wordImageElement.style.display = 'none';
+                return;
+            }
+            
+            wordImageElement.style.backgroundImage = `url('${imageSource}')`;
             wordImageElement.style.display = 'block';
         } else {
             wordImageElement.style.display = 'none';
@@ -201,7 +213,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!word || !word.audio) return;
 
         if (!currentAudio) {
-            currentAudio = new Audio(folderName+'/'+word.audio);
+            // Handle both base64 and file path audio
+            let audioSource;
+            if (word.audio.startsWith('data:audio/')) {
+                // Base64 encoded audio
+                audioSource = word.audio;
+            } else {
+                // File path audio
+                audioSource = folderName + '/' + word.audio;
+            }
+
+            currentAudio = new Audio(audioSource);
             currentAudio.play().then(() => {
                 isPlaying = true;
                 updatePlayButton();
@@ -238,12 +260,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function replayAudio() {
-        currentAudio.currentTime = 0;
+        if (currentAudio) {
+            currentAudio.currentTime = 0;
             currentAudio.play();
             isPlaying = true;
             updatePlayButton();
+        }
     }
-    
 
     function updatePlayButton() {
         playAudioBtn.innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
